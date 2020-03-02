@@ -1,0 +1,27 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558 
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "run-angular",
+			"type": "npm",
+			"script": "run-angular",
+		},
+		{
+			"label": "build-angular",
+			"type": "npm",
+			"script": "build-angular"
+		},
+		{
+			"label": "run-electron",
+			"type": "npm",
+			"script": "run-electron"
+		},
+		{
+			"label": "build-angular-and-run-electron",
+			"type": "npm",
+			"script": "build-angular-and-run-electron"
+		}
+	]
+}
