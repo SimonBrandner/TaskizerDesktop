@@ -71,6 +71,18 @@ function createMenu() {
 			]
 		},
 		{
+			label: "Window",
+			submenu: [
+				{
+					label: "Hide",
+					click: () => {
+						window.hide();
+					},
+					accelerator: "CommandOrControl+H"
+				}
+			]
+		},
+		{
 			label: "Advanced",
 			submenu: [
 				{

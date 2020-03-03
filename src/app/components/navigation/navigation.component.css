@@ -1,0 +1,11 @@
+mat-sidenav {
+	width: flex;
+	min-width: 250px;
+}
+mat-sidenav-container {
+	height: 100%;
+}
+
+mat-toolbar {
+	height: 60px;
+}
