@@ -5,12 +5,17 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 // Angular
 
 // Material
-import { MatSidenavModule, MatSidenavContainer, MatDrawerContent } from "@angular/material/sidenav";
+import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatSliderModule } from "@angular/material/slider";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { MatButtonModule } from "@angular/material/button";
+import { DragDropModule } from "@angular/cdk/drag-drop";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSelectModule } from "@angular/material/select";
+import { MatDialogModule } from "@angular/material/dialog";
 // Material
 
 // App
@@ -20,12 +25,24 @@ import { AppRoutingModule } from "./app-routing.module";
 // Components
 import { AppComponent } from "./app.component";
 import { NavigationComponent } from "./components/navigation/navigation.component";
+import { ProjectNavItemComponent } from "./components/project-nav-item/project-nav-item.component";
+import { SpeedDialFabComponent } from "./components/speed-dial-fab/speed-dial-fab.component";
+import { TodayComponent } from "./components/today/today.component";
+import { CalenderComponent } from "./components/calender/calender.component";
+import { ProjectComponent } from "./components/project/project.component";
+import { SettingsComponent } from "./components/settings/settings.component";
 // Components
 
 @NgModule({
 	declarations: [
 		AppComponent,
-		NavigationComponent
+		NavigationComponent,
+		ProjectNavItemComponent,
+		SpeedDialFabComponent,
+		TodayComponent,
+		CalenderComponent,
+		ProjectComponent,
+		SettingsComponent
 	],
 	imports: [
 		BrowserModule,
@@ -36,12 +53,20 @@ import { NavigationComponent } from "./components/navigation/navigation.componen
 		MatToolbarModule,
 		MatIconModule,
 		MatListModule,
-		MatButtonModule
+		MatButtonModule,
+		DragDropModule,
+		MatExpansionModule,
+		MatFormFieldModule,
+		MatSelectModule,
+		MatDialogModule
 	],
 	providers: [],
 	exports: [],
 	bootstrap: [
 		AppComponent
+	],
+	entryComponents: [
+		SettingsComponent
 	]
 })
 export class AppModule {}

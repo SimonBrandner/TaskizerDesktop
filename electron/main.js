@@ -1,13 +1,29 @@
-const { app, BrowserWindow, Tray, Menu, MenuItem } = require("electron");
+const { app, BrowserWindow, Tray, Menu, ipcMain } = require("electron");
 const url = require("url");
 const path = require("path");
+const fs = require("fs");
+const jp = require("jsonpath");
+// const config = require("electron-json-config");
 
 // Global variables
 let window;
 let tray;
 let menu;
 
-let indexFilePath = "/dist/index.html";
+let config;
+let configPath = `${app.getPath("appData")}/taskizer.cfg.json`;
+let defaultConfig = {
+	defaultView: "Today",
+	projects: [
+		{
+			name: "Test 1",
+			path: "/",
+			id: 0
+		}
+	]
+};
+
+let indexFilePath = "../dist/index.html";
 // Global variables
 
 // Init functions
@@ -97,6 +113,14 @@ function createMenu() {
 	]);
 	Menu.setApplicationMenu(menu);
 }
+
+function loadConfig() {
+	if (!fs.existsSync(configPath)) {
+		fs.writeFileSync(configPath, JSON.stringify(defaultConfig));
+	}
+
+	config = JSON.parse(fs.readFileSync(configPath));
+}
 // Init functions
 
 // window events
@@ -121,8 +145,47 @@ function appInit() {
 	createWindow();
 	createTray();
 	createMenu();
+	loadConfig();
 }
 // app functions
 
-// Create window on electron initialization
-app.on("ready", appInit);
+// IPC functions - config
+function ipcMainGetConfigEvent(event, pathExpression) {
+	window.webContents.send("getConfigResponse", jp.value(config, pathExpression));
+}
+
+function ipcMainSetConfigEvent(event, pathExpression, value) {
+	jp.value(config, pathExpression, value);
+	saveConfig();
+}
+// IPC functions - config
+
+// IPC functions - project
+function ipcMainGetProjectEvent(event, projectPath, pathExpression) {
+	//window.webContents.send("getProjectResponse" /* Use arg as path for the project*/);
+}
+
+function ipcMainSetProjectEvent(event, projectPath, pathExpression, value) {
+	//window.webContents.send("getProjectResponse" /* Use arg as path for the project*/);
+}
+// IPC functions - project
+
+// Config
+function saveConfig() {
+	fs.writeFileSync(configPath, JSON.stringify(config));
+}
+// Config
+
+// app events
+app.on("ready", appInit); // Create window on electron initialization
+// app events
+
+// IPC events - config
+ipcMain.on("getConfig", ipcMainGetConfigEvent);
+ipcMain.on("setConfig", ipcMainSetConfigEvent);
+// IPC events - config
+
+// IPC events - project
+ipcMain.on("getProject", ipcMainGetProjectEvent);
+ipcMain.on("setProject", ipcMainSetProjectEvent);
+// IPC events - project
