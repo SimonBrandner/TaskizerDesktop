@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
+import { ConfigService } from "../../services/config.service";
 
 export interface DialogData {
 	defaultView: string;
@@ -18,11 +19,15 @@ export class SettingsComponent implements OnInit {
 		"Calender"
 	];
 
-	constructor(public dialogRef: MatDialogRef<SettingsComponent>) {}
+	constructor(public dialogRef: MatDialogRef<SettingsComponent>, private configService: ConfigService) {}
 
 	ngOnInit(): void {}
 
 	saveButtonClicked(): void {
-		this.dialogRef.close();	
+		this.configService.setDefaultView(this.defaultViewSelect);
+
+		this.dialogRef.close();
 	}
+
+	defaultViewSelect: string;
 }

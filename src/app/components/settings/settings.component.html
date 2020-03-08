@@ -1,11 +1,11 @@
 <h1 mat-dialog-title> Settings</h1>
 <mat-dialog-content>
-		<mat-form-field>
-			<mat-select matNativeControl>
-				<mat-option *ngFor="let option of defaultViewSelectList" value={{option}}>{{option}}</mat-option>
-			</mat-select>
-			<mat-label>Open on: </mat-label>
-		</mat-form-field>
+	<mat-form-field>
+		<mat-select matNativeControl [(value)]="defaultViewSelect">
+			<mat-option *ngFor="let option of defaultViewSelectList" value={{option}}>{{option}}</mat-option>
+		</mat-select>
+		<mat-label>Open on: </mat-label>
+	</mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
 	<button mat-button [mat-dialog-close]="true"> Cancel </button>
