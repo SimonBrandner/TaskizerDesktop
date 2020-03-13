@@ -1,0 +1,28 @@
+<h1 mat-dialog-title> Settings</h1>
+<mat-dialog-content>
+	<form ngNativeValidate>
+		<mat-card>
+			<mat-card-content>
+				<mat-form-field>
+					<input matInput [(ngModel)]="name" required>
+					<mat-label> Project name </mat-label>
+				</mat-form-field>
+			</mat-card-content>
+		</mat-card>
+		<mat-card>
+			<mat-card-content class="mat-card-content-local">
+				<mat-form-field>
+					<input matInput [(ngModel)]="path" required>
+					<mat-label> Path to a local file </mat-label>
+				</mat-form-field>
+				<button class="path-button" mat-button (click)="pathButtonClicked()">
+					<mat-icon>save</mat-icon>
+				</button>
+			</mat-card-content>
+		</mat-card>
+	</form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+	<button mat-button [mat-dialog-close]="true"> Cancel </button>
+	<button type="submit" mat-button (click)="saveButtonClicked()"> Save </button>
+</mat-dialog-actions>

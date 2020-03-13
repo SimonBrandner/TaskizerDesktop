@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { speedDialFabAnimations } from "./speed-dial-fab.animations";
+import { ProjectMenuComponent } from "../project-menu/project-menu.component";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
 	selector: "speed-dial-fab",
@@ -12,30 +14,43 @@ import { speedDialFabAnimations } from "./speed-dial-fab.animations";
 export class SpeedDialFabComponent implements OnInit {
 	fabButtons = [
 		{
-			icon: "playlist_add"
+			icon: "playlist_add",
+			name: "addProject"
 		},
 		{
-			icon: "check_circle"
+			icon: "check_circle",
+			name: "addTask"
 		}
 	];
 
 	buttons = [];
 	fabTogglerState = "inactive";
 
-	constructor() {}
+	constructor(public dialog: MatDialog) {}
 
-	showItems() {
+	showItems(): void {
 		this.fabTogglerState = "active";
 		this.buttons = this.fabButtons;
 	}
 
-	hideItems() {
+	hideItems(): void {
 		this.fabTogglerState = "inactive";
 		this.buttons = [];
 	}
 
-	onToggleFab() {
+	onToggleFab(): void {
 		this.buttons.length ? this.hideItems() : this.showItems();
+	}
+
+	addProject(): void {
+		const dialogRef = this.dialog.open(ProjectMenuComponent);
+	}
+
+	addTask(): void {}
+
+	fabItemButtonClicked(buttonName): void {
+		buttonName == "addProject" ? this.addProject() : this.addTask();
+		this.hideItems();
 	}
 
 	ngOnInit(): void {}

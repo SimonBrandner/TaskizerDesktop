@@ -1,9 +1,8 @@
-const { app, BrowserWindow, Tray, Menu, ipcMain } = require("electron");
+const { app, BrowserWindow, Tray, Menu, ipcMain, dialog } = require("electron");
 const url = require("url");
 const path = require("path");
 const fs = require("fs");
 const jp = require("jsonpath");
-// const config = require("electron-json-config");
 
 // Global variables
 let window;
@@ -17,8 +16,7 @@ let defaultConfig = {
 	projects: [
 		{
 			name: "Test 1",
-			path: "/",
-			id: 0
+			path: "/"
 		}
 	]
 };
@@ -149,6 +147,12 @@ function appInit() {
 }
 // app functions
 
+// IPC functions - dialogs
+function ipcMainSaveDialogSync(event) {
+	window.webContents.send("saveDialogSyncResponse", dialog.showSaveDialogSync(window));
+}
+// IPC functions - dialogs
+
 // IPC functions - config
 function ipcMainGetConfigEvent(event, pathExpression) {
 	window.webContents.send("getConfigResponse", jp.value(config, pathExpression));
@@ -157,6 +161,10 @@ function ipcMainGetConfigEvent(event, pathExpression) {
 function ipcMainSetConfigEvent(event, pathExpression, value) {
 	jp.value(config, pathExpression, value);
 	saveConfig();
+}
+
+function ipcMainRunAQueryEvent(event, pathExpression) {
+	window.webContents.send("runAQueryResponse", jp.query(config, pathExpression));
 }
 // IPC functions - config
 
@@ -180,9 +188,14 @@ function saveConfig() {
 app.on("ready", appInit); // Create window on electron initialization
 // app events
 
+// IPC events - dialogs
+ipcMain.on("saveDialogSync", ipcMainSaveDialogSync);
+// IPC events - dialogs
+
 // IPC events - config
 ipcMain.on("getConfig", ipcMainGetConfigEvent);
 ipcMain.on("setConfig", ipcMainSetConfigEvent);
+ipcMain.on("runAQuery", ipcMainRunAQueryEvent);
 // IPC events - config
 
 // IPC events - project

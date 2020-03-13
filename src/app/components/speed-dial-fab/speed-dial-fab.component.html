@@ -3,8 +3,9 @@
 		<i class="material-icons" [@fabToggler]="{value: fabTogglerState}">add</i>
 	</button>
 	<div class="buttons" [@speedDialStagger]="buttons.length">
-		<button *ngFor="let btn of buttons" mat-mini-fab color="secondary">
-			<mat-icon>{{btn.icon}}</mat-icon>
+		<button *ngFor="let button of buttons" mat-mini-fab color="secondary"
+			(click)="fabItemButtonClicked(button.name)">
+			<mat-icon>{{button.icon}}</mat-icon>
 		</button>
 	</div>
 </div>

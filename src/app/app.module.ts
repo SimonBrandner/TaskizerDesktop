@@ -2,6 +2,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { FormsModule } from "@angular/forms";
 // Angular
 
 // Material
@@ -16,6 +17,8 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatInputModule } from "@angular/material/input";
+import { MatCardModule } from "@angular/material/card";
 // Material
 
 // App
@@ -31,6 +34,8 @@ import { TodayComponent } from "./components/today/today.component";
 import { CalenderComponent } from "./components/calender/calender.component";
 import { ProjectComponent } from "./components/project/project.component";
 import { SettingsComponent } from "./components/settings/settings.component";
+import { ProjectMenuComponent } from "./components/project-menu/project-menu.component";
+import { format } from "path";
 // Components
 
 @NgModule({
@@ -42,7 +47,8 @@ import { SettingsComponent } from "./components/settings/settings.component";
 		TodayComponent,
 		CalenderComponent,
 		ProjectComponent,
-		SettingsComponent
+		SettingsComponent,
+		ProjectMenuComponent
 	],
 	imports: [
 		BrowserModule,
@@ -58,7 +64,10 @@ import { SettingsComponent } from "./components/settings/settings.component";
 		MatExpansionModule,
 		MatFormFieldModule,
 		MatSelectModule,
-		MatDialogModule
+		MatDialogModule,
+		MatInputModule,
+		MatCardModule,
+		FormsModule
 	],
 	providers: [],
 	exports: [],
