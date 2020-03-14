@@ -49,6 +49,15 @@ export class ConfigService {
 		});
 	}
 
+	async getDefaultProjectPath(): Promise<string> {
+		return new Promise<string>((resolve, reject) => {
+			this.ipcRenderer.once("getConfigResponse", (event, arg) => {
+				resolve(arg);
+			});
+			this.ipcRenderer.send("getConfig", "$.defaultProjectPath");
+		});
+	}
+
 	async getNumberOfProjects(): Promise<number> {
 		return new Promise<number>((resolve, reject) => {
 			this.ipcRenderer.once("runAQueryResponse", (event, arg) => {

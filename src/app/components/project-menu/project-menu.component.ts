@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
 import { DialogService } from "../../services/dialog.service";
 import { ConfigService } from "../../services/config.service";
-import { MatInputModule } from "@angular/material/input";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
 	selector: "app-project-menu",
@@ -15,28 +15,22 @@ export class ProjectMenuComponent implements OnInit {
 	constructor(
 		public dialogRef: MatDialogRef<ProjectMenuComponent>,
 		private dialogService: DialogService,
-		private configService: ConfigService
+		private configService: ConfigService,
+		@Inject(MAT_DIALOG_DATA) public data: any
 	) {}
 
 	ngOnInit(): void {}
 
 	pathButtonClicked(): void {
 		this.dialogService.saveDialogSync().then((result) => {
-			this.path = result;
+			this.data.path = result;
 		});
 	}
 
 	saveButtonClicked(): void {
-		if (this.path != null || this.name != null) {
-			this.configService.addProject(this.name, this.path);
-			this.dialogRef.close();
-		}
-		else {
-		}
+		this.configService.addProject(this.data.name, this.data.path);
+		this.dialogRef.close();
 
-		// TODO Make sure path input is a path and add better required warning
+		// TODO Make sure path input is a path
 	}
-
-	path: string;
-	name: string;
 }

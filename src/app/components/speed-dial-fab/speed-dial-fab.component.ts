@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { speedDialFabAnimations } from "./speed-dial-fab.animations";
 import { ProjectMenuComponent } from "../project-menu/project-menu.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { ConfigService } from "src/app/services/config.service";
 
 @Component({
 	selector: "speed-dial-fab",
@@ -26,7 +27,7 @@ export class SpeedDialFabComponent implements OnInit {
 	buttons = [];
 	fabTogglerState = "inactive";
 
-	constructor(public dialog: MatDialog) {}
+	constructor(public dialog: MatDialog, private configService: ConfigService) {}
 
 	showItems(): void {
 		this.fabTogglerState = "active";
@@ -43,7 +44,13 @@ export class SpeedDialFabComponent implements OnInit {
 	}
 
 	addProject(): void {
-		const dialogRef = this.dialog.open(ProjectMenuComponent);
+		this.configService.getDefaultProjectPath().then((result) => {
+			const dialogRef = this.dialog.open(ProjectMenuComponent, {
+				data: { name: "New project", path: result + "newProject.taskizer" }
+			});
+		});
+
+		// TODO: Receive data form dialogRef
 	}
 
 	addTask(): void {}

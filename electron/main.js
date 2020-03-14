@@ -13,6 +13,7 @@ let config;
 let configPath = `${app.getPath("appData")}/taskizer.cfg.json`;
 let defaultConfig = {
 	defaultView: "Today",
+	defaultProjectPath: "/",
 	projects: [
 		{
 			name: "Test 1",
