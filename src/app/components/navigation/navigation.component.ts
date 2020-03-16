@@ -37,9 +37,11 @@ export class NavigationComponent implements OnInit {
 	}
 
 	addProjectEvent($event): void {
-		this.projects.push($event);
-		this.configService.addProject($event.name, $event.path);
-		this.projectService.createNewProject($event.name, $event.path);
+		this.configService.getIdForNewProject().then((result) => {
+			this.projects.push({ id: result, name: $event.name, path: $event.path });
+			this.configService.addProject($event.name, $event.path);
+			this.projectService.createNewProject($event.name, $event.path);
+		});
 	}
 
 	isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.Handset);

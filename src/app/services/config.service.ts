@@ -55,6 +55,37 @@ export class ConfigService {
 		});
 	}
 
+	async getIdForNewProject(): Promise<number> {
+		return new Promise<number>((resolve, reject) => {
+			this.ipcRenderer.once("runAQueryResponse", (event, arg) => {
+				var indexUpper: number = 0;
+				var index: number = 0;
+
+				upperLoop: for (let projectIdUpper of arg) {
+					console.log("Upper loop run num.: ", indexUpper);
+					if (indexUpper != projectIdUpper) {
+						for (let projectId of arg) {
+							console.log("Inner loop num.: ", index);
+							if (projectId == indexUpper) {
+								index = 0;
+								break;
+							}
+							if (index == arg.length - 1) {
+								resolve(indexUpper);
+								break upperLoop;
+							}
+							index++;
+						}
+					}
+					indexUpper++;
+				}
+
+				resolve(arg.length);
+			});
+			this.ipcRenderer.send("runAQuery", "$.projects..id");
+		});
+	}
+
 	async getNumberOfProjects(): Promise<number> {
 		return new Promise<number>((resolve, reject) => {
 			this.ipcRenderer.once("runAQueryResponse", (event, arg) => {
@@ -73,8 +104,16 @@ export class ConfigService {
 	}
 
 	addProject(projectName: string, projectPath: string) {
-		this.getNumberOfProjects().then((result) => {
-			this.ipcRenderer.send("setConfig", `$.projects[${result}]`, { name: projectName, path: projectPath });
+		console.log("test");
+		this.getIdForNewProject().then((idForNewProject) => {
+			this.getNumberOfProjects().then((numberOfProjects) => {
+				console.log(idForNewProject);
+				this.ipcRenderer.send("setConfig", `$.projects[${numberOfProjects}]`, {
+					id: idForNewProject,
+					name: projectName,
+					path: projectPath
+				});
+			});
 		});
 	}
 
