@@ -29,7 +29,7 @@ export class ProjectMenuComponent implements OnInit {
 
 	saveButtonClicked(): void {
 		this.configService.addProject(this.data.name, this.data.path);
-		this.dialogRef.close();
+		this.dialogRef.close(this.data);
 
 		// TODO Make sure path input is a path
 	}

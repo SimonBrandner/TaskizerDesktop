@@ -35,6 +35,10 @@ export class NavigationComponent implements OnInit {
 		const dialogRef = this.dialog.open(SettingsComponent);
 	}
 
+	addProjectEvent($event): void {
+		this.projects.push($event);
+	}
+
 	isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.Handset);
 	projects = [];
 	defaultView: string;
