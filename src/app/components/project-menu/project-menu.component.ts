@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
 import { DialogService } from "../../services/dialog.service";
-import { ConfigService } from "../../services/config.service";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
@@ -15,7 +14,6 @@ export class ProjectMenuComponent implements OnInit {
 	constructor(
 		public dialogRef: MatDialogRef<ProjectMenuComponent>,
 		private dialogService: DialogService,
-		private configService: ConfigService,
 		@Inject(MAT_DIALOG_DATA) public data: any
 	) {}
 
@@ -28,7 +26,6 @@ export class ProjectMenuComponent implements OnInit {
 	}
 
 	saveButtonClicked(): void {
-		this.configService.addProject(this.data.name, this.data.path);
 		this.dialogRef.close(this.data);
 
 		// TODO Make sure path input is a path

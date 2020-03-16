@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { IpcRenderer } from "electron";
-import { rejects } from "assert";
 
 export interface Project {
 	id: number;
@@ -12,8 +11,6 @@ export interface Project {
 	providedIn: "root"
 })
 export class ConfigService {
-	private ipcRenderer: IpcRenderer;
-
 	constructor() {
 		if ((<any>window).require) {
 			try {
@@ -61,7 +58,7 @@ export class ConfigService {
 	async getNumberOfProjects(): Promise<number> {
 		return new Promise<number>((resolve, reject) => {
 			this.ipcRenderer.once("runAQueryResponse", (event, arg) => {
-				resolve(arg["length"]);
+				resolve(arg);
 			});
 			this.ipcRenderer.send("runAQuery", "$.projects.length");
 		});
@@ -77,13 +74,9 @@ export class ConfigService {
 
 	addProject(projectName: string, projectPath: string) {
 		this.getNumberOfProjects().then((result) => {
-			var project = {
-				name: projectName,
-				path: projectPath
-			};
-			var numberOfProjects: number = result;
-
-			this.ipcRenderer.send("setConfig", `$.projects[${numberOfProjects}]`, project);
+			this.ipcRenderer.send("setConfig", `$.projects[${result}]`, { name: projectName, path: projectPath });
 		});
 	}
+
+	private ipcRenderer: IpcRenderer;
 }

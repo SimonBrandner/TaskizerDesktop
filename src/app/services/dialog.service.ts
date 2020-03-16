@@ -24,7 +24,6 @@ export class DialogService {
 		return new Promise<string | undefined>((resolve, reject) => {
 			this.ipcRenderer.once("saveDialogSyncResponse", (event, arg) => {
 				resolve(arg);
-				console.log(arg);
 			});
 			this.ipcRenderer.send("saveDialogSync");
 		});

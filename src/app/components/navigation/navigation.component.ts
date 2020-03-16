@@ -3,7 +3,7 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from "@angular/cdk/l
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Observable } from "rxjs";
 import { ConfigService } from "../../services/config.service";
-import { Interface } from "readline";
+import { ProjectService } from "../../services/project.service";
 import { SettingsComponent } from "../settings/settings.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 
@@ -18,6 +18,7 @@ export class NavigationComponent implements OnInit {
 	constructor(
 		private breakpointObserver: BreakpointObserver,
 		private configService: ConfigService,
+		private projectService: ProjectService,
 		public dialog: MatDialog
 	) {
 		configService.getProjects().then((result) => {
@@ -37,6 +38,8 @@ export class NavigationComponent implements OnInit {
 
 	addProjectEvent($event): void {
 		this.projects.push($event);
+		this.configService.addProject($event.name, $event.path);
+		this.projectService.createNewProject($event.name, $event.path);
 	}
 
 	isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.Handset);

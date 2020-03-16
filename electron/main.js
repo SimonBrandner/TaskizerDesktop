@@ -11,15 +11,11 @@ let menu;
 
 let config;
 let configPath = `${app.getPath("appData")}/taskizer.cfg.json`;
+
 let defaultConfig = {
 	defaultView: "Today",
 	defaultProjectPath: "/",
-	projects: [
-		{
-			name: "Test 1",
-			path: "/"
-		}
-	]
+	projects: []
 };
 
 let indexFilePath = "../dist/index.html";
@@ -170,12 +166,17 @@ function ipcMainRunAQueryEvent(event, pathExpression) {
 // IPC functions - config
 
 // IPC functions - project
-function ipcMainGetProjectEvent(event, projectPath, pathExpression) {
-	//window.webContents.send("getProjectResponse" /* Use arg as path for the project*/);
-}
+function ipcMainGetProjectEvent(event, projectPath, pathExpression) {}
+function ipcMainSetProjectEvent(event, projectPath, pathExpression, value) {}
+function ipcMainCreateNewProject(event, projectName, projectPath) {
+	var project = {
+		name: projectName,
+		project: {}
+	};
 
-function ipcMainSetProjectEvent(event, projectPath, pathExpression, value) {
-	//window.webContents.send("getProjectResponse" /* Use arg as path for the project*/);
+	fs.writeFileSync(projectPath, JSON.stringify(project));
+
+	console.log(projectPath);
 }
 // IPC functions - project
 
@@ -202,4 +203,5 @@ ipcMain.on("runAQuery", ipcMainRunAQueryEvent);
 // IPC events - project
 ipcMain.on("getProject", ipcMainGetProjectEvent);
 ipcMain.on("setProject", ipcMainSetProjectEvent);
+ipcMain.on("createNewProject", ipcMainCreateNewProject);
 // IPC events - project

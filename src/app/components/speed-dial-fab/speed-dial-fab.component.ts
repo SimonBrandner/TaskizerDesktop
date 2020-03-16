@@ -39,8 +39,10 @@ export class SpeedDialFabComponent implements OnInit {
 				data: { name: "New project", path: result + "newProject.taskizer" }
 			});
 			dialogRef.afterClosed().subscribe((result) => {
+				if (result == null) {
+					return;
+				}
 				this.projectNameOutput.emit(result);
-				console.log(result);
 			});
 		});
 	}
