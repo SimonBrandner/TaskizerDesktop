@@ -35,7 +35,9 @@
 				<div class="drop-list" cdkDropList (cdkDropListDropped)="drop($event)">
 					<mat-list-item [routerLink]="['/project', i]" class="drag-item" cdkDrag
 						*ngFor="let project of projects; index as i">
-						<project-nav-item [project]=project> {{project["name"]}} </project-nav-item>
+						<project-nav-item (editProjectOutput)="editProjectEvent($event)" [project]=project>
+							{{project["name"]}}
+						</project-nav-item>
 					</mat-list-item>
 				</div>
 			</mat-expansion-panel>

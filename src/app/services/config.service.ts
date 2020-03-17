@@ -116,5 +116,9 @@ export class ConfigService {
 		});
 	}
 
+	editProject(project): void {
+		this.ipcRenderer.send("setConfig", `$.projects[?(@.id==${project.id})]`, project);
+	}
+
 	private ipcRenderer: IpcRenderer;
 }
