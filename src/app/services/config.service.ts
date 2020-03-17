@@ -79,7 +79,6 @@ export class ConfigService {
 					}
 					indexUpper++;
 				}
-
 				resolve(arg.length);
 			});
 			this.ipcRenderer.send("runAQuery", "$.projects..id");
