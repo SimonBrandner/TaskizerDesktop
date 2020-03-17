@@ -35,7 +35,7 @@
 				<div class="drop-list" cdkDropList (cdkDropListDropped)="drop($event)">
 					<mat-list-item [routerLink]="['/project', i]" class="drag-item" cdkDrag
 						*ngFor="let project of projects; index as i">
-						<project-nav-item [projectId]=project.id> {{project["name"]}} </project-nav-item>
+						<project-nav-item [project]=project> {{project["name"]}} </project-nav-item>
 					</mat-list-item>
 				</div>
 			</mat-expansion-panel>
@@ -45,4 +45,4 @@
 		<ng-content> </ng-content>
 	</mat-sidenav-content>
 </mat-sidenav-container>
-<speed-dial-fab (projectNameOutput)="addProjectEvent($event)"></speed-dial-fab>
+<speed-dial-fab (createNewProjectOutput)="addProjectEvent($event)"></speed-dial-fab>

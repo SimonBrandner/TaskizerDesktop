@@ -3,7 +3,6 @@ import { speedDialFabAnimations } from "./speed-dial-fab.animations";
 import { ProjectMenuComponent } from "../project-menu/project-menu.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ConfigService } from "src/app/services/config.service";
-import { pathToFileURL } from "url";
 
 @Component({
 	selector: "speed-dial-fab",
@@ -42,7 +41,7 @@ export class SpeedDialFabComponent implements OnInit {
 				if (result == null) {
 					return;
 				}
-				this.projectNameOutput.emit(result);
+				this.createNewProjectOutput.emit(result);
 			});
 		});
 	}
@@ -54,7 +53,7 @@ export class SpeedDialFabComponent implements OnInit {
 		this.hideItems();
 	}
 
-	@Output() projectNameOutput = new EventEmitter<Object>();
+	@Output() createNewProjectOutput = new EventEmitter<Object>();
 
 	fabButtons = [
 		{
