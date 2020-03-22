@@ -22,5 +22,23 @@ export class ProjectService {
 		this.ipcRenderer.send("createNewProject", projectName, projectPath);
 	}
 
+	editProject(oldProject, newProject): void {
+		if (oldProject.path != newProject.path) {
+			this.moveProject(newProject.id, oldProject.path, newProject.path);
+		}
+
+		if (oldProject.name != newProject.name) {
+			this.changeProjectName(newProject.id, newProject.path, newProject.name);
+		}
+	}
+
+	moveProject(id: number, oldPath: string, newPath: string) {
+		this.ipcRenderer.send("copyProjectFile", oldPath, newPath);
+	}
+
+	changeProjectName(id: number, path: string, name: string) {
+		this.ipcRenderer.send("setProject", path, "$.name", name);
+	}
+
 	private ipcRenderer: IpcRenderer;
 }

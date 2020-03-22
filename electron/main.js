@@ -167,16 +167,28 @@ function ipcMainRunAQueryEvent(event, pathExpression) {
 
 // IPC functions - project
 function ipcMainGetProjectEvent(event, projectPath, pathExpression) {}
-function ipcMainSetProjectEvent(event, projectPath, pathExpression, value) {}
+function ipcMainSetProjectEvent(event, projectPath, pathExpression, value) {
+	// TODO: Save changes to project file
+	var project = JSON.parse(fs.readFileSync(projectPath));
+	jp.value(project, pathExpression, value);
+	fs.writeFileSync(projectPath, JSON.stringify(project));
+}
+
 function ipcMainCreateNewProject(event, projectName, projectPath) {
 	var project = {
 		name: projectName,
-		project: {}
+		tasks: []
 	};
 
 	fs.writeFileSync(projectPath, JSON.stringify(project));
 
 	console.log(projectPath);
+}
+
+function ipcMainCopyProjectFile(event, oldPath, newPath) {
+	fs.rename(oldPath, newPath, (error) => {
+		if (error) throw error;
+	});
 }
 // IPC functions - project
 
@@ -204,4 +216,5 @@ ipcMain.on("runAQuery", ipcMainRunAQueryEvent);
 ipcMain.on("getProject", ipcMainGetProjectEvent);
 ipcMain.on("setProject", ipcMainSetProjectEvent);
 ipcMain.on("createNewProject", ipcMainCreateNewProject);
+ipcMain.on("copyProjectFile", ipcMainCopyProjectFile);
 // IPC events - project

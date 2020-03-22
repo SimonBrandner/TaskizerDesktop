@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { IpcRenderer } from "electron";
+import { rejects } from "assert";
 
 export interface Project {
 	id: number;
@@ -94,8 +95,21 @@ export class ConfigService {
 		});
 	}
 
-	setProjectPath(projectId: number, pathToProject: string) {
-		this.ipcRenderer.send("setConfig", `$.projects[${projectId}].path`, pathToProject);
+	async getProjectById(projectId: number) {
+		return new Promise<Object>((resolve, reject) => {
+			this.ipcRenderer.once("runAQueryResponse", (event, arg) => {
+				resolve(arg[0]);
+			});
+			this.ipcRenderer.send("runAQuery", `$.projects[${projectId}]`);
+		});
+	}
+
+	setProjectPath(projectId: number, projectPath: string) {
+		this.ipcRenderer.send("setConfig", `$.projects[${projectId}].path`, projectPath);
+	}
+
+	setProjectName(projectId: number, projectName: string) {
+		this.ipcRenderer.send("setConfig", `$.projects[${projectId}].name`, projectName);
 	}
 
 	setDefaultView(value: string) {
@@ -103,10 +117,8 @@ export class ConfigService {
 	}
 
 	addProject(projectName: string, projectPath: string) {
-		console.log("test");
 		this.getIdForNewProject().then((idForNewProject) => {
 			this.getNumberOfProjects().then((numberOfProjects) => {
-				console.log(idForNewProject);
 				this.ipcRenderer.send("setConfig", `$.projects[${numberOfProjects}]`, {
 					id: idForNewProject,
 					name: projectName,

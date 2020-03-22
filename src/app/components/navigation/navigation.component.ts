@@ -45,8 +45,19 @@ export class NavigationComponent implements OnInit {
 	}
 
 	editProjectEvent($event): void {
-		this.configService.editProject($event);
-		// TODO: Save project changes to the new project file
+		this.configService.getProjectById($event.id).then((oldProject) => {
+			var changedProjectIndex;
+			this.projects.forEach((value, index) => {
+				if (value.id == $event.id) {
+					value = $event;
+					changedProjectIndex = index;
+				}
+			});
+
+			this.projects[changedProjectIndex] = $event;
+			this.projectService.editProject(oldProject, $event);
+			this.configService.editProject($event);
+		});
 	}
 
 	isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.Handset);

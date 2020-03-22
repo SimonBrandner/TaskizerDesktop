@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { ConfigService } from "../../services/config.service";
 import { ProjectMenuComponent } from "../project-menu/project-menu.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 
@@ -11,7 +10,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 	]
 })
 export class ProjectNavItemComponent implements OnInit {
-	constructor(private configService: ConfigService, public dialog: MatDialog) {}
+	constructor(public dialog: MatDialog) {}
 
 	ngOnInit(): void {}
 
