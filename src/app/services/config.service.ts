@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { IpcRenderer } from "electron";
 import { rejects } from "assert";
+import { AlgorithmsService } from "./algorithms.service";
 
 export interface Project {
 	id: number;
@@ -12,7 +13,7 @@ export interface Project {
 	providedIn: "root"
 })
 export class ConfigService {
-	constructor() {
+	constructor(private algorithmsService: AlgorithmsService) {
 		if ((<any>window).require) {
 			try {
 				this.ipcRenderer = (<any>window).require("electron").ipcRenderer;
@@ -59,28 +60,7 @@ export class ConfigService {
 	async getIdForNewProject(): Promise<number> {
 		return new Promise<number>((resolve, reject) => {
 			this.ipcRenderer.once("runAQueryResponse", (event, arg) => {
-				var indexUpper: number = 0;
-				var index: number = 0;
-
-				upperLoop: for (let projectIdUpper of arg) {
-					console.log("Upper loop run num.: ", indexUpper);
-					if (indexUpper != projectIdUpper) {
-						for (let projectId of arg) {
-							console.log("Inner loop num.: ", index);
-							if (projectId == indexUpper) {
-								index = 0;
-								break;
-							}
-							if (index == arg.length - 1) {
-								resolve(indexUpper);
-								break upperLoop;
-							}
-							index++;
-						}
-					}
-					indexUpper++;
-				}
-				resolve(arg.length);
+				resolve(this.algorithmsService.findLowestUnusedValueInNumberArray(arg));
 			});
 			this.ipcRenderer.send("runAQuery", "$.projects..id");
 		});
