@@ -36,6 +36,7 @@ import { ProjectComponent } from "./components/project/project.component";
 import { SettingsComponent } from "./components/settings/settings.component";
 import { ProjectMenuComponent } from "./components/project-menu/project-menu.component";
 import { format } from "path";
+import { ConfirmComponent } from './components/confirm/confirm.component';
 // Components
 
 @NgModule({
@@ -48,7 +49,8 @@ import { format } from "path";
 		CalenderComponent,
 		ProjectComponent,
 		SettingsComponent,
-		ProjectMenuComponent
+		ProjectMenuComponent,
+		ConfirmComponent
 	],
 	imports: [
 		BrowserModule,

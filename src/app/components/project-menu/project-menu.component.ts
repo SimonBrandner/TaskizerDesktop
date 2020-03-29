@@ -1,7 +1,9 @@
 import { Component, OnInit, Inject } from "@angular/core";
-import { MatDialogRef } from "@angular/material/dialog";
+import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { DialogService } from "../../services/dialog.service";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { ConfirmComponent } from "../confirm/confirm.component";
+import { ConfigService } from "../../services/config.service";
+import { ProjectService } from "../../services/project.service";
 
 @Component({
 	selector: "app-project-menu",
@@ -14,7 +16,8 @@ export class ProjectMenuComponent implements OnInit {
 	constructor(
 		public dialogRef: MatDialogRef<ProjectMenuComponent>,
 		private dialogService: DialogService,
-		@Inject(MAT_DIALOG_DATA) public data: any
+		@Inject(MAT_DIALOG_DATA) public data: any,
+		public dialog: MatDialog
 	) {}
 
 	ngOnInit(): void {}
@@ -29,5 +32,18 @@ export class ProjectMenuComponent implements OnInit {
 		this.dialogRef.close(this.data);
 
 		// TODO Make sure path input is a path
+	}
+
+	deleteProjectClicked(): void {
+		const dialogRef = this.dialog.open(ConfirmComponent, {
+			data: "you want to delete this project?"
+		});
+		dialogRef.afterClosed().subscribe((result) => {
+			if (result == true) {
+				// TODO: Handle project deletion
+				console.log("Project should be deleted.");
+				this.dialogRef.close(null);
+			}
+		});
 	}
 }
