@@ -15,11 +15,14 @@ export class ProjectNavItemComponent implements OnInit {
 	ngOnInit(): void {}
 
 	editProjectClicked(): void {
+		console.log("Edit project clicked.");
 		const dialogRef = this.dialog.open(ProjectMenuComponent, {
 			data: { id: this.project.id, name: this.project.name, path: this.project.path }
 		});
+		console.log("Opened ProjectMenuComponent dialog.");
 		dialogRef.afterClosed().subscribe((result) => {
 			if (result == null) {
+				console.log("Nothing changed.");
 			}
 			else if (result == "deleteProject") {
 				this.deleteProjectOutput.emit(this.project.id);

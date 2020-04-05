@@ -25,25 +25,31 @@ export class ProjectMenuComponent implements OnInit {
 	ngOnInit(): void {}
 
 	pathButtonClicked(): void {
+		console.log("Path button clicked.");
 		this.dialogService.saveDialogSync().then((result) => {
 			this.data.path = result;
+			console.log("Retrieved desired project location from user using DialogService");
 		});
 	}
 
 	saveButtonClicked(): void {
+		console.log("Save button clicked.");
 		this.dialogRef.close(this.data);
-
 		// TODO Make sure path input is a path
 	}
 
 	deleteProjectClicked(): void {
+		console.log("Delete project button clicked.");
 		const dialogRef = this.dialog.open(ConfirmComponent, {
 			data: "you want to delete this project?"
 		});
+		console.log("Open ConfirmComponent dialog.");
 		dialogRef.afterClosed().subscribe((result) => {
 			if (result == true) {
 				this.projectService.deleteProject(this.data.path);
+				console.log("Deleting project using ProjectService.");
 				this.configService.deleteProject(this.data.id);
+				console.log("Deleting project using ConfigService.");
 				this.dialogRef.close("deleteProject");
 			}
 		});

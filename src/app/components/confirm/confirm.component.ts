@@ -13,10 +13,12 @@ export class ConfirmComponent implements OnInit {
 
 	ngOnInit(): void {}
 	yesButtonClicked() {
+		console.log("Yes button clicked.");
 		this.dialogRef.close(true);
 	}
 
 	noButtonClicked() {
+		console.log("No button clicked.");
 		this.dialogRef.close(false);
 	}
 }

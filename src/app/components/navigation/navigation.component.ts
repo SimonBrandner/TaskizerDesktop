@@ -23,29 +23,37 @@ export class NavigationComponent implements OnInit {
 	) {
 		configService.getProjects().then((result) => {
 			this.projects = result;
+			console.log("Retrieved projects from ConfigService.");
 		});
 	}
 
 	ngOnInit() {}
 
 	drop(event: CdkDragDrop<string[]>): void {
+		console.log("Project dropped.");
 		moveItemInArray(this.projects, event.previousIndex, event.currentIndex);
 	}
 
 	settingsButtonClicked(): void {
+		console.log("Settings button clicked.");
 		const dialogRef = this.dialog.open(SettingsComponent);
 	}
 
 	addProjectEvent($event): void {
 		this.configService.getIdForNewProject().then((result) => {
+			console.log("New project id retrieved from ConfigService.");
 			this.projects.push({ id: result, name: $event.name, path: $event.path });
+			console.log("Project added to the projects array.");
 			this.configService.addProject($event.name, $event.path);
+			console.log("Adding project using ConfigService.");
 			this.projectService.createNewProject($event.name, $event.path);
+			console.log("Saving project using ProjectService.");
 		});
 	}
 
 	editProjectEvent($event): void {
 		this.configService.getProjectById($event.id).then((oldProject) => {
+			console.log("Project retrieved from ConfigService.");
 			var changedProjectIndex;
 			this.projects.forEach((value, index) => {
 				if (value.id == $event.id) {
@@ -53,10 +61,14 @@ export class NavigationComponent implements OnInit {
 					changedProjectIndex = index;
 				}
 			});
+			console.log("Changed projects index found.");
 
 			this.projects[changedProjectIndex] = $event;
+			console.log("Saved project changes to the projects array.");
 			this.projectService.editProject(oldProject, $event);
+			console.log("Saving project changes using ProjectService.");
 			this.configService.editProject($event);
+			console.log("Saving project changes using ConfigService.");
 		});
 	}
 
@@ -64,6 +76,7 @@ export class NavigationComponent implements OnInit {
 		this.projects.forEach((element, index) => {
 			if (element.id == $event) {
 				this.projects.splice(index, 1);
+				console.log("Project deleted from projects array.");
 				return;
 			}
 		});

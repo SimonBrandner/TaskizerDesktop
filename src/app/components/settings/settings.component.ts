@@ -24,7 +24,9 @@ export class SettingsComponent implements OnInit {
 	ngOnInit(): void {}
 
 	saveButtonClicked(): void {
+		console.log("Save button clicked.");
 		this.configService.setDefaultView(this.defaultViewSelect);
+		console.log("Setting defaultView using ConfigService.");
 
 		this.dialogRef.close();
 	}
