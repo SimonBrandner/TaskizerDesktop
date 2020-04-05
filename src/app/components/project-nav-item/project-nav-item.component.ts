@@ -16,16 +16,21 @@ export class ProjectNavItemComponent implements OnInit {
 
 	editProjectClicked(): void {
 		const dialogRef = this.dialog.open(ProjectMenuComponent, {
-			data: { name: this.project.name, path: this.project.path }
+			data: { id: this.project.id, name: this.project.name, path: this.project.path }
 		});
 		dialogRef.afterClosed().subscribe((result) => {
 			if (result == null) {
-				return;
 			}
-			this.editProjectOutput.emit({ id: this.project.id, name: result.name, path: result.path });
+			else if (result == "deleteProject") {
+				this.deleteProjectOutput.emit(this.project.id);
+			}
+			else {
+				this.editProjectOutput.emit({ id: this.project.id, name: result.name, path: result.path });
+			}
 		});
 	}
 
 	@Input() project;
 	@Output() editProjectOutput = new EventEmitter<Object>();
+	@Output() deleteProjectOutput = new EventEmitter<Object>();
 }

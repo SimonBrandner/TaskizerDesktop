@@ -32,12 +32,16 @@ export class ProjectService {
 		}
 	}
 
-	moveProject(id: number, oldPath: string, newPath: string) {
+	moveProject(id: number, oldPath: string, newPath: string): void {
 		this.ipcRenderer.send("copyProjectFile", oldPath, newPath);
 	}
 
-	changeProjectName(id: number, path: string, name: string) {
+	changeProjectName(id: number, path: string, name: string): void {
 		this.ipcRenderer.send("setProject", path, "$.name", name);
+	}
+
+	deleteProject(projectPath: string): void {
+		this.ipcRenderer.send("deleteProjectFile", projectPath);
 	}
 
 	private ipcRenderer: IpcRenderer;

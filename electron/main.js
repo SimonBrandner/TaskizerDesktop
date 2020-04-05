@@ -163,12 +163,20 @@ function ipcMainSetConfigEvent(event, pathExpression, value) {
 function ipcMainRunAQueryEvent(event, pathExpression) {
 	window.webContents.send("runAQueryResponse", jp.query(config, pathExpression));
 }
+
+function ipcMainDeleteProjectFromConfig(event, projectId) {
+	config["projects"].forEach((project, index) => {
+		if (project.id == projectId) {
+			config["projects"].splice(index, 1);
+		}
+	});
+	saveConfig();
+}
 // IPC functions - config
 
 // IPC functions - project
 function ipcMainGetProjectEvent(event, projectPath, pathExpression) {}
 function ipcMainSetProjectEvent(event, projectPath, pathExpression, value) {
-	// TODO: Save changes to project file
 	var project = JSON.parse(fs.readFileSync(projectPath));
 	jp.value(project, pathExpression, value);
 	fs.writeFileSync(projectPath, JSON.stringify(project));
@@ -189,6 +197,10 @@ function ipcMainCopyProjectFile(event, oldPath, newPath) {
 	fs.rename(oldPath, newPath, (error) => {
 		if (error) throw error;
 	});
+}
+
+function ipcMainDeleteProjectFile(event, projectPath) {
+	fs.unlinkSync(projectPath);
 }
 // IPC functions - project
 
@@ -217,4 +229,6 @@ ipcMain.on("getProject", ipcMainGetProjectEvent);
 ipcMain.on("setProject", ipcMainSetProjectEvent);
 ipcMain.on("createNewProject", ipcMainCreateNewProject);
 ipcMain.on("copyProjectFile", ipcMainCopyProjectFile);
+ipcMain.on("deleteProjectFile", ipcMainDeleteProjectFile);
+ipcMain.on("deleteProjectFromConfig", ipcMainDeleteProjectFromConfig);
 // IPC events - project

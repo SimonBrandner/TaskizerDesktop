@@ -60,6 +60,15 @@ export class NavigationComponent implements OnInit {
 		});
 	}
 
+	deleteProjectEvent($event): void {
+		this.projects.forEach((element, index) => {
+			if (element.id == $event) {
+				this.projects.splice(index, 1);
+				return;
+			}
+		});
+	}
+
 	isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.Handset);
 	projects = [];
 	defaultView: string;

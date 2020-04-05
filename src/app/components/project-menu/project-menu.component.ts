@@ -16,6 +16,8 @@ export class ProjectMenuComponent implements OnInit {
 	constructor(
 		public dialogRef: MatDialogRef<ProjectMenuComponent>,
 		private dialogService: DialogService,
+		private projectService: ProjectService,
+		private configService: ConfigService,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		public dialog: MatDialog
 	) {}
@@ -40,9 +42,9 @@ export class ProjectMenuComponent implements OnInit {
 		});
 		dialogRef.afterClosed().subscribe((result) => {
 			if (result == true) {
-				// TODO: Handle project deletion
-				console.log("Project should be deleted.");
-				this.dialogRef.close(null);
+				this.projectService.deleteProject(this.data.path);
+				this.configService.deleteProject(this.data.id);
+				this.dialogRef.close("deleteProject");
 			}
 		});
 	}

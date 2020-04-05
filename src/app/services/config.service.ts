@@ -112,5 +112,9 @@ export class ConfigService {
 		this.ipcRenderer.send("setConfig", `$.projects[?(@.id==${project.id})]`, project);
 	}
 
+	deleteProject(projectId: number): void {
+		this.ipcRenderer.send("deleteProjectFromConfig", projectId);
+	}
+
 	private ipcRenderer: IpcRenderer;
 }
