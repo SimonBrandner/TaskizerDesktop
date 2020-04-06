@@ -164,7 +164,7 @@ function ipcMainRunAQueryEvent(event, pathExpression) {
 	window.webContents.send("runAQueryResponse", jp.query(config, pathExpression));
 }
 
-function ipcMainDeleteProjectFromConfig(event, projectId) {
+function ipcMainDeleteProjectFromConfigEvent(event, projectId) {
 	config["projects"].forEach((project, index) => {
 		if (project.id == projectId) {
 			config["projects"].splice(index, 1);
@@ -182,7 +182,7 @@ function ipcMainSetProjectEvent(event, projectPath, pathExpression, value) {
 	fs.writeFileSync(projectPath, JSON.stringify(project));
 }
 
-function ipcMainCreateNewProject(event, projectName, projectPath) {
+function ipcMainCreateNewProjectEvent(event, projectName, projectPath) {
 	var project = {
 		name: projectName,
 		tasks: []
@@ -193,13 +193,13 @@ function ipcMainCreateNewProject(event, projectName, projectPath) {
 	console.log(projectPath);
 }
 
-function ipcMainCopyProjectFile(event, oldPath, newPath) {
+function ipcMainCopyProjectFileEvent(event, oldPath, newPath) {
 	fs.rename(oldPath, newPath, (error) => {
 		if (error) throw error;
 	});
 }
 
-function ipcMainDeleteProjectFile(event, projectPath) {
+function ipcMainDeleteProjectFileEvent(event, projectPath) {
 	fs.unlinkSync(projectPath);
 }
 // IPC functions - project
@@ -227,8 +227,8 @@ ipcMain.on("runAQuery", ipcMainRunAQueryEvent);
 // IPC events - project
 ipcMain.on("getProject", ipcMainGetProjectEvent);
 ipcMain.on("setProject", ipcMainSetProjectEvent);
-ipcMain.on("createNewProject", ipcMainCreateNewProject);
-ipcMain.on("copyProjectFile", ipcMainCopyProjectFile);
-ipcMain.on("deleteProjectFile", ipcMainDeleteProjectFile);
-ipcMain.on("deleteProjectFromConfig", ipcMainDeleteProjectFromConfig);
+ipcMain.on("createNewProject", ipcMainCreateNewProjectEvent);
+ipcMain.on("copyProjectFile", ipcMainCopyProjectFileEvent);
+ipcMain.on("deleteProjectFile", ipcMainDeleteProjectFileEvent);
+ipcMain.on("deleteProjectFromConfig", ipcMainDeleteProjectFromConfigEvent);
 // IPC events - project

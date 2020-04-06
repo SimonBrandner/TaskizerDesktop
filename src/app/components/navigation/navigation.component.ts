@@ -32,6 +32,9 @@ export class NavigationComponent implements OnInit {
 	drop(event: CdkDragDrop<string[]>): void {
 		console.log("Project dropped.");
 		moveItemInArray(this.projects, event.previousIndex, event.currentIndex);
+		console.log("Saved reordered projects to the projects array.");
+		this.configService.orderProjects(this.projects);
+		console.log("Saving reordered projects using ConfigService.");
 	}
 
 	settingsButtonClicked(): void {
