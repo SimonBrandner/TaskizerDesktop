@@ -33,7 +33,8 @@
 				</mat-expansion-panel-header>
 
 				<div class="drop-list" cdkDropList (cdkDropListDropped)="drop($event)">
-					<mat-list-item [routerLink]="['/project', project.id]" class="drag-item" cdkDrag
+					<mat-list-item [ngClass]="(selectedProjectId == project.id) ? 'drag-item-selected' : 'drag-item'"
+						(click)="setSelectedProject(project.id)" [routerLink]="['project', project.id]" cdkDrag
 						*ngFor="let project of projects">
 						<project-nav-item (editProjectOutput)="editProjectEvent($event)"
 							(deleteProjectOutput)="deleteProjectEvent($event)" [project]=project>

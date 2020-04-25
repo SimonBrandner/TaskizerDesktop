@@ -85,7 +85,13 @@ export class NavigationComponent implements OnInit {
 		});
 	}
 
+	setSelectedProject(projectId: number) {
+		this.selectedProjectId = projectId;
+		console.log("selectedProjectId has been set.");
+	}
+
 	isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.Handset);
 	projects = [];
 	defaultView: string;
+	selectedProjectId: number;
 }
