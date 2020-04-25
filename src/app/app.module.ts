@@ -37,6 +37,7 @@ import { SettingsComponent } from "./components/settings/settings.component";
 import { ProjectMenuComponent } from "./components/project-menu/project-menu.component";
 import { format } from "path";
 import { ConfirmComponent } from './components/confirm/confirm.component';
+import { TaskComponent } from './components/task/task.component';
 // Components
 
 @NgModule({
@@ -50,7 +51,8 @@ import { ConfirmComponent } from './components/confirm/confirm.component';
 		ProjectComponent,
 		SettingsComponent,
 		ProjectMenuComponent,
-		ConfirmComponent
+		ConfirmComponent,
+		TaskComponent
 	],
 	imports: [
 		BrowserModule,

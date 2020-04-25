@@ -44,5 +44,14 @@ export class ProjectService {
 		this.ipcRenderer.send("deleteProjectFile", projectPath);
 	}
 
+	async getProjectByPath(projectPath: string) {
+		return new Promise<Object>((resolve) => {
+			this.ipcRenderer.once("getProjectResponse", (event, arg) => {
+				resolve(arg);
+			});
+			this.ipcRenderer.send("getProject", projectPath);
+		});
+	}
+
 	private ipcRenderer: IpcRenderer;
 }
