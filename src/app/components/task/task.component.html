@@ -1,0 +1,19 @@
+<div class="task">
+	<div class="task-left">
+		<button (click)="collapseButtonClicked()" type="button" aria-label="Mark task as done" mat-icon-button>
+			<mat-icon aria-label="Mark task as done icon">{{expandIcon}}</mat-icon>
+		</button>
+		<button type="button" aria-label="Mark task as done" mat-icon-button>
+			<mat-icon aria-label="Mark task as done icon">check_box_outline_blank</mat-icon>
+		</button>
+		<div class="task-name">{{task.name}}</div>
+	</div>
+	<div class="task-right">
+		<button type="button" aria-label="Edit task" mat-icon-button class="edit-task-button">
+			<mat-icon aria-label="Edit task icon">edit</mat-icon>
+		</button>
+	</div>
+</div>
+<div [hidden]="subtasksExpanded" class="subtasks" cdkDropList>
+	<task *ngFor="let subtask of task.subtasks" [task]=subtask cdkDrag></task>
+</div>

@@ -1,0 +1,37 @@
+.task {
+	background: white;
+	height: 48px;
+	display: flex;
+	flex-direction: row;
+	align-content: center;
+}
+
+.task-left {
+	display: flex;
+	flex-direction: row;
+	justify-content: left;
+	align-content: center;
+}
+
+.task-right {
+	display: flex;
+	flex-direction: row;
+	justify-content: right;
+	align-content: center;
+}
+
+.task-name {
+	height: inherit;
+	align-self: center;
+	font-size: 12pt;
+	display: flex;
+}
+
+.edit-task-button {
+	position: absolute;
+	right: 0px;
+}
+
+.subtasks {
+	padding-left: 20px;
+}

@@ -1,1 +1,3 @@
-<p>Welcome to project {{projectId}}</p>
+<div cdkDropList>
+	<task *ngFor="let task of project.tasks" [task]=task cdkDrag></task>
+</div>

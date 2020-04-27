@@ -32,7 +32,7 @@ export class ProjectComponent implements OnInit {
 
 	ngOnInit(): void {}
 
-	project;
+	project: any;
 	projectId: number;
 	projectPath: string;
 }

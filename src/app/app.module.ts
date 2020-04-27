@@ -19,6 +19,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from "@angular/material/card";
+import { MatRadioModule } from "@angular/material/radio";
 // Material
 
 // App
@@ -36,8 +37,9 @@ import { ProjectComponent } from "./components/project/project.component";
 import { SettingsComponent } from "./components/settings/settings.component";
 import { ProjectMenuComponent } from "./components/project-menu/project-menu.component";
 import { format } from "path";
-import { ConfirmComponent } from './components/confirm/confirm.component';
-import { TaskComponent } from './components/task/task.component';
+import { ConfirmComponent } from "./components/confirm/confirm.component";
+import { TaskComponent } from "./components/task/task.component";
+import { from } from "rxjs";
 // Components
 
 @NgModule({
@@ -71,7 +73,8 @@ import { TaskComponent } from './components/task/task.component';
 		MatDialogModule,
 		MatInputModule,
 		MatCardModule,
-		FormsModule
+		FormsModule,
+		MatRadioModule
 	],
 	providers: [],
 	exports: [],
