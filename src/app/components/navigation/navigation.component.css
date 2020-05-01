@@ -18,6 +18,12 @@ mat-list-item-content {
 	padding: 0 !important;
 }
 
+mat-list-option:focus,
+mat-nav-list mat-list-item:focus,
+mat-action-list mat-list-item:focus {
+	background: lightgray;
+}
+
 .spacer {
 	width: 100%;
 }
@@ -48,12 +54,6 @@ mat-list-item-content {
 }
 
 .drag-item-selected {
-	background: lightgray;
-}
-
-mat-list-option:focus,
-mat-nav-list mat-list-item:focus,
-mat-action-list mat-list-item:focus {
 	background: lightgray;
 }
 
