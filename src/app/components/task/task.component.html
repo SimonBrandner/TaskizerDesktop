@@ -14,6 +14,11 @@
 		</button>
 	</div>
 </div>
-<div [hidden]="subtasksExpanded" class="subtasks" cdkDropList>
-	<task *ngFor="let subtask of task.subtasks" [task]=subtask cdkDrag></task>
+<div [hidden]="subtasksExpanded" class="subtasks" cdkDropList (cdkDropListDropped)="drop($event)"
+	[cdkDropListData]="task.subtasks">
+	<task *ngFor="let subtask of task.subtasks" [task]=subtask cdkDrag>
+		<div class="cdkDragPreview" *cdkDragPreview>
+			{{subtask.name}}
+		</div>
+	</task>
 </div>

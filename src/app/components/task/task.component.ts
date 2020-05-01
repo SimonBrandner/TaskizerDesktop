@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 
 @Component({
 	selector: "task",
@@ -13,8 +14,25 @@ export class TaskComponent implements OnInit {
 	ngOnInit(): void {}
 
 	collapseButtonClicked(): void {
+		console.log("Expand/Collapse button clicked on task " + this.task.id);
 		this.subtasksExpanded = !this.subtasksExpanded;
 		this.subtasksExpanded ? (this.expandIcon = "expand_less") : (this.expandIcon = "expand_more");
+	}
+
+	drop(event: CdkDragDrop<string[]>): void {
+		console.log(event);
+
+		if (event.previousContainer === event.container) {
+			moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+		}
+		else {
+			transferArrayItem(
+				event.previousContainer.data,
+				event.container.data,
+				event.previousIndex,
+				event.currentIndex
+			);
+		}
 	}
 
 	@Input() task: any;
