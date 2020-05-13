@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { isDataSource } from "@angular/cdk/collections";
 
 @Injectable({
 	providedIn: "root"
@@ -26,5 +27,28 @@ export class AlgorithmsService {
 			indexUpper++;
 		}
 		return array.length;
+	}
+
+	findAllTaskIdsInProject(project, topLevelId: String): Array<String> {
+		var ids: String[] = [];
+		var task = project;
+
+		if (task.hasOwnProperty("tasks")) {
+			if (task.hasOwnProperty("id")) {
+				ids.push(task.id.toString());
+			}
+			else {
+				ids.push(topLevelId);
+			}
+
+			task.tasks.forEach((subtask) => {
+				ids = ids.concat(this.findAllTaskIdsInProject(subtask, topLevelId));
+			});
+
+			return ids;
+		}
+		else {
+			return [];
+		}
 	}
 }

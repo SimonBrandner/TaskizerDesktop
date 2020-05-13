@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
+import { isDataSource } from "@angular/cdk/collections";
+import { concat } from "rxjs";
 
 @Component({
 	selector: "task",
@@ -39,4 +41,5 @@ export class TaskComponent implements OnInit {
 
 	expandIcon = "expand_more";
 	subtasksExpanded: boolean;
+	@Input() connectedTasksIds: String[];
 }

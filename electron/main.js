@@ -178,7 +178,6 @@ function ipcMainDeleteProjectFromConfigEvent(event, projectId) {
 function ipcMainGetProjectEvent(event, projectPath, pathExpression) {
 	var project = JSON.parse(fs.readFileSync(projectPath));
 	window.webContents.send("getProjectResponse", project);
-	console.log(project);
 }
 function ipcMainSetProjectEvent(event, projectPath, pathExpression, value) {
 	var project = JSON.parse(fs.readFileSync(projectPath));

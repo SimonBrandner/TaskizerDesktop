@@ -32,6 +32,11 @@
 	right: 0px;
 }
 
+.drop-zone {
+	color: black;
+	height: 40px;
+}
+
 .cdk-drag-preview {
 	font-size: 12pt;
 	background: white;

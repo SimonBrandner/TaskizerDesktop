@@ -16,7 +16,7 @@
 		</div>
 	</div>
 	<div [hidden]="subtasksExpanded" class="drop-list" cdkDropList (cdkDropListDropped)="drop($event)"
-		[cdkDropListData]="task.subtasks">
-		<task *ngFor="let subtask of task.subtasks" [task]=subtask> </task>
+		[cdkDropListData]="task.tasks" [id]="task.id.toString()" [cdkDropListConnectedTo]="connectedTasksIds">
+		<task *ngFor="let subtask of task.tasks" [task]=subtask [connectedTasksIds]="connectedTasksIds"> </task>
 	</div>
 </div>
