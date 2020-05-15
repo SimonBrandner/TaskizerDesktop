@@ -18,5 +18,9 @@
 	<div [hidden]="subtasksExpanded" class="drop-list" cdkDropList (cdkDropListDropped)="drop($event)"
 		[cdkDropListData]="task.tasks" [id]="task.id.toString()" [cdkDropListConnectedTo]="connectedTasksIds">
 		<task *ngFor="let subtask of task.tasks" [task]=subtask [connectedTasksIds]="connectedTasksIds"> </task>
+		<div class="cdk-drag-placeholder" *cdkDragPlaceholder> </div>
+		<div class="cdk-drag-preview" *cdkDragPreview>
+			<div class="task-name">{{task.name}}</div>
+		</div>
 	</div>
 </div>
