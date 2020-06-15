@@ -29,6 +29,19 @@ export class TaskDatabase {
 		return newTask;
 	}
 
+	insertItemAbove(node: TaskNode, name: string): TaskNode {
+		const parentNode = this.getParentFromNodes(node);
+		const newItem = { name: name } as TaskNode;
+		if (parentNode != null) {
+			parentNode.tasks.splice(parentNode.tasks.indexOf(node), 0, newItem);
+		}
+		else {
+			this.data.splice(this.data.indexOf(node), 0, newItem);
+		}
+		this.dataChange.next(this.data);
+		return newItem;
+	}
+
 	getParentFromNodes(node: TaskNode): TaskNode {
 		this.data.forEach((element) => {
 			const parent = this.getParentTask(element, node);
