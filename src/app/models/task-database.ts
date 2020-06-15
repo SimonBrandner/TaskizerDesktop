@@ -29,5 +29,22 @@ export class TaskDatabase {
 		return newTask;
 	}
 
+	getParentTask(currentRoot: TaskNode, task: TaskNode): TaskNode {
+		if (currentRoot.tasks && currentRoot.tasks.length > 0) {
+			currentRoot.tasks.forEach((currentTask) => {
+				if (currentTask === task) {
+					return currentRoot;
+				}
+				else {
+					const parent = this.getParentTask(currentTask, task);
+					if (parent != null) {
+						return parent;
+					}
+				}
+			});
+		}
+		return null;
+	}
+
 	dataChange = new BehaviorSubject<TaskNode[]>([]);
 }
