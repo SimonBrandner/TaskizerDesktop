@@ -29,6 +29,16 @@ export class TaskDatabase {
 		return newTask;
 	}
 
+	getParentFromNodes(node: TaskNode): TaskNode {
+		this.data.forEach((element) => {
+			const parent = this.getParentTask(element, node);
+			if (parent != null) {
+				return parent;
+			}
+		});
+		return null;
+	}
+
 	getParentTask(currentRoot: TaskNode, task: TaskNode): TaskNode {
 		if (currentRoot.tasks && currentRoot.tasks.length > 0) {
 			currentRoot.tasks.forEach((currentTask) => {
