@@ -19,5 +19,15 @@ export class TaskDatabase {
 		return this.dataChange.value;
 	}
 
+	insertSubtask(parent: TaskNode, name: string): TaskNode {
+		if (!parent.tasks) {
+			parent.tasks = [];
+		}
+		const newTask = { name: name } as TaskNode;
+		parent.tasks.push(newTask);
+		this.dataChange.next(this.data);
+		return newTask;
+	}
+
 	dataChange = new BehaviorSubject<TaskNode[]>([]);
 }
