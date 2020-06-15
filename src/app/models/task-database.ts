@@ -7,6 +7,14 @@ import { TaskNode } from "./task-node";
 
 @Injectable()
 export class TaskDatabase {
+	constructor(taskData) {
+		this.initialize(taskData);
+	}
+
+	initialize(taskData) {
+		this.dataChange.next(taskData);
+	}
+
 	get data(): TaskNode[] {
 		return this.dataChange.value;
 	}
