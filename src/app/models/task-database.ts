@@ -108,6 +108,16 @@ export class TaskDatabase {
 		return newItem;
 	}
 
+	copyPasteTaskBelow(from: TaskNode, to: TaskNode): TaskNode {
+		const newItem = this.insertItemBelow(to, from.name);
+		if (from.tasks) {
+			from.tasks.forEach((task) => {
+				this.copyPasteSubtask(task, newItem);
+			});
+		}
+		return newItem;
+	}
+
 	deleteTaskNode(tasks: TaskNode[], taskToDelete: TaskNode) {
 		const index = tasks.indexOf(taskToDelete, 0);
 		if (index > -1) {
