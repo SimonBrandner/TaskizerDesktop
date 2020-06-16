@@ -83,6 +83,20 @@ export class TaskDatabase {
 		this.dataChange.next(this.data);
 	}
 
+	deleteTaskNode(tasks: TaskNode[], taskToDelete: TaskNode) {
+		const index = tasks.indexOf(taskToDelete, 0);
+		if (index > -1) {
+			tasks.splice(index, 1);
+		}
+		else {
+			tasks.forEach((task) => {
+				if (task.tasks && task.tasks.length > 0) {
+					this.deleteTaskNode(task.tasks, taskToDelete);
+				}
+			});
+		}
+	}
+
 	get data(): TaskNode[] {
 		return this.dataChange.value;
 	}
