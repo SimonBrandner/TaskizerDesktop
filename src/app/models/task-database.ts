@@ -15,10 +15,6 @@ export class TaskDatabase {
 		this.dataChange.next(taskData);
 	}
 
-	get data(): TaskNode[] {
-		return this.dataChange.value;
-	}
-
 	insertSubtask(parent: TaskNode, name: string): TaskNode {
 		if (!parent.tasks) {
 			parent.tasks = [];
@@ -80,6 +76,15 @@ export class TaskDatabase {
 			});
 		}
 		return null;
+	}
+
+	updateTask(task: TaskNode, name: string) {
+		task.name = name;
+		this.dataChange.next(this.data);
+	}
+
+	get data(): TaskNode[] {
+		return this.dataChange.value;
 	}
 
 	dataChange = new BehaviorSubject<TaskNode[]>([]);
