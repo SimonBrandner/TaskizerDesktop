@@ -141,6 +141,22 @@ export class ProjectComponent implements OnInit {
 		return flatNode;
 	};
 
+	getStyle(node: FlatTaskNode) {
+		if (this.dragTask === node) {
+			return "drag-start";
+		}
+		else if (this.dragNodeExpandOverNode === node) {
+			switch (this.dragNodeExpandOverArea) {
+				case 1:
+					return "drop-above";
+				case -1:
+					return "drop-below";
+				default:
+					return "drop-center";
+			}
+		}
+	}
+
 	getLevel = (flatTaskNode: FlatTaskNode) => flatTaskNode.level;
 	isExpandable = (flatTaskNode: FlatTaskNode) => flatTaskNode.expandable;
 	getChildren = (taskNode: TaskNode): Observable<TaskNode[]> => of(taskNode.tasks);
