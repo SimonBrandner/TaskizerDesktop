@@ -155,7 +155,7 @@ export class ProjectComponent implements OnInit {
 
 	handleDragEnd(event) {
 		this.dragTask = null;
-		this.dragExpandOverTask = null;
+		this.dragTaskExpandOverTask = null;
 		this.dragExpandOverTime = 0;
 		this.dragExpandOverArea = NaN;
 		event.preventDefault();
@@ -165,7 +165,7 @@ export class ProjectComponent implements OnInit {
 		if (this.dragTask === task) {
 			return "drag-start";
 		}
-		else if (this.dragExpandOverTask === task) {
+		else if (this.dragTaskExpandOverTask === task) {
 			switch (this.dragExpandOverArea) {
 				case 1:
 					return "drop-above";
@@ -197,7 +197,7 @@ export class ProjectComponent implements OnInit {
 	listSelection = new SelectionModel<FlatTaskNode>(true);
 
 	dragTask: any;
-	dragExpandOverTask: any;
+	dragTaskExpandOverTask: any;
 	dragExpandOverWaitTimeMs = 300;
 	dragExpandOverTime: number;
 	dragExpandOverArea: number;
