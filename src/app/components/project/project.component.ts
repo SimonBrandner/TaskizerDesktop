@@ -145,6 +145,14 @@ export class ProjectComponent implements OnInit {
 		this.database.deleteTask(this.flatTaskMap.get(node));
 	}
 
+	handleDragEnd(event) {
+		this.dragTask = null;
+		this.dragNodeExpandOverNode = null;
+		this.dragNodeExpandOverTime = 0;
+		this.dragNodeExpandOverArea = NaN;
+		event.preventDefault();
+	}
+
 	getStyle(node: FlatTaskNode) {
 		if (this.dragTask === node) {
 			return "drag-start";
