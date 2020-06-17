@@ -131,34 +131,34 @@ export class ProjectComponent implements OnInit {
 	}
 
 	transformer = (task: TaskNode, level: number) => {
-		const existingNode = this.nestedTaskMap.get(task);
-		const flatNode = existingNode && existingNode.name === task.name ? existingNode : new FlatTaskNode();
-		flatNode.name = task.name;
-		flatNode.level = level;
-		flatNode.expandable = task.tasks && task.tasks.length > 0;
-		this.flatTaskMap.set(flatNode, task);
-		this.nestedTaskMap.set(task, flatNode);
-		return flatNode;
+		const existingTask = this.nestedTaskMap.get(task);
+		const flatTask = existingTask && existingTask.name === task.name ? existingTask : new FlatTaskNode();
+		flatTask.name = task.name;
+		flatTask.level = level;
+		flatTask.expandable = task.tasks && task.tasks.length > 0;
+		this.flatTaskMap.set(flatTask, task);
+		this.nestedTaskMap.set(task, flatTask);
+		return flatTask;
 	};
 
-	deleteTask(node: FlatTaskNode) {
-		this.database.deleteTask(this.flatTaskMap.get(node));
+	deleteTask(task: FlatTaskNode) {
+		this.database.deleteTask(this.flatTaskMap.get(task));
 	}
 
 	handleDragEnd(event) {
 		this.dragTask = null;
-		this.dragNodeExpandOverNode = null;
-		this.dragNodeExpandOverTime = 0;
-		this.dragNodeExpandOverArea = NaN;
+		this.dragExpandOverTask = null;
+		this.dragExpandOverTime = 0;
+		this.dragExpandOverArea = NaN;
 		event.preventDefault();
 	}
 
-	getStyle(node: FlatTaskNode) {
-		if (this.dragTask === node) {
+	getStyle(task: FlatTaskNode) {
+		if (this.dragTask === task) {
 			return "drag-start";
 		}
-		else if (this.dragNodeExpandOverNode === node) {
-			switch (this.dragNodeExpandOverArea) {
+		else if (this.dragExpandOverTask === task) {
+			switch (this.dragExpandOverArea) {
 				case 1:
 					return "drop-above";
 				case -1:
@@ -173,7 +173,7 @@ export class ProjectComponent implements OnInit {
 	isExpandable = (flatTaskNode: FlatTaskNode) => flatTaskNode.expandable;
 	getChildren = (taskNode: TaskNode): Observable<TaskNode[]> => of(taskNode.tasks);
 	hasChild = (_: number, flatTaskNode: FlatTaskNode) => flatTaskNode.expandable;
-	hasNoContent = (_: number, _nodeData: FlatTaskNode) => _nodeData.name === "";
+	hasNoContent = (_: number, _taskData: FlatTaskNode) => _taskData.name === "";
 
 	ngOnInit(): void {}
 
@@ -189,10 +189,10 @@ export class ProjectComponent implements OnInit {
 	listSelection = new SelectionModel<FlatTaskNode>(true);
 
 	dragTask: any;
-	dragNodeExpandOverWaitTimeMs = 300;
-	dragNodeExpandOverNode: any;
-	dragNodeExpandOverTime: number;
-	dragNodeExpandOverArea: number;
+	dragExpandOverTask: any;
+	dragExpandOverWaitTimeMs = 300;
+	dragExpandOverTime: number;
+	dragExpandOverArea: number;
 
 	@ViewChild("emptyItem") emptyItem: ElementRef;
 
