@@ -10,6 +10,25 @@ export class TaskDatabase {
 		this.dataChange.next(taskData);
 	}
 
+	buildTaskTree(obj: object, level: number): TaskNode[] {
+		return Object.keys(obj).reduce<TaskNode[]>((accumulator, key) => {
+			const value = obj[key];
+			const task = new TaskNode();
+			task.name = key;
+
+			if (value != null) {
+				if (typeof value === "object") {
+					task.tasks = this.buildTaskTree(value, level + 1);
+				}
+				else {
+					task.name = value;
+				}
+			}
+
+			return accumulator.concat(task);
+		}, []);
+	}
+
 	insertSubtask(parent: TaskNode, name: string): TaskNode {
 		if (!parent.tasks) {
 			parent.tasks = [];
