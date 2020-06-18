@@ -89,9 +89,6 @@ const TEST_DATA = {
 	templateUrl: "./project.component.html",
 	styleUrls: [
 		"./project.component.css"
-	],
-	providers: [
-		TaskDatabase
 	]
 })
 export class ProjectComponent implements OnInit {
@@ -99,14 +96,15 @@ export class ProjectComponent implements OnInit {
 		route: ActivatedRoute,
 		configService: ConfigService,
 		projectService: ProjectService,
-		algorithmsService: AlgorithmsService,
-		private database: TaskDatabase
+		algorithmsService: AlgorithmsService
 	) {
 		this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel, this.isExpandable, this.getChildren);
 		this.treeControl = new FlatTreeControl<FlatTaskNode>(this.getLevel, this.isExpandable);
 		this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-		database.dataChange.subscribe((data) => {
+		this.database = new TaskDatabase(TEST_DATA);
+
+		this.database.dataChange.subscribe((data) => {
 			this.dataSource.data = [];
 			this.dataSource.data = data;
 		});
@@ -263,4 +261,6 @@ export class ProjectComponent implements OnInit {
 	project: any;
 	projectId: number;
 	projectPath: string;
+
+	database: TaskDatabase;
 }

@@ -1,8 +1,6 @@
-import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { TaskNode } from "./task-node";
 
-@Injectable()
 export class TaskDatabase {
 	constructor(taskData) {
 		this.initialize(taskData);
