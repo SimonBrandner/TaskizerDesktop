@@ -172,21 +172,48 @@ export class ProjectComponent implements OnInit {
 		// Handle drag area
 		const percentageY = event.offsetY / event.target.clientHeight;
 		if (0 <= percentageY && percentageY <= 0.25) {
-			this.dragExpandOverArea = 1;
+			this.dragTaskExpandOverArea = 1;
 		}
 		else if (1 >= percentageY && percentageY >= 0.75) {
-			this.dragExpandOverArea = -1;
+			this.dragTaskExpandOverArea = -1;
 		}
 		else {
-			this.dragExpandOverArea = 0;
+			this.dragTaskExpandOverArea = 0;
 		}
+	}
+
+	handleDrop(event, task) {
+		if (task !== this.dragTask) {
+			let newItem: TaskNode;
+			if (this.dragTaskExpandOverArea === 1) {
+				newItem = this.database.copyPasteTaskAbove(
+					this.flatTaskMap.get(this.dragTask),
+					this.flatTaskMap.get(task)
+				);
+			}
+			else if (this.dragTaskExpandOverArea === -1) {
+				newItem = this.database.copyPasteTaskBelow(
+					this.flatTaskMap.get(this.dragTask),
+					this.flatTaskMap.get(task)
+				);
+			}
+			else {
+				newItem = this.database.copyPasteSubtask(
+					this.flatTaskMap.get(this.dragTask),
+					this.flatTaskMap.get(task)
+				);
+			}
+			this.database.deleteTask(this.flatTaskMap.get(this.dragTask));
+			this.treeControl.expandDescendants(this.nestedTaskMap.get(newItem));
+		}
+		this.handleDragEnd(event);
 	}
 
 	handleDragEnd(event) {
 		this.dragTask = null;
 		this.dragTaskExpandOverTask = null;
 		this.dragExpandOverTime = 0;
-		this.dragExpandOverArea = NaN;
+		this.dragTaskExpandOverArea = NaN;
 		event.preventDefault();
 	}
 
@@ -195,7 +222,7 @@ export class ProjectComponent implements OnInit {
 			return "drag-start";
 		}
 		else if (this.dragTaskExpandOverTask === task) {
-			switch (this.dragExpandOverArea) {
+			switch (this.dragTaskExpandOverArea) {
 				case 1:
 					return "drop-above";
 				case -1:
@@ -229,7 +256,7 @@ export class ProjectComponent implements OnInit {
 	dragTaskExpandOverTask: any;
 	dragExpandOverWaitTimeMs = 300;
 	dragExpandOverTime: number;
-	dragExpandOverArea: number;
+	dragTaskExpandOverArea: number;
 
 	@ViewChild("emptyItem") emptyItem: ElementRef;
 
