@@ -12,7 +12,7 @@ import { TaskNode } from "../../models/task-node";
 import { TaskDatabase } from "../../models/task-database";
 import { SelectionModel } from "@angular/cdk/collections";
 
-const TEST_DATA = {
+const TEST_DATA1 = {
 	name: "New project 0",
 	tasks: [
 		{
@@ -84,6 +84,27 @@ const TEST_DATA = {
 	]
 };
 
+const TEST_DATA2 = {
+	Groceries: {
+		"Almond Meal flour": null,
+		"Organic eggs": null,
+		"Protein Powder": null,
+		Fruits: {
+			Apple: null,
+			Berries: [
+				"Blueberry",
+				"Raspberry"
+			],
+			Orange: null
+		}
+	},
+	Reminders: [
+		"Cook dinner",
+		"Read the Material Design spec",
+		"Upgrade Application to Angular"
+	]
+};
+
 @Component({
 	selector: "app-project",
 	templateUrl: "./project.component.html",
@@ -102,7 +123,7 @@ export class ProjectComponent implements OnInit {
 		this.treeControl = new FlatTreeControl<FlatTaskNode>(this.getLevel, this.isExpandable);
 		this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-		this.database = new TaskDatabase(TEST_DATA);
+		this.database = new TaskDatabase(TEST_DATA2);
 
 		this.database.dataChange.subscribe((data) => {
 			this.dataSource.data = [];
