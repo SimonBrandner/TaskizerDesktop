@@ -7,7 +7,9 @@ export class TaskDatabase {
 	}
 
 	initialize(taskData) {
-		this.dataChange.next(taskData);
+		const data = this.buildTaskTree(taskData, 0);
+
+		this.dataChange.next(data);
 	}
 
 	buildTaskTree(obj: object, level: number): TaskNode[] {
