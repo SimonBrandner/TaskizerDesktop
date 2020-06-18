@@ -153,6 +153,35 @@ export class ProjectComponent implements OnInit {
 		this.treeControl.collapse(task);
 	}
 
+	handleDragOver(event, task) {
+		event.preventDefault();
+		// Handle node expand
+		if (this.dragTaskExpandOverTask && task === this.dragTaskExpandOverTask) {
+			if (Date.now() - this.dragExpandOverTime > this.dragExpandOverWaitTimeMs) {
+				if (!this.treeControl.isExpanded(task)) {
+					this.treeControl.expand(task);
+					//this.cd.detectChanges();
+				}
+			}
+		}
+		else {
+			this.dragTaskExpandOverTask = task;
+			this.dragExpandOverTime = new Date().getTime();
+		}
+
+		// Handle drag area
+		const percentageY = event.offsetY / event.target.clientHeight;
+		if (0 <= percentageY && percentageY <= 0.25) {
+			this.dragExpandOverArea = 1;
+		}
+		else if (1 >= percentageY && percentageY >= 0.75) {
+			this.dragExpandOverArea = -1;
+		}
+		else {
+			this.dragExpandOverArea = 0;
+		}
+	}
+
 	handleDragEnd(event) {
 		this.dragTask = null;
 		this.dragTaskExpandOverTask = null;
