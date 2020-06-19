@@ -4,18 +4,12 @@ mat-tree {
 
 .mat-tree-node {
 	overflow: visible;
-	cursor: pointer;
+	cursor: default;
 	--mat-tree-node-hover: hidden;
 }
 
 .mat-tree-node:hover {
 	--mat-tree-node-hover: visible;
-}
-
-.task-controls {
-	display: flex;
-	align-items: center;
-	visibility: var(--mat-tree-node-hover);
 }
 
 .task {
@@ -48,4 +42,5 @@ mat-tree {
 
 .drag-handle {
 	cursor: move;
+	visibility: var(--mat-tree-node-hover);
 }

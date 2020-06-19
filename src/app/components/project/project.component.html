@@ -2,11 +2,10 @@
 	<mat-tree-node *matTreeNodeDef="let task" matTreeNodeToggle matTreeNodePadding
 		(dragover)="handleDragOver($event, task)" (dragend)="handleDragEnd($event)" (drop)="handleDrop($event, task)"
 		[ngClass]="getStyle(task)">
-		<div class="task-controls">
-			<button mat-icon-button disabled></button>
-			<mat-icon class="drag-handle" draggable="true" (dragstart)="handleDragStart($event, task)">drag_handle
-			</mat-icon>
-		</div>
+		<button mat-icon-button disabled></button>
+		<mat-icon class="drag-handle" draggable="true" (dragstart)="handleDragStart($event, task)">
+			drag_handle
+		</mat-icon>
 		<div class="task">
 			<button type="button" aria-label="Mark task as done" mat-icon-button>
 				<mat-icon>check_box_outline_blank</mat-icon>
@@ -18,16 +17,14 @@
 	<mat-tree-node *matTreeNodeDef="let task;when: hasChild" matTreeNodePadding
 		(dragover)="handleDragOver($event, task)" (dragend)="handleDragEnd($event)" (drop)="handleDrop($event, task)"
 		[ngClass]="getStyle(task)">
-		<div class="task-controls">
-			<button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + task.name">
-				<mat-icon class="mat-icon-rtl-mirror">
-					{{treeControl.isExpanded(task) ? 'expand_more' : 'chevron_right'}}
-				</mat-icon>
-			</button>
-
-			<mat-icon class="drag-handle" draggable="true" (dragstart)="handleDragStart($event, task)">drag_handle
+		<mat-icon class="drag-handle" draggable="true" (dragstart)="handleDragStart($event, task)">
+			drag_handle
+		</mat-icon>
+		<button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + task.name">
+			<mat-icon class="mat-icon-rtl-mirror">
+				{{treeControl.isExpanded(task) ? 'expand_more' : 'chevron_right'}}
 			</mat-icon>
-		</div>
+		</button>
 		<div class="task">
 			<button type="button" aria-label="Mark task as done" mat-icon-button>
 				<mat-icon>check_box_outline_blank</mat-icon>
