@@ -43,53 +43,57 @@ export class TaskDatabase {
 
 	insertItemAbove(node: TaskNode, name: string): TaskNode {
 		const parentNode = this.getParentFromNodes(node);
-		const newItem = { name: name } as TaskNode;
+		const newTask = { name: name } as TaskNode;
 		if (parentNode != null) {
-			parentNode.tasks.splice(parentNode.tasks.indexOf(node), 0, newItem);
+			parentNode.tasks.splice(parentNode.tasks.indexOf(node), 0, newTask);
 		}
 		else {
-			this.data.splice(this.data.indexOf(node), 0, newItem);
+			this.data.splice(this.data.indexOf(node), 0, newTask);
 		}
 		this.dataChange.next(this.data);
-		return newItem;
+		return newTask;
 	}
 
 	insertItemBelow(node: TaskNode, name: string): TaskNode {
 		const parentNode = this.getParentFromNodes(node);
-		const newItem = { name: name } as TaskNode;
+		const newTask = { name: name } as TaskNode;
 		if (parentNode != null) {
-			parentNode.tasks.splice(parentNode.tasks.indexOf(node) + 1, 0, newItem);
+			parentNode.tasks.splice(parentNode.tasks.indexOf(node) + 1, 0, newTask);
 		}
 		else {
-			this.data.splice(this.data.indexOf(node) + 1, 0, newItem);
+			this.data.splice(this.data.indexOf(node) + 1, 0, newTask);
 		}
 		this.dataChange.next(this.data);
-		return newItem;
+		return newTask;
 	}
 
 	getParentFromNodes(node: TaskNode): TaskNode {
-		this.data.forEach((element) => {
-			const parent = this.getParentTask(element, node);
+		for (let i = 0; i < this.data.length; ++i) {
+			const currentRoot = this.data[i];
+			console.log(currentRoot);
+			const parent = this.getParentTask(currentRoot, node);
 			if (parent != null) {
 				return parent;
 			}
-		});
+		}
 		return null;
 	}
 
 	getParentTask(currentRoot: TaskNode, task: TaskNode): TaskNode {
 		if (currentRoot.tasks && currentRoot.tasks.length > 0) {
-			currentRoot.tasks.forEach((currentTask) => {
-				if (currentTask === task) {
+			for (let i = 0; i < currentRoot.tasks.length; ++i) {
+				const child = currentRoot.tasks[i];
+				//console.log(child);
+				if (child === task) {
 					return currentRoot;
 				}
-				else {
-					const parent = this.getParentTask(currentTask, task);
+				else if (child.tasks && child.tasks.length > 0) {
+					const parent = this.getParentTask(child, task);
 					if (parent != null) {
 						return parent;
 					}
 				}
-			});
+			}
 		}
 		return null;
 	}
