@@ -5,6 +5,26 @@ mat-tree {
 .mat-tree-node {
 	overflow: visible;
 	cursor: pointer;
+	--mat-tree-node-hover: hidden;
+}
+
+.mat-tree-node:hover {
+	--mat-tree-node-hover: visible;
+}
+
+.task-controls {
+	display: flex;
+	align-items: center;
+	visibility: var(--mat-tree-node-hover);
+}
+
+.task {
+	border-color: black;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	width: 100%;
+	display: flex;
+	align-items: center;
 }
 
 .drop-above {
