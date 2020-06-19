@@ -164,7 +164,6 @@ export class ProjectComponent implements OnInit {
 	}
 
 	handleDragStart(event, task) {
-		console.log("Dragging task: " + task);
 		// Required by Firefox (https://stackoverflow.com/questions/19055264/why-doesnt-html5-drag-and-drop-work-in-firefox)
 		event.dataTransfer.setData("foo", "bar");
 		//event.dataTransfer.setDragImage(this.emptyItem.nativeElement, 0, 0);
