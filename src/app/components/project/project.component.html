@@ -2,13 +2,10 @@
 	<mat-tree-node *matTreeNodeDef="let task" matTreeNodeToggle matTreeNodePadding
 		(dragover)="handleDragOver($event, task)" (dragend)="handleDragEnd($event)" (drop)="handleDrop($event, task)"
 		[ngClass]="getStyle(task)">
-
 		<button mat-icon-button disabled></button>
-		<span class="checklist-leaf-node" draggable="true" (dragstart)="handleDragStart($event, task);">
-			<span class="nodeContent" [ngClass]="{'drag-start': dragTask===task}">
-				{{task.name}}
-			</span>
-		</span>
+		<mat-icon class="drag-handle" draggable="true" (dragstart)="handleDragStart($event, task)">drag_handle
+		</mat-icon>
+		<span draggable="false">{{task.name}}</span>
 	</mat-tree-node>
 
 	<mat-tree-node *matTreeNodeDef="let task;when: hasChild" matTreeNodePadding
@@ -20,10 +17,8 @@
 				{{treeControl.isExpanded(task) ? 'expand_more' : 'chevron_right'}}
 			</mat-icon>
 		</button>
-		<span class="checklist-leaf-node" draggable="true" (dragstart)="handleDragStart($event, task);">
-			<span class="nodeContent" [ngClass]="{'drag-start': dragTask===task}">
-				{{task.name}}
-			</span>
-		</span>
+		<mat-icon class="drag-handle" draggable="true" (dragstart)="handleDragStart($event, task)">drag_handle
+		</mat-icon>
+		<span draggable="false">{{task.name}}</span>
 	</mat-tree-node>
 </mat-tree>
