@@ -1,3 +1,7 @@
+mat-tree {
+	background: transparent;
+}
+
 .mat-tree-node {
 	overflow: visible;
 	cursor: pointer;
