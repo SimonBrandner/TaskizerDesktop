@@ -1,6 +1,6 @@
 .mat-tree-node {
 	overflow: visible;
-	cursor: move;
+	cursor: pointer;
 }
 
 .drop-above {
