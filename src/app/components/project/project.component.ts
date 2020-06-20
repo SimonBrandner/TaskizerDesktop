@@ -163,6 +163,10 @@ export class ProjectComponent implements OnInit {
 		this.database.deleteTask(this.flatTaskMap.get(task));
 	}
 
+	markTaskAsDone(task: FlatTaskNode) {
+		this.deleteTask(task);
+	}
+
 	handleDragStart(event, task) {
 		// Required by Firefox (https://stackoverflow.com/questions/19055264/why-doesnt-html5-drag-and-drop-work-in-firefox)
 		event.dataTransfer.setData("foo", "bar");
