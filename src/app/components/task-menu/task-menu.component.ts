@@ -6,7 +6,7 @@ import { ConfigService } from "../../services/config.service";
 import { ProjectService } from "../../services/project.service";
 
 @Component({
-	selector: "app-task-menu",
+	selector: "task-menu",
 	templateUrl: "./task-menu.component.html",
 	styleUrls: [
 		"./task-menu.component.css"
