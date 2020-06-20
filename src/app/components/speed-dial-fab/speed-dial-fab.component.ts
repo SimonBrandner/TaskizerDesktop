@@ -62,7 +62,7 @@ export class SpeedDialFabComponent implements OnInit {
 				return;
 			}
 			console.log(result);
-			//this.createNewProjectOutput.emit(result);
+			this.createNewTaskOutput.emit(result);
 		});
 	}
 
