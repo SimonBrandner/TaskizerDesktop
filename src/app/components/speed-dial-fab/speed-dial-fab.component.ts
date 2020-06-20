@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { speedDialFabAnimations } from "./speed-dial-fab.animations";
 import { ProjectMenuComponent } from "../project-menu/project-menu.component";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { ConfigService } from "src/app/services/config.service";
 
 @Component({
