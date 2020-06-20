@@ -20,7 +20,8 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from "@angular/material/card";
 import { MatRadioModule } from "@angular/material/radio";
-import { MatTree, MatTreeModule } from "@angular/material/tree";
+import { MatTreeModule } from "@angular/material/tree";
+import { MatCheckbox, MatCheckboxModule } from "@angular/material/checkbox";
 // Material
 
 // App
@@ -74,7 +75,8 @@ import { from } from "rxjs";
 		MatCardModule,
 		FormsModule,
 		MatRadioModule,
-		MatTreeModule
+		MatTreeModule,
+		MatCheckboxModule
 	],
 	providers: [],
 	exports: [],
