@@ -72,6 +72,7 @@ export class SpeedDialFabComponent implements OnInit {
 	}
 
 	@Output() createNewProjectOutput = new EventEmitter<Object>();
+	@Output() createNewTaskOutput = new EventEmitter<Object>();
 
 	fabButtons = [
 		{
