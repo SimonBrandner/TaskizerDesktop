@@ -3,6 +3,7 @@ import { speedDialFabAnimations } from "./speed-dial-fab.animations";
 import { ProjectMenuComponent } from "../project-menu/project-menu.component";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfigService } from "src/app/services/config.service";
+import { TaskMenuComponent } from "../task-menu/task-menu.component";
 
 @Component({
 	selector: "speed-dial-fab",
@@ -49,7 +50,21 @@ export class SpeedDialFabComponent implements OnInit {
 		});
 	}
 
-	addTask(): void {}
+	addTask(): void {
+		console.log("Add task button clicked.");
+		const dialogRef = this.dialog.open(TaskMenuComponent, {
+			data: { name: "New task" }
+		});
+		console.log("Opened TaskMenuComponent dialog.");
+		dialogRef.afterClosed().subscribe((result) => {
+			if (result == null) {
+				console.log("New task empty.");
+				return;
+			}
+			console.log(result);
+			//this.createNewProjectOutput.emit(result);
+		});
+	}
 
 	fabItemButtonClicked(buttonName): void {
 		buttonName == "addProject" ? this.addProject() : this.addTask();
