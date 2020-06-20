@@ -21,7 +21,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from "@angular/material/card";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatTreeModule } from "@angular/material/tree";
-import { MatCheckbox, MatCheckboxModule } from "@angular/material/checkbox";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 // Material
 
 // App
