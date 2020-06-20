@@ -163,8 +163,10 @@ export class ProjectComponent implements OnInit {
 		this.database.deleteTask(this.flatTaskMap.get(task));
 	}
 
-	markTaskAsDone(task: FlatTaskNode) {
-		this.deleteTask(task);
+	taskStatusChanged(task: FlatTaskNode) {
+		setTimeout(() => {
+			this.deleteTask(task);
+		}, 500);
 	}
 
 	handleDragStart(event, task) {
