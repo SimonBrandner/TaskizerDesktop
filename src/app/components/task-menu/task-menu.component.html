@@ -1,0 +1,17 @@
+<h1 mat-dialog-title> {{data.name}} </h1>
+<mat-dialog-content>
+	<form ngNativeValidate #form="ngForm">
+		<mat-card>
+			<mat-card-content>
+				<mat-form-field>
+					<input matInput name="projectNameInput" [(ngModel)]="this.data.name" required>
+					<mat-label> Task name </mat-label>
+				</mat-form-field>
+			</mat-card-content>
+		</mat-card>
+	</form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+	<button mat-button [mat-dialog-close]="true"> Cancel </button>
+	<button mat-button type="submit" [disabled]="form.invalid" (click)="saveButtonClicked()"> Save </button>
+</mat-dialog-actions>

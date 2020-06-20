@@ -1,0 +1,15 @@
+.mat-card-content-local {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+}
+
+mat-card {
+	margin-bottom: 10px;
+}
+
+mat-form-field {
+	width: 100%;
+}

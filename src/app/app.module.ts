@@ -41,6 +41,7 @@ import { ProjectMenuComponent } from "./components/project-menu/project-menu.com
 import { format } from "path";
 import { ConfirmComponent } from "./components/confirm/confirm.component";
 import { from } from "rxjs";
+import { TaskMenuComponent } from './components/task-menu/task-menu.component';
 // Components
 
 @NgModule({
@@ -54,7 +55,8 @@ import { from } from "rxjs";
 		ProjectComponent,
 		SettingsComponent,
 		ProjectMenuComponent,
-		ConfirmComponent
+		ConfirmComponent,
+		TaskMenuComponent
 	],
 	imports: [
 		BrowserModule,
