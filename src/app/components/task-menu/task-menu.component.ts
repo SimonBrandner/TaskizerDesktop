@@ -35,6 +35,5 @@ export class TaskMenuComponent implements OnInit {
 	saveButtonClicked(): void {
 		console.log("Save button clicked.");
 		this.dialogRef.close(this.data);
-		// TODO Make sure path input is a path
 	}
 }
