@@ -19,7 +19,7 @@ mat-tree {
 	width: 100%;
 	display: flex;
 	align-items: center;
-	padding: 10px;
+	justify-content: space-between;
 }
 
 .drop-above {
@@ -44,4 +44,5 @@ mat-tree {
 .drag-handle {
 	cursor: move;
 	visibility: var(--mat-tree-node-hover);
+	padding: 10px;
 }
