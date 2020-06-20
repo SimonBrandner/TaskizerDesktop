@@ -6,7 +6,8 @@
 		<mat-icon class="drag-handle" draggable="true" (dragstart)="handleDragStart($event, task)">
 			drag_handle
 		</mat-icon>
-		<mat-checkbox draggable="false" class="task"> {{task.name}} </mat-checkbox>
+		<mat-checkbox draggable="false" class="task" (change)="taskStatusChanged(task)"> {{task.name}}
+		</mat-checkbox>
 	</mat-tree-node>
 
 	<mat-tree-node *matTreeNodeDef="let task;when: hasChild" matTreeNodePadding
@@ -20,6 +21,7 @@
 				{{treeControl.isExpanded(task) ? 'expand_more' : 'chevron_right'}}
 			</mat-icon>
 		</button>
-		<mat-checkbox draggable="false" class="task"> {{task.name}} </mat-checkbox>
+		<mat-checkbox draggable="false" class="task" (change)="taskStatusChanged(task)"> {{task.name}}
+		</mat-checkbox>
 	</mat-tree-node>
 </mat-tree>
