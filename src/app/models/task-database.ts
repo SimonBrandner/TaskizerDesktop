@@ -103,6 +103,11 @@ export class TaskDatabase {
 		this.dataChange.next(this.data);
 	}
 
+	addTask(task: TaskNode) {
+		this.addTaskNode(this.data, task);
+		this.dataChange.next(this.data);
+	}
+
 	deleteTask(task: TaskNode) {
 		this.deleteTaskNode(this.data, task);
 		this.dataChange.next(this.data);
@@ -136,6 +141,10 @@ export class TaskDatabase {
 			});
 		}
 		return newItem;
+	}
+
+	addTaskNode(tasks: TaskNode[], taskToAdd: TaskNode) {
+		tasks.push(taskToAdd);
 	}
 
 	deleteTaskNode(tasks: TaskNode[], taskToDelete: TaskNode) {

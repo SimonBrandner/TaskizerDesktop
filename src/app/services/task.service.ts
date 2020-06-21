@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { EventEmitter } from "protractor";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
+import { FlatTaskNode } from "../models/flat-task-node";
+import { TaskNode } from "../models/task-node";
 
 @Injectable({
 	providedIn: "root"
@@ -12,5 +14,5 @@ export class TaskService {
 		this.addTaskEvent.next(task);
 	}
 
-	addTaskEvent: BehaviorSubject<Object> = new BehaviorSubject({});
+	addTaskEvent: Subject<TaskNode> = new Subject<TaskNode>();
 }

@@ -5,6 +5,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { ConfigService } from "src/app/services/config.service";
 import { TaskMenuComponent } from "../task-menu/task-menu.component";
 import { TaskService } from "../../services/task.service";
+import { TaskNode } from "src/app/models/task-node";
 
 @Component({
 	selector: "speed-dial-fab",
@@ -54,10 +55,10 @@ export class SpeedDialFabComponent implements OnInit {
 	addTask(): void {
 		console.log("Add task button clicked.");
 		const dialogRef = this.dialog.open(TaskMenuComponent, {
-			data: { name: "New task" }
+			data: { name: "New task", level: 1, expandable: false }
 		});
 		console.log("Opened TaskMenuComponent dialog.");
-		dialogRef.afterClosed().subscribe((result) => {
+		dialogRef.afterClosed().subscribe((result: TaskNode) => {
 			if (result == null) {
 				console.log("New task empty.");
 				return;

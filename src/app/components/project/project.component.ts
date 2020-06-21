@@ -259,8 +259,9 @@ export class ProjectComponent implements OnInit {
 		}
 	}
 
-	addTask(task) {
+	addTask(task: TaskNode) {
 		console.log(task);
+		this.database.addTask(task);
 	}
 
 	ngOnInit(): void {
