@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, EventEmitter } from "@angular/core";
 import { ConfigService } from "../../services/config.service";
 import { ProjectService } from "../../services/project.service";
 import { ActivatedRoute } from "@angular/router";
@@ -10,6 +10,7 @@ import { FlatTaskNode } from "../../models/flat-task-node";
 import { TaskNode } from "../../models/task-node";
 import { TaskDatabase } from "../../models/task-database";
 import { SelectionModel } from "@angular/cdk/collections";
+import { TaskService } from "../../services/task.service";
 
 const TEST_DATA1 = {
 	name: "New project 0",
@@ -114,9 +115,10 @@ const TEST_DATA2 = {
 export class ProjectComponent implements OnInit {
 	constructor(
 		route: ActivatedRoute,
-		configService: ConfigService,
-		projectService: ProjectService,
-		algorithmsService: AlgorithmsService
+		private configService: ConfigService,
+		private projectService: ProjectService,
+		private algorithmsService: AlgorithmsService,
+		private taskService: TaskService
 	) {
 		this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel, this.isExpandable, this.getChildren);
 		this.treeControl = new FlatTreeControl<FlatTaskNode>(this.getLevel, this.isExpandable);
@@ -257,13 +259,19 @@ export class ProjectComponent implements OnInit {
 		}
 	}
 
+	addTask(task) {
+		console.log(task);
+	}
+
+	ngOnInit(): void {
+		this.taskService.addTaskEvent.subscribe((result) => this.addTask(result));
+	}
+
 	getLevel = (flatTaskNode: FlatTaskNode) => flatTaskNode.level;
 	isExpandable = (flatTaskNode: FlatTaskNode) => flatTaskNode.expandable;
 	getChildren = (taskNode: TaskNode): Observable<TaskNode[]> => of(taskNode.tasks);
 	hasChild = (_: number, flatTaskNode: FlatTaskNode) => flatTaskNode.expandable;
 	hasNoContent = (_: number, _taskData: FlatTaskNode) => _taskData.name === "";
-
-	ngOnInit(): void {}
 
 	flatTaskMap = new Map<FlatTaskNode, TaskNode>();
 	nestedTaskMap = new Map<TaskNode, FlatTaskNode>();

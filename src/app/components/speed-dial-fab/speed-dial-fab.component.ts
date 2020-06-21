@@ -4,6 +4,7 @@ import { ProjectMenuComponent } from "../project-menu/project-menu.component";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfigService } from "src/app/services/config.service";
 import { TaskMenuComponent } from "../task-menu/task-menu.component";
+import { TaskService } from "../../services/task.service";
 
 @Component({
 	selector: "speed-dial-fab",
@@ -14,7 +15,7 @@ import { TaskMenuComponent } from "../task-menu/task-menu.component";
 	animations: speedDialFabAnimations
 })
 export class SpeedDialFabComponent implements OnInit {
-	constructor(public dialog: MatDialog, private configService: ConfigService) {}
+	constructor(public dialog: MatDialog, private configService: ConfigService, private taskService: TaskService) {}
 
 	ngOnInit(): void {}
 
@@ -62,7 +63,7 @@ export class SpeedDialFabComponent implements OnInit {
 				return;
 			}
 			console.log(result);
-			this.createNewTaskOutput.emit(result);
+			this.taskService.addTask(result);
 		});
 	}
 
@@ -72,7 +73,6 @@ export class SpeedDialFabComponent implements OnInit {
 	}
 
 	@Output() createNewProjectOutput = new EventEmitter<Object>();
-	@Output() createNewTaskOutput = new EventEmitter<Object>();
 
 	fabButtons = [
 		{
