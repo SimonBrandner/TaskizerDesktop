@@ -24,14 +24,6 @@ export class TaskMenuComponent implements OnInit {
 
 	ngOnInit(): void {}
 
-	pathButtonClicked(): void {
-		console.log("Path button clicked.");
-		this.dialogService.saveDialogSync().then((result) => {
-			this.data.path = result;
-			console.log("Retrieved desired project location from user using DialogService");
-		});
-	}
-
 	saveButtonClicked(): void {
 		console.log("Save button clicked.");
 		this.dialogRef.close(this.data);
