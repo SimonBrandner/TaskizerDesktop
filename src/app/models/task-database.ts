@@ -1,5 +1,6 @@
 import { BehaviorSubject } from "rxjs";
 import { TaskNode } from "./task-node";
+import { Task } from "electron";
 
 export class TaskDatabase {
 	constructor(taskData) {
@@ -13,22 +14,18 @@ export class TaskDatabase {
 	}
 
 	buildTaskTree(obj: object, level: number): TaskNode[] {
-		return Object.keys(obj).reduce<TaskNode[]>((accumulator, key) => {
-			const value = obj[key];
-			const task = new TaskNode();
-			task.name = key;
+		var tasks: TaskNode[] = [];
 
-			if (value != null) {
-				if (typeof value === "object") {
-					task.tasks = this.buildTaskTree(value, level + 1);
-				}
-				else {
-					task.name = value;
-				}
+		obj["tasks"].forEach((element) => {
+			var subtasks: TaskNode[];
+			if ("tasks" in element) {
+				subtasks = this.buildTaskTree(element, level + 1);
 			}
 
-			return accumulator.concat(task);
-		}, []);
+			tasks.push({ name: element["name"], tasks: subtasks });
+		});
+
+		return tasks;
 	}
 
 	insertSubtask(parent: TaskNode, name: string): TaskNode {
