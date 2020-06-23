@@ -12,99 +12,6 @@ import { TaskDatabase } from "../../models/task-database";
 import { SelectionModel } from "@angular/cdk/collections";
 import { TaskService } from "../../services/task.service";
 
-const TEST_DATA1 = {
-	name: "New project 0",
-	tasks: [
-		{
-			id: 0,
-			name: "Hello world 0",
-			tasks: [
-				{
-					id: 1,
-					name: "Hello world 1",
-					tasks: [
-						{
-							id: 2,
-							name: "Hello world 2",
-							expanded: true,
-							tasks: [
-								{
-									id: 3,
-									name: "Hello world 3",
-									expanded: false
-								},
-								{
-									id: 8,
-									name: "Hello world 8",
-									expanded: false
-								}
-							]
-						},
-						{
-							id: 9,
-							name: "Hello world 9",
-							tasks: [
-								{
-									id: 10,
-									name: "Hello world 10",
-									expanded: false
-								},
-								{
-									id: 11,
-									name: "Hello world 11"
-								}
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			id: 4,
-			name: "Hello world 4",
-			tasks: [
-				{
-					id: 5,
-					name: "Hello world 5",
-					tasks: [
-						{
-							id: 6,
-							name: "Hello world 6",
-							tasks: [
-								{
-									id: 7,
-									name: "Hello world 7"
-								}
-							]
-						}
-					]
-				}
-			]
-		}
-	]
-};
-
-const TEST_DATA2 = {
-	Groceries: {
-		"Almond Meal flour": null,
-		"Organic eggs": null,
-		"Protein Powder": null,
-		Fruits: {
-			Apple: null,
-			Berries: [
-				"Blueberry",
-				"Raspberry"
-			],
-			Orange: null
-		}
-	},
-	Reminders: [
-		"Cook dinner",
-		"Read the Material Design spec",
-		"Upgrade Application to Angular"
-	]
-};
-
 @Component({
 	selector: "app-project",
 	templateUrl: "./project.component.html",
@@ -124,14 +31,6 @@ export class ProjectComponent implements OnInit {
 		this.treeControl = new FlatTreeControl<FlatTaskNode>(this.getLevel, this.isExpandable);
 		this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-		this.database = new TaskDatabase(TEST_DATA2);
-
-		this.database.dataChange.subscribe((data) => {
-			this.dataSource.data = [];
-			this.dataSource.data = data;
-		});
-
-		/*
 		route.params.subscribe((params) => {
 			console.log("Switched to project with id: " + params["id"]);
 			this.projectId = params["id"];
@@ -140,14 +39,15 @@ export class ProjectComponent implements OnInit {
 				console.log("Retrieved project path from ConfigService.");
 				console.log("The project path is: " + this.projectPath);
 				projectService.getProjectByPath(this.projectPath).then((result) => {
-					this.project = result;
-					console.log("Retrieved project " + this.project.name + " from ProjectService.");
-					this.taskIds = algorithmsService.findAllTaskIdsInProject(this.project, this.topLevelId);
-					console.log("Retrieved all task ids from AlgorithmsService" + this.taskIds);
+					console.log("Retrieved project " + result["name"] + " from ProjectService.");
+					this.database = new TaskDatabase(result);
+					this.database.dataChange.subscribe((data) => {
+						this.dataSource.data = [];
+						this.dataSource.data = data;
+					});
 				});
 			});
 		});
-		*/
 	}
 
 	transformer = (task: TaskNode, level: number) => {
