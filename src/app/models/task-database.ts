@@ -1,6 +1,7 @@
 import { BehaviorSubject } from "rxjs";
 import { TaskNode } from "./task-node";
-import { Task } from "electron";
+import { Task, BrowserWindow } from "electron";
+import { element } from "protractor";
 
 export class TaskDatabase {
 	constructor(taskData) {
@@ -18,7 +19,7 @@ export class TaskDatabase {
 
 		obj["tasks"].forEach((element) => {
 			var subtasks: TaskNode[];
-			if ("tasks" in element) {
+			if (element["tasks"]) {
 				subtasks = this.buildTaskTree(element, level + 1);
 			}
 
@@ -26,6 +27,26 @@ export class TaskDatabase {
 		});
 
 		return tasks;
+	}
+
+	getProjectJSON() {
+		return this.buildProjectJSON(this.dataChange.value);
+	}
+
+	buildProjectJSON(data: TaskNode[]) {
+		var output: any = [];
+
+		data.forEach((element) => {
+			var subtasks = [];
+
+			if (element.tasks) {
+				subtasks = this.buildProjectJSON(element.tasks);
+			}
+
+			output.push({ name: element.name, tasks: subtasks });
+		});
+
+		return output;
 	}
 
 	insertSubtask(parent: TaskNode, name: string): TaskNode {
@@ -67,7 +88,6 @@ export class TaskDatabase {
 	getParentFromNodes(node: TaskNode): TaskNode {
 		for (let i = 0; i < this.data.length; ++i) {
 			const currentRoot = this.data[i];
-			console.log(currentRoot);
 			const parent = this.getParentTask(currentRoot, node);
 			if (parent != null) {
 				return parent;
