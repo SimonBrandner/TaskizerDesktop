@@ -18,6 +18,10 @@ export class ProjectService {
 		}
 	}
 
+	setProjectContent(projectPath: string, project) {
+		this.ipcRenderer.send("setProject", projectPath, "$.tasks", project);
+	}
+
 	createNewProject(projectName: string, projectPath: string): void {
 		this.ipcRenderer.send("createNewProject", projectName, projectPath);
 	}
