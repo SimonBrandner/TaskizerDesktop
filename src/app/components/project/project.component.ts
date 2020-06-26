@@ -11,6 +11,7 @@ import { TaskNode } from "../../models/task-node";
 import { TaskDatabase } from "../../models/task-database";
 import { SelectionModel } from "@angular/cdk/collections";
 import { TaskService } from "../../services/task.service";
+import { element } from "protractor";
 
 @Component({
 	selector: "app-project",
@@ -42,9 +43,13 @@ export class ProjectComponent implements OnInit {
 					console.log("Retrieved project " + result["name"] + " from ProjectService.");
 					this.database = new TaskDatabase(result);
 					this.database.dataChange.subscribe((data) => {
+						console.log("Data in database changed.");
 						this.dataSource.data = [];
 						this.dataSource.data = data;
 						projectService.setProjectContent(this.projectPath, this.database.getProjectJSON());
+						this.nestedTaskMap.forEach((element) => {
+							element.isExpanded ? this.treeControl.expand(element) : this.treeControl.collapse(element);
+						});
 					});
 				});
 			});
@@ -57,6 +62,7 @@ export class ProjectComponent implements OnInit {
 		flatTask.name = task.name;
 		flatTask.level = level;
 		flatTask.expandable = task.tasks && task.tasks.length > 0;
+		flatTask.isExpanded = task.isExpanded;
 		this.flatTaskMap.set(flatTask, task);
 		this.nestedTaskMap.set(task, flatTask);
 		return flatTask;
@@ -70,6 +76,10 @@ export class ProjectComponent implements OnInit {
 		setTimeout(() => {
 			this.deleteTask(task);
 		}, 500);
+	}
+
+	taskExpansionHandler(task: FlatTaskNode) {
+		this.database.taskExpansionHandler(this.flatTaskMap.get(task));
 	}
 
 	handleDragStart(event, task) {

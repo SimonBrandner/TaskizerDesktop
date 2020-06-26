@@ -22,16 +22,17 @@
 		<mat-icon class="drag-handle" draggable="true" (dragstart)="handleDragStart($event, task)">
 			drag_handle
 		</mat-icon>
-		<button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + task.name">
+		<button mat-icon-button matTreeNodeToggle (click)="taskExpansionHandler(task)"
+			[attr.aria-label]="'toggle ' + task.name">
 			<mat-icon class="mat-icon-rtl-mirror">
-				{{treeControl.isExpanded(task) ? 'expand_more' : 'chevron_right'}}
+				{{task.isExpanded ? 'expand_more' : 'chevron_right'}}
 			</mat-icon>
 		</button>
 		<div class="task" draggable="false">
 			<mat-checkbox (change)="taskStatusChanged(task)">
 				{{task.name}}
 			</mat-checkbox>
-			<button mat-icon-button [attr.aria-label]="'Edit  ' + task.name">
+			<button mat-icon-button [attr.aria-label]="'Edit ' + task.name">
 				<mat-icon> edit </mat-icon>
 			</button>
 		</div>

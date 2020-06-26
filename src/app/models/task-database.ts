@@ -22,8 +22,7 @@ export class TaskDatabase {
 			if (element["tasks"]) {
 				subtasks = this.buildTaskTree(element, level + 1);
 			}
-
-			tasks.push({ name: element["name"], tasks: subtasks });
+			tasks.push({ name: element["name"], tasks: subtasks, isExpanded: element["isExpanded"] });
 		});
 
 		return tasks;
@@ -43,7 +42,7 @@ export class TaskDatabase {
 				subtasks = this.buildProjectJSON(element.tasks);
 			}
 
-			output.push({ name: element.name, tasks: subtasks });
+			output.push({ name: element.name, tasks: subtasks, isExpanded: element.isExpanded });
 		});
 
 		return output;
@@ -115,8 +114,13 @@ export class TaskDatabase {
 		return null;
 	}
 
-	updateTask(task: TaskNode, name: string) {
-		task.name = name;
+	taskExpansionHandler(task: TaskNode) {
+		task.isExpanded = !task.isExpanded;
+		this.dataChange.next(this.data);
+	}
+
+	updateTask(task: TaskNode, newTask: TaskNode) {
+		task = Object.assign(task, newTask);
 		this.dataChange.next(this.data);
 	}
 
