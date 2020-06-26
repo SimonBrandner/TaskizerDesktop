@@ -44,6 +44,7 @@ export class ProjectComponent implements OnInit {
 					this.database.dataChange.subscribe((data) => {
 						this.dataSource.data = [];
 						this.dataSource.data = data;
+						projectService.setProjectContent(this.projectPath, this.database.getProjectJSON());
 					});
 				});
 			});
