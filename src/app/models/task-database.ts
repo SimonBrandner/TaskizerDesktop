@@ -121,6 +121,7 @@ export class TaskDatabase {
 
 	updateTask(task: TaskNode, newTask: TaskNode) {
 		task = Object.assign(task, newTask);
+		task.name = newTask.name;
 		this.dataChange.next(this.data);
 	}
 

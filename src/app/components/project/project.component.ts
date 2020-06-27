@@ -11,7 +11,8 @@ import { TaskNode } from "../../models/task-node";
 import { TaskDatabase } from "../../models/task-database";
 import { SelectionModel } from "@angular/cdk/collections";
 import { TaskService } from "../../services/task.service";
-import { element } from "protractor";
+import { TaskMenuComponent } from "../task-menu/task-menu.component";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
 	selector: "app-project",
@@ -26,7 +27,8 @@ export class ProjectComponent implements OnInit {
 		private configService: ConfigService,
 		private projectService: ProjectService,
 		private algorithmsService: AlgorithmsService,
-		private taskService: TaskService
+		private taskService: TaskService,
+		public dialog: MatDialog
 	) {
 		this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel, this.isExpandable, this.getChildren);
 		this.treeControl = new FlatTreeControl<FlatTaskNode>(this.getLevel, this.isExpandable);
@@ -67,6 +69,21 @@ export class ProjectComponent implements OnInit {
 		this.nestedTaskMap.set(task, flatTask);
 		return flatTask;
 	};
+
+	editTask(task: FlatTaskNode) {
+		console.log("Edit task button clicked.");
+		const dialogRef = this.dialog.open(TaskMenuComponent, {
+			data: this.flatTaskMap.get(task)
+		});
+		console.log("Opened TaskMenuComponent dialog.");
+		dialogRef.afterClosed().subscribe((result: TaskNode) => {
+			if (result == null) {
+				console.log("New task empty.");
+				return;
+			}
+			this.database.updateTask(this.flatTaskMap.get(task), result);
+		});
+	}
 
 	deleteTask(task: FlatTaskNode) {
 		this.database.deleteTask(this.flatTaskMap.get(task));

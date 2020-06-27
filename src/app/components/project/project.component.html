@@ -10,7 +10,7 @@
 			<mat-checkbox (change)="taskStatusChanged(task)">
 				{{task.name}}
 			</mat-checkbox>
-			<button mat-icon-button [attr.aria-label]="'Edit ' + task.name">
+			<button (click)="editTask(task)" mat-icon-button [attr.aria-label]="'Edit ' + task.name">
 				<mat-icon> edit </mat-icon>
 			</button>
 		</div>
@@ -32,7 +32,7 @@
 			<mat-checkbox (change)="taskStatusChanged(task)">
 				{{task.name}}
 			</mat-checkbox>
-			<button mat-icon-button [attr.aria-label]="'Edit ' + task.name">
+			<button (click)="editTask(task)" mat-icon-button [attr.aria-label]="'Edit ' + task.name">
 				<mat-icon> edit </mat-icon>
 			</button>
 		</div>
