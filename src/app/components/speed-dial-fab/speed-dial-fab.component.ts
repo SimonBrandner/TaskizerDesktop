@@ -16,9 +16,9 @@ import { TaskNode } from "src/app/models/task-node";
 	animations: speedDialFabAnimations
 })
 export class SpeedDialFabComponent implements OnInit {
-	constructor(public dialog: MatDialog, private configService: ConfigService, private taskService: TaskService) {}
+	constructor(public dialog: MatDialog, private configService: ConfigService, private taskService: TaskService) { }
 
-	ngOnInit(): void {}
+	ngOnInit(): void { }
 
 	showItems(): void {
 		this.fabTogglerState = "active";
@@ -63,7 +63,6 @@ export class SpeedDialFabComponent implements OnInit {
 				console.log("New task empty.");
 				return;
 			}
-			console.log(result);
 			this.taskService.addTask(result);
 		});
 	}
