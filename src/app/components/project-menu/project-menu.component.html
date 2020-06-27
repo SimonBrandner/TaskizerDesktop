@@ -23,7 +23,7 @@
 	</form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-	<button mat-button [mat-dialog-close]="true"> Cancel </button>
+	<button mat-button [mat-dialog-close]="null"> Cancel </button>
 	<button mat-button (click)="deleteProjectClicked()"> Delete project </button>
 	<button mat-button type="submit" [disabled]="form.invalid" (click)="saveButtonClicked()"> Save </button>
 </mat-dialog-actions>
