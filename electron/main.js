@@ -145,7 +145,7 @@ function appInit() {
 // app functions
 
 // IPC functions - dialogs
-function ipcMainSaveDialogSync(event, option) {
+function ipcMainSaveDialogSync(event, options) {
 	window.webContents.send("saveDialogSyncResponse", dialog.showSaveDialogSync(window, options));
 }
 
