@@ -34,14 +34,13 @@ import { NavigationComponent } from "./components/navigation/navigation.componen
 import { ProjectNavItemComponent } from "./components/project-nav-item/project-nav-item.component";
 import { SpeedDialFabComponent } from "./components/speed-dial-fab/speed-dial-fab.component";
 import { TodayComponent } from "./components/today/today.component";
-import { CalenderComponent } from "./components/calender/calender.component";
 import { ProjectComponent } from "./components/project/project.component";
 import { SettingsComponent } from "./components/settings/settings.component";
 import { ProjectMenuComponent } from "./components/project-menu/project-menu.component";
 import { format } from "path";
 import { ConfirmComponent } from "./components/confirm/confirm.component";
 import { from } from "rxjs";
-import { TaskMenuComponent } from './components/task-menu/task-menu.component';
+import { TaskMenuComponent } from "./components/task-menu/task-menu.component";
 // Components
 
 @NgModule({
@@ -51,7 +50,6 @@ import { TaskMenuComponent } from './components/task-menu/task-menu.component';
 		ProjectNavItemComponent,
 		SpeedDialFabComponent,
 		TodayComponent,
-		CalenderComponent,
 		ProjectComponent,
 		SettingsComponent,
 		ProjectMenuComponent,
