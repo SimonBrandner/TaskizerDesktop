@@ -17,7 +17,8 @@
 		"build-angular-and-run-electron": "ng build && electron . --no-sandbox",
 		"prod-build-linux": "ng build && electron-packager . --platform=linux --out=build/ --overwrite --production --ignore=/e2e",
 		"prod-build-win32": "ng build && electron-packager . --platform=win32 --out=build/ --overwrite --production --ignore=/e2e",
-		"prod-build-darwin": "ng build && electron-packager . --platform=darwin --out=build/ --overwrite --production --ignore=/e2e"
+		"prod-build-darwin": "ng build && electron-packager . --platform=darwin --out=build/ --overwrite --production --ignore=/e2e",
+		"prod-build-all": "ng build && electron-packager . --platform=linux --out=build/ --overwrite --production --ignore=/e2e && electron-packager . --platform=win32 --out=build/ --overwrite --production --ignore=/e2e && electron-packager . --platform=darwin --out=build/ --overwrite --production --ignore=/e2e"
 	},
 	"private": true,
 	"dependencies": {
