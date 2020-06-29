@@ -12,8 +12,7 @@ import { DialogService } from "../../services/dialog.service";
 })
 export class SettingsComponent implements OnInit {
 	defaultViewSelectList = [
-		"Today",
-		"Calender"
+		"Today"
 	];
 
 	constructor(
