@@ -37,7 +37,7 @@ function createTray() {
 		}
 	]);
 
-	tray = new Tray("src/favicon.ico");
+	tray = new Tray(path.join(__dirname, "../src/icon.png"));
 	tray.setToolTip("This is Taskizer!");
 	tray.setContextMenu(trayMenu);
 	// Create the tray menu
