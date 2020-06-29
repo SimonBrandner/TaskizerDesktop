@@ -107,6 +107,7 @@ function createMenu() {
 		}
 	]);
 	Menu.setApplicationMenu(menu);
+	window.setAutoHideMenuBar(true);
 }
 
 function loadConfig() {
