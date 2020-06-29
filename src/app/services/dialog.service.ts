@@ -20,12 +20,25 @@ export class DialogService {
 		}
 	}
 
-	async saveDialogSync(): Promise<string | undefined> {
+	async saveProjectDialog(): Promise<string | undefined> {
 		return new Promise<string | undefined>((resolve, reject) => {
 			this.ipcRenderer.once("saveDialogSyncResponse", (event, arg) => {
 				resolve(arg);
 			});
 			this.ipcRenderer.send("saveDialogSync");
+		});
+	}
+
+	async openDefaultProjectDirectoryDialog(): Promise<string | undefined> {
+		return new Promise<string | undefined>((resolve, reject) => {
+			this.ipcRenderer.once("openDialogSyncResponse", (event, arg) => {
+				resolve(arg);
+			});
+			this.ipcRenderer.send("openDialogSync", {
+				properties: [
+					"openDirectory"
+				]
+			});
 		});
 	}
 }
