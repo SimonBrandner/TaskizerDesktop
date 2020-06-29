@@ -96,6 +96,10 @@ export class ConfigService {
 		this.ipcRenderer.send("setConfig", "$.defaultView", value);
 	}
 
+	setDefaultProjectPath(value: string) {
+		this.ipcRenderer.send("setConfig", "$.defaultProjectPath", value);
+	}
+
 	addProject(projectName: string, projectPath: string) {
 		this.getIdForNewProject().then((idForNewProject) => {
 			this.getNumberOfProjects().then((numberOfProjects) => {

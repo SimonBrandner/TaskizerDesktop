@@ -1,11 +1,26 @@
 <h1 mat-dialog-title> Settings</h1>
 <mat-dialog-content>
-	<mat-form-field>
-		<mat-select matNativeControl [(value)]="defaultViewSelect">
-			<mat-option *ngFor="let option of defaultViewSelectList" value={{option}}>{{option}}</mat-option>
-		</mat-select>
-		<mat-label>Open on: </mat-label>
-	</mat-form-field>
+	<mat-card>
+		<mat-card-content>
+			<mat-form-field>
+				<mat-select matNativeControl [(value)]="defaultViewSelect">
+					<mat-option *ngFor="let option of defaultViewSelectList" value={{option}}>{{option}}</mat-option>
+				</mat-select>
+				<mat-label>Open on: </mat-label>
+			</mat-form-field>
+		</mat-card-content>
+	</mat-card>
+	<mat-card>
+		<mat-card-content>
+			<mat-form-field>
+				<input matInput name="projectPathInput" [(ngModel)]="defaultProjectPath" required>
+				<mat-label> Default project directory: </mat-label>
+			</mat-form-field>
+			<button class="path-button" mat-button (click)="pathButtonClicked()">
+				<mat-icon>save</mat-icon>
+			</button>
+		</mat-card-content>
+	</mat-card>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
 	<button mat-button [mat-dialog-close]="true"> Cancel </button>
