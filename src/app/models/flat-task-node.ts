@@ -3,4 +3,5 @@ export class FlatTaskNode {
 	level: number;
 	expandable: boolean;
 	isExpanded: boolean;
+	date: Date;
 }

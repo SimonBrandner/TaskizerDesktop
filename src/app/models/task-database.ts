@@ -22,7 +22,12 @@ export class TaskDatabase {
 			if (element["tasks"]) {
 				subtasks = this.buildTaskTree(element, level + 1);
 			}
-			tasks.push({ name: element["name"], tasks: subtasks, isExpanded: element["isExpanded"] });
+			tasks.push({
+				name: element["name"],
+				tasks: subtasks,
+				isExpanded: element["isExpanded"],
+				date: element["date"]
+			});
 		});
 
 		return tasks;
@@ -42,7 +47,7 @@ export class TaskDatabase {
 				subtasks = this.buildProjectJSON(element.tasks);
 			}
 
-			output.push({ name: element.name, tasks: subtasks, isExpanded: element.isExpanded });
+			output.push({ name: element.name, tasks: subtasks, isExpanded: element.isExpanded, date: element.date });
 		});
 
 		return output;
