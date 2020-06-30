@@ -42,6 +42,7 @@ import { format } from "path";
 import { ConfirmComponent } from "./components/confirm/confirm.component";
 import { from } from "rxjs";
 import { TaskMenuComponent } from "./components/task-menu/task-menu.component";
+import { MatNativeDateModule } from "@angular/material/core";
 // Components
 
 @NgModule({
@@ -78,7 +79,8 @@ import { TaskMenuComponent } from "./components/task-menu/task-menu.component";
 		MatRadioModule,
 		MatTreeModule,
 		MatCheckboxModule,
-		MatDatepickerModule
+		MatDatepickerModule,
+		MatNativeDateModule
 	],
 	providers: [],
 	exports: [],
