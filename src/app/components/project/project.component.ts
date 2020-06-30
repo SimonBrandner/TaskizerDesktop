@@ -78,10 +78,11 @@ export class ProjectComponent implements OnInit {
 		console.log("Opened TaskMenuComponent dialog.");
 		dialogRef.afterClosed().subscribe((result: TaskNode) => {
 			if (result == null) {
-				console.log("New task empty.");
-				return;
+				console.log("Nothing changed.");
 			}
-			this.database.updateTask(this.flatTaskMap.get(task), result);
+			else {
+				this.database.updateTask(this.flatTaskMap.get(task), result);
+			}
 		});
 	}
 

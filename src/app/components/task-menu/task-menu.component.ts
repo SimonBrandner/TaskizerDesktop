@@ -27,6 +27,6 @@ export class TaskMenuComponent implements OnInit {
 
 	saveButtonClicked(): void {
 		console.log("Save button clicked.");
-		this.dialogRef.close({ name: this.data.name, level: 1, expandable: false });
+		this.dialogRef.close({ name: this.data.name, level: 1, expandable: false, date: this.data.date });
 	}
 }
