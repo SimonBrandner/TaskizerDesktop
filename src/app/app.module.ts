@@ -22,6 +22,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatTreeModule } from "@angular/material/tree";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatDatepickerModule } from "@angular/material/datepicker";
 // Material
 
 // App
@@ -76,7 +77,8 @@ import { TaskMenuComponent } from "./components/task-menu/task-menu.component";
 		FormsModule,
 		MatRadioModule,
 		MatTreeModule,
-		MatCheckboxModule
+		MatCheckboxModule,
+		MatDatepickerModule
 	],
 	providers: [],
 	exports: [],
