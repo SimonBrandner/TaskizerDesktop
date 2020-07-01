@@ -25,7 +25,6 @@ export class ProjectMenuComponent implements OnInit {
 	) {
 		this.projectNameInput = data.name;
 		this.projectPathInput = projectService.getFolderPathFromFullPath(data.path);
-		//this.projectNameInput = projectService.getNameFromFullPath(data.path);
 	}
 
 	ngOnInit(): void {}
