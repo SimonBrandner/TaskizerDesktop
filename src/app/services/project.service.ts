@@ -18,6 +18,10 @@ export class ProjectService {
 		}
 	}
 
+	getFolderPathFromFullPath(fullPath: string) {
+		return fullPath.split("/").slice(0, -1).join("/");
+	}
+
 	setProjectContent(projectPath: string, project) {
 		this.ipcRenderer.send("setProject", projectPath, "$.tasks", project);
 	}
