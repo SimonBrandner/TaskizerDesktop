@@ -4,6 +4,7 @@ import { DialogService } from "../../services/dialog.service";
 import { ConfirmComponent } from "../confirm/confirm.component";
 import { ConfigService } from "../../services/config.service";
 import { ProjectService } from "../../services/project.service";
+import { Router } from "@angular/router";
 
 @Component({
 	selector: "app-project-menu",
@@ -19,7 +20,8 @@ export class ProjectMenuComponent implements OnInit {
 		private projectService: ProjectService,
 		private configService: ConfigService,
 		@Inject(MAT_DIALOG_DATA) public data: any,
-		public dialog: MatDialog
+		public dialog: MatDialog,
+		private router: Router
 	) {
 		this.folderPath = projectService.getFolderPathFromFullPath(data.path);
 		this.setProjectPath();
@@ -61,6 +63,12 @@ export class ProjectMenuComponent implements OnInit {
 				this.configService.deleteProject(this.data.id);
 				console.log("Deleting project using ConfigService.");
 				this.dialogRef.close("deleteProject");
+				this.configService.getDefaultView().then((result) => {
+					this.router.navigate([
+						result.toLowerCase()
+					]);
+					console.log("Redirected to defaultView.");
+				});
 			}
 		});
 	}
