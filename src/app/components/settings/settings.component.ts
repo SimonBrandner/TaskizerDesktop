@@ -36,7 +36,7 @@ export class SettingsComponent implements OnInit {
 		console.log("Save button clicked.");
 		this.configService.setDefaultView(this.defaultViewSelect);
 		console.log("Setting defaultView using ConfigService.");
-		this.configService.setDefaultProjectPath(this.defaultProjectPath);
+		this.configService.setDefaultProjectPath(this.defaultProjectPath[0]);
 		console.log("Setting defaultProjectPath using ConfigService.");
 
 		this.dialogRef.close();
