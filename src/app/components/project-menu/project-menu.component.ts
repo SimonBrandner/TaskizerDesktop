@@ -45,7 +45,6 @@ export class ProjectMenuComponent implements OnInit {
 
 	saveButtonClicked(): void {
 		console.log("Save button clicked.");
-		this.setProjectPath();
 		this.dialogRef.close(this.data);
 		// TODO Make sure path input is a path
 	}
