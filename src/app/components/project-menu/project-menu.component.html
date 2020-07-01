@@ -4,7 +4,8 @@
 		<mat-card>
 			<mat-card-content>
 				<mat-form-field>
-					<input matInput name="projectNameInput" [(ngModel)]="this.data.name" required>
+					<input matInput name="projectNameInput" (change)="setProjectPath()" [(ngModel)]="data.name"
+						required>
 					<mat-label> Project name </mat-label>
 				</mat-form-field>
 			</mat-card-content>

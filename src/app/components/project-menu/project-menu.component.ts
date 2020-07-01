@@ -20,20 +20,25 @@ export class ProjectMenuComponent implements OnInit {
 		private configService: ConfigService,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		public dialog: MatDialog
-	) {}
+	) {
+		this.folderPath = projectService.getFolderPathFromFullPath(data.path);
+		this.setProjectPath();
+	}
 
 	ngOnInit(): void {}
 
 	pathButtonClicked(): void {
 		console.log("Path button clicked.");
-		this.dialogService.saveProjectDialog().then((result) => {
-			this.data.path = result;
+		this.dialogService.saveProjectDialog(this.data.name).then((result) => {
 			console.log("Retrieved desired project location from user using DialogService");
+			this.pathSetManually = true;
+			this.data.path = result;
 		});
 	}
 
 	saveButtonClicked(): void {
 		console.log("Save button clicked.");
+		this.setProjectPath();
 		this.dialogRef.close(this.data);
 		// TODO Make sure path input is a path
 	}
@@ -54,4 +59,13 @@ export class ProjectMenuComponent implements OnInit {
 			}
 		});
 	}
+
+	setProjectPath() {
+		if (!this.pathSetManually) {
+			this.data.path = this.folderPath + "/" + this.data.name + ".taskizer";
+		}
+	}
+
+	pathSetManually: boolean = false;
+	folderPath: string;
 }
