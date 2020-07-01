@@ -35,10 +35,10 @@ export class ProjectMenuComponent implements OnInit {
 			if (result != undefined) {
 				this.pathSetManually = true;
 				this.data.path = result;
-				console.log("Retrieved desired project location from user using DialogService");
+				console.log("Retrieved desired project location from user using DialogService.");
 			}
 			else {
-				console.log("DialogService returned undefined");
+				console.log("DialogService returned undefined.");
 			}
 		});
 	}
