@@ -22,6 +22,12 @@ mat-tree {
 	justify-content: space-between;
 }
 
+.task-left {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
 .drop-above {
 	border-top: 10px solid #2196f3;
 	margin-top: -10px;
