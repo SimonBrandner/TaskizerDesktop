@@ -12,7 +12,9 @@
 		<mat-card>
 			<mat-card-content>
 				<mat-form-field>
-					<input matDatepicker matInput name="taskDateInput" [(ngModel)]="this.data.date">
+					<input [matDatepicker]="datepicker" matInput name="taskDateInput" [(ngModel)]="this.data.date">
+					<mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+					<mat-datepicker #datepicker></mat-datepicker>
 					<mat-label> Date </mat-label>
 				</mat-form-field>
 			</mat-card-content>
