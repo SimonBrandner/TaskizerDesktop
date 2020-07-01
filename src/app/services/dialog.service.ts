@@ -50,16 +50,8 @@ export class DialogService {
 					resolve(arg);
 				});
 				this.ipcRenderer.send("openDialogSync", {
-					title: "Save project",
+					title: "Set default project path",
 					defaultPath: result,
-					filters: [
-						{
-							name: "Taskizer project",
-							extensions: [
-								"taskizer"
-							]
-						}
-					],
 					properties: [
 						"openDirectory"
 					]
