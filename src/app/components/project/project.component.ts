@@ -65,6 +65,7 @@ export class ProjectComponent implements OnInit {
 		flatTask.level = level;
 		flatTask.expandable = task.tasks && task.tasks.length > 0;
 		flatTask.isExpanded = task.isExpanded;
+		flatTask.date = task.date;
 		this.flatTaskMap.set(flatTask, task);
 		this.nestedTaskMap.set(task, flatTask);
 		return flatTask;
