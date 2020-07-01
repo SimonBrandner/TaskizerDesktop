@@ -1,11 +1,10 @@
-<h1 mat-dialog-title> {{data.name}} </h1>
+<h1 mat-dialog-title> {{projectNameInput}} </h1>
 <mat-dialog-content>
 	<form ngNativeValidate #form="ngForm">
 		<mat-card>
 			<mat-card-content>
 				<mat-form-field>
-					<input matInput name="projectNameInput" (change)="setProjectPath()" [(ngModel)]="data.name"
-						required>
+					<input matInput name="projectNameInput" [(ngModel)]="projectNameInput" required>
 					<mat-label> Project name </mat-label>
 				</mat-form-field>
 			</mat-card-content>
@@ -13,8 +12,8 @@
 		<mat-card>
 			<mat-card-content>
 				<mat-form-field>
-					<input matInput name="projectPathInput" [(ngModel)]="data.path">
-					<mat-label> Path to a local file </mat-label>
+					<input matInput name="projectPathInput" [(ngModel)]="projectPathInput">
+					<mat-label> Path to a local folder </mat-label>
 				</mat-form-field>
 				<button class="path-button" mat-button (click)="pathButtonClicked()">
 					<mat-icon>save</mat-icon>

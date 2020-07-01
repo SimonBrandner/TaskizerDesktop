@@ -24,19 +24,14 @@ export class DialogService {
 	async saveProjectDialog(name: string): Promise<string | undefined> {
 		return new Promise<string | undefined>((resolve, reject) => {
 			this.configService.getDefaultProjectPath().then((result) => {
-				this.ipcRenderer.once("saveDialogSyncResponse", (event, arg) => {
+				this.ipcRenderer.once("openDialogSyncResponse", (event, arg) => {
 					resolve(arg);
 				});
 				this.ipcRenderer.send("saveDialogSync", {
-					title: "Save project",
-					defaultPath: result + "/" + name + ".taskizer",
-					filters: [
-						{
-							name: "Taskizer project",
-							extensions: [
-								"taskizer"
-							]
-						}
+					title: "Set directory to which save the project",
+					defaultPath: result,
+					properties: [
+						"openDirectory"
 					]
 				});
 			});

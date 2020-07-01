@@ -23,8 +23,9 @@ export class ProjectMenuComponent implements OnInit {
 		public dialog: MatDialog,
 		private router: Router
 	) {
-		this.folderPath = projectService.getFolderPathFromFullPath(data.path);
-		this.setProjectPath();
+		this.projectNameInput = data.name;
+		this.projectPathInput = projectService.getFolderPathFromFullPath(data.path);
+		//this.projectNameInput = projectService.getNameFromFullPath(data.path);
 	}
 
 	ngOnInit(): void {}
@@ -33,8 +34,7 @@ export class ProjectMenuComponent implements OnInit {
 		console.log("Path button clicked.");
 		this.dialogService.saveProjectDialog(this.data.name).then((result) => {
 			if (result != undefined) {
-				this.pathSetManually = true;
-				this.data.path = result;
+				this.projectPathInput = result;
 				console.log("Retrieved desired project location from user using DialogService.");
 			}
 			else {
@@ -45,6 +45,8 @@ export class ProjectMenuComponent implements OnInit {
 
 	saveButtonClicked(): void {
 		console.log("Save button clicked.");
+		this.data.name = this.projectNameInput;
+		this.data.path = this.projectPathInput + "/" + this.projectNameInput + ".taskizer";
 		this.dialogRef.close(this.data);
 		// TODO Make sure path input is a path
 	}
@@ -57,6 +59,7 @@ export class ProjectMenuComponent implements OnInit {
 		console.log("Open ConfirmComponent dialog.");
 		dialogRef.afterClosed().subscribe((result) => {
 			if (result == true) {
+				console.log(this.data.path);
 				this.projectService.deleteProject(this.data.path);
 				console.log("Deleting project using ProjectService.");
 				this.configService.deleteProject(this.data.id);
@@ -72,12 +75,6 @@ export class ProjectMenuComponent implements OnInit {
 		});
 	}
 
-	setProjectPath() {
-		if (!this.pathSetManually) {
-			this.data.path = this.folderPath + "/" + this.data.name + ".taskizer";
-		}
-	}
-
-	pathSetManually: boolean = false;
-	folderPath: string;
+	projectNameInput: string;
+	projectPathInput: string;
 }
