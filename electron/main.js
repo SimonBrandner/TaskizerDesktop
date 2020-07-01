@@ -191,14 +191,13 @@ function ipcMainSetProjectEvent(event, projectPath, pathExpression, value) {
 }
 
 function ipcMainCreateNewProjectEvent(event, projectName, projectPath) {
-	var project = {
-		name: projectName,
-		tasks: []
-	};
-
-	fs.writeFileSync(projectPath, JSON.stringify(project));
-
-	console.log(projectPath);
+	if (!fs.existsSync(projectPath)) {
+		var project = {
+			name: projectName,
+			tasks: []
+		};
+		fs.writeFileSync(projectPath, JSON.stringify(project));
+	}
 }
 
 function ipcMainCopyProjectFileEvent(event, oldPath, newPath) {
