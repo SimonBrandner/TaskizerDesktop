@@ -54,4 +54,26 @@ export class DialogService {
 			});
 		});
 	}
+
+	async importProjectDialog(): Promise<string | undefined> {
+		return new Promise<string | undefined>((resolve, reject) => {
+			this.configService.getDefaultProjectPath().then((result) => {
+				this.ipcRenderer.once("openDialogSyncResponse", (event, arg) => {
+					resolve(arg);
+				});
+				this.ipcRenderer.send("openDialogSync", {
+					title: "Set default project path",
+					defaultPath: result,
+					filters: [
+						{
+							name: "Taskizer project",
+							extensions: [
+								"taskizer"
+							]
+						}
+					]
+				});
+			});
+		});
+	}
 }

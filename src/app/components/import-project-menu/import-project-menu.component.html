@@ -1,1 +1,20 @@
-<p>import-project-menu works!</p>
+<h1 mat-dialog-title> Import project </h1>
+<mat-dialog-content>
+	<form ngNativeValidate #form="ngForm">
+		<mat-card>
+			<mat-card-content>
+				<mat-form-field>
+					<input matInput name="projectPathInput" [(ngModel)]="projectPathInput">
+					<mat-label> Path to a local folder </mat-label>
+				</mat-form-field>
+				<button class="path-button" mat-button (click)="pathButtonClicked()">
+					<mat-icon>save</mat-icon>
+				</button>
+			</mat-card-content>
+		</mat-card>
+	</form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+	<button mat-button [mat-dialog-close]="null"> Cancel </button>
+	<button mat-button type="submit" [disabled]="form.invalid" (click)="saveButtonClicked()"> Save </button>
+</mat-dialog-actions>

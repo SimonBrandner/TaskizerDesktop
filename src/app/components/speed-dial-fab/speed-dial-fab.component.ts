@@ -6,6 +6,7 @@ import { ConfigService } from "src/app/services/config.service";
 import { TaskMenuComponent } from "../task-menu/task-menu.component";
 import { TaskService } from "../../services/task.service";
 import { TaskNode } from "src/app/models/task-node";
+import { ImportProjectMenuComponent } from "../import-project-menu/import-project-menu.component";
 
 @Component({
 	selector: "speed-dial-fab",
@@ -69,8 +70,30 @@ export class SpeedDialFabComponent implements OnInit {
 		});
 	}
 
+	importProject(): void {
+		console.log("Import project button clicked.");
+		const dialogRef = this.dialog.open(ImportProjectMenuComponent);
+		console.log("Opened ImportProjectMenuComponent dialog.");
+		dialogRef.afterClosed().subscribe((result) => {
+			if (result == null) {
+				console.log("Imported project empty.");
+				return;
+			}
+			this.createNewProjectOutput.emit(result);
+		});
+	}
+
 	fabItemButtonClicked(buttonName): void {
-		buttonName == "addProject" ? this.addProject() : this.addTask();
+		if (buttonName == "addProject") {
+			this.addProject();
+		}
+		else if (buttonName == "addTask") {
+			this.addTask();
+		}
+		else if (buttonName == "importProject") {
+			this.importProject();
+		}
+
 		this.hideItems();
 	}
 
@@ -84,6 +107,10 @@ export class SpeedDialFabComponent implements OnInit {
 		{
 			icon: "check_circle",
 			name: "addTask"
+		},
+		{
+			icon: "import_export",
+			name: "importProject"
 		}
 	];
 
