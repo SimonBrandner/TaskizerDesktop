@@ -45,8 +45,13 @@ export class SettingsComponent implements OnInit {
 	pathButtonClicked(): void {
 		console.log("Path button clicked.");
 		this.dialogService.openDefaultProjectDirectoryDialog().then((result) => {
-			this.defaultProjectPath = result;
-			console.log("Retrieved desired default project location from user using DialogService");
+			if (result != undefined) {
+				this.defaultProjectPath = result;
+				console.log("Retrieved desired default project location from user using DialogService");
+			}
+			else {
+				console.log("DialogService returned undefined");
+			}
 		});
 	}
 

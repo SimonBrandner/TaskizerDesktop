@@ -30,9 +30,14 @@ export class ProjectMenuComponent implements OnInit {
 	pathButtonClicked(): void {
 		console.log("Path button clicked.");
 		this.dialogService.saveProjectDialog(this.data.name).then((result) => {
-			console.log("Retrieved desired project location from user using DialogService");
-			this.pathSetManually = true;
-			this.data.path = result;
+			if (result != undefined) {
+				this.pathSetManually = true;
+				this.data.path = result;
+				console.log("Retrieved desired project location from user using DialogService");
+			}
+			else {
+				console.log("DialogService returned undefined");
+			}
 		});
 	}
 
