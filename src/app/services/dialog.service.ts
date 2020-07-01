@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { IpcRenderer } from "electron";
+import { ConfigService } from "./config.service";
 
 @Injectable({
 	providedIn: "root"
@@ -7,7 +8,7 @@ import { IpcRenderer } from "electron";
 export class DialogService {
 	private ipcRenderer: IpcRenderer;
 
-	constructor() {
+	constructor(private configService: ConfigService) {
 		if ((<any>window).require) {
 			try {
 				this.ipcRenderer = (<any>window).require("electron").ipcRenderer;
@@ -31,13 +32,25 @@ export class DialogService {
 
 	async openDefaultProjectDirectoryDialog(): Promise<string | undefined> {
 		return new Promise<string | undefined>((resolve, reject) => {
-			this.ipcRenderer.once("openDialogSyncResponse", (event, arg) => {
-				resolve(arg);
-			});
-			this.ipcRenderer.send("openDialogSync", {
-				properties: [
-					"openDirectory"
-				]
+			this.configService.getDefaultProjectPath().then((result) => {
+				this.ipcRenderer.once("openDialogSyncResponse", (event, arg) => {
+					resolve(arg);
+				});
+				this.ipcRenderer.send("openDialogSync", {
+					title: "Save project",
+					defaultPath: result,
+					filters: [
+						{
+							name: "Taskizer project",
+							extensions: [
+								"taskizer"
+							]
+						}
+					],
+					properties: [
+						"openDirectory"
+					]
+				});
 			});
 		});
 	}
