@@ -43,6 +43,8 @@ import { ConfirmComponent } from "./components/confirm/confirm.component";
 import { from } from "rxjs";
 import { TaskMenuComponent } from "./components/task-menu/task-menu.component";
 import { MatNativeDateModule } from "@angular/material/core";
+import { ImportProjectMenuComponent } from './components/import-project-menu/import-project-menu.component';
+
 // Components
 
 @NgModule({
@@ -56,7 +58,8 @@ import { MatNativeDateModule } from "@angular/material/core";
 		SettingsComponent,
 		ProjectMenuComponent,
 		ConfirmComponent,
-		TaskMenuComponent
+		TaskMenuComponent,
+		ImportProjectMenuComponent
 	],
 	imports: [
 		BrowserModule,
