@@ -4,32 +4,29 @@ Taskizer Desktop is a desktop client for the the Taskizer App. Taskizer is task-
 
 ## Warning
 
-The MacOS version hasn't been tested as I do not have a MacOS device.
+You have to build the app on MacOS.
 
 ## How to
 
 ### Install
 
 + Go to [releases](https://github.com/SimonBrandner/TaskizerDesktop/releases).
-+ Download the archive for your platform.
-+ Unpack the archive.
-+ Go to the unpacked folder.
-+ Now you can run `taskizer-desktop`, `taskizer-desktop.exe` or `taskizer-desktop.app`.
++ Download the package for your platform.
 
 ### Build
 
 + Install Node.js
-+ Run the following commands.
++ Run the following commands. Replace `<platform>` with `Linux` `Win` or `Mac`.
 
 ``` bash
 git clone https://github.com/SimonBrandner/TaskizerDesktop.git
 cd TaskizerDesktop
 npm install
 mkdir build
-npm run prod-build-linux
+npm run build<platform>
 ```
 
-+ The compiled app should be in `./build/taskizer-desktop<platform>`.
++ The compiled app should be in `./build/`.
 
 ## Roadmap
 
