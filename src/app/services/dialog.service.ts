@@ -21,7 +21,7 @@ export class DialogService {
 		}
 	}
 
-	async saveProjectDialog(name: string): Promise<string | undefined> {
+	async saveProjectDialog(): Promise<string | undefined> {
 		return new Promise<string | undefined>((resolve, reject) => {
 			this.configService.getDefaultProjectPath().then((result) => {
 				this.ipcRenderer.once("openDialogSyncResponse", (event, arg) => {
