@@ -12,7 +12,7 @@
 		<mat-card>
 			<mat-card-content>
 				<mat-form-field>
-					<input matInput name="projectPathInput" [(ngModel)]="projectPathInput" required>
+					<input matInput readonly="true" name="projectPathInput" [(ngModel)]="projectPathInput" required>
 					<mat-label> Path to a local folder </mat-label>
 				</mat-form-field>
 				<button class="path-button" mat-button (click)="pathButtonClicked()">
