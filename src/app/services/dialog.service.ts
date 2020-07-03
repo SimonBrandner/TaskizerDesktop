@@ -27,7 +27,7 @@ export class DialogService {
 				this.ipcRenderer.once("openDialogSyncResponse", (event, arg) => {
 					resolve(arg);
 				});
-				this.ipcRenderer.send("saveDialogSync", {
+				this.ipcRenderer.send("openDialogSync", {
 					title: "Set directory to which save the project",
 					defaultPath: result,
 					properties: [
