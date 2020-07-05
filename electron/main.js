@@ -153,6 +153,18 @@ function ipcMainSaveDialogSync(event, options) {
 function ipcMainOpenDialogSync(event, options) {
 	window.webContents.send("openDialogSyncResponse", dialog.showOpenDialogSync(window, options));
 }
+
+function ipcMainSaveDialog(event, options) {
+	dialog.showSaveDialog(window, options).then((result) => {
+		window.webContents.send("saveDialogResponse", result);
+	});
+}
+
+function ipcMainOpenDialog(event, options) {
+	dialog.showOpenDialog(window, options).then((result) => {
+		window.webContents.send("openDialogResponse", result);
+	});
+}
 // IPC functions - dialogs
 
 // IPC functions - config
@@ -224,6 +236,8 @@ app.on("ready", appInit); // Create window on electron initialization
 // IPC events - dialogs
 ipcMain.on("saveDialogSync", ipcMainSaveDialogSync);
 ipcMain.on("openDialogSync", ipcMainOpenDialogSync);
+ipcMain.on("saveDialog", ipcMainSaveDialog);
+ipcMain.on("openDialog", ipcMainOpenDialog);
 // IPC events - dialogs
 
 // IPC events - config
