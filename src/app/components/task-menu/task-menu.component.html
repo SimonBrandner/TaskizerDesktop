@@ -1,6 +1,6 @@
 <h1 mat-dialog-title> {{data.name}} </h1>
 <mat-dialog-content>
-	<form ngNativeValidate #form="ngForm">
+	<form ngNativeValidate #form="ngForm" (keydown.control.enter)="form.valid && saveButtonClicked()">
 		<mat-card>
 			<mat-card-content>
 				<mat-form-field>
