@@ -24,10 +24,10 @@ export class DialogService {
 	async saveProjectDialog(): Promise<string | undefined> {
 		return new Promise<string | undefined>((resolve, reject) => {
 			this.configService.getDefaultProjectPath().then((result) => {
-				this.ipcRenderer.once("openDialogSyncResponse", (event, arg) => {
+				this.ipcRenderer.once("openDialogResponse", (event, arg) => {
 					resolve(arg);
 				});
-				this.ipcRenderer.send("openDialogSync", {
+				this.ipcRenderer.send("openDialog", {
 					title: "Set directory to which save the project",
 					defaultPath: result,
 					properties: [
@@ -41,10 +41,10 @@ export class DialogService {
 	async openDefaultProjectDirectoryDialog(): Promise<string | undefined> {
 		return new Promise<string | undefined>((resolve, reject) => {
 			this.configService.getDefaultProjectPath().then((result) => {
-				this.ipcRenderer.once("openDialogSyncResponse", (event, arg) => {
+				this.ipcRenderer.once("openDialogResponse", (event, arg) => {
 					resolve(arg);
 				});
-				this.ipcRenderer.send("openDialogSync", {
+				this.ipcRenderer.send("openDialog", {
 					title: "Set default project path",
 					defaultPath: result,
 					properties: [
@@ -58,10 +58,10 @@ export class DialogService {
 	async importProjectDialog(): Promise<string | undefined> {
 		return new Promise<string | undefined>((resolve, reject) => {
 			this.configService.getDefaultProjectPath().then((result) => {
-				this.ipcRenderer.once("openDialogSyncResponse", (event, arg) => {
+				this.ipcRenderer.once("openDialogResponse", (event, arg) => {
 					resolve(arg);
 				});
-				this.ipcRenderer.send("openDialogSync", {
+				this.ipcRenderer.send("openDialog", {
 					title: "Set default project path",
 					defaultPath: result,
 					filters: [
