@@ -2,9 +2,18 @@
 
 Taskizer Desktop is a desktop client for the the Taskizer App. Taskizer is task-management app.
 
+## Features
+
++ Nested tasks
++ Scheduling
+
+For the features that are coming visit section [Roadmap](#Roadmap).
+
 ## Warning
 
-You have to build the app on MacOS.
++ Taskizer is in pre-alpha development.
++ The roadmap may change at any point in time.
++ You have to build the app on MacOS.
 
 ## How to
 
@@ -15,7 +24,7 @@ You have to build the app on MacOS.
 
 ### Build
 
-+ Install Node.js
++ Install `Node.js` and `npm`
 + Run the following commands. Replace `<platform>` with `Linux` `Win` or `Mac`.
 
 ``` bash
