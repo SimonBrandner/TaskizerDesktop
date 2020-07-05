@@ -51,7 +51,8 @@ function createWindow() {
 		title: "Taskizer",
 		webPreferences: {
 			nodeIntegration: true
-		}
+		},
+		autoHideMenuBar: true
 	});
 
 	window.loadURL(
@@ -107,7 +108,6 @@ function createMenu() {
 		}
 	]);
 	Menu.setApplicationMenu(menu);
-	window.setAutoHideMenuBar(true);
 }
 
 function loadConfig() {
