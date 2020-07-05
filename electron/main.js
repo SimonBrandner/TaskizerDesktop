@@ -33,7 +33,7 @@ function createTray() {
 		{
 			label: "Exit",
 			type: "normal",
-			click: app.quit
+			click: quitApp
 		}
 	]);
 
@@ -65,8 +65,7 @@ function createWindow() {
 	// Create the browser window and set its properties
 
 	// Events
-	window.on("closed", windowClosedEvent);
-	window.on("minimize", minimizeToTray);
+	window.on("close", windowCloseEvent);
 	// Events
 }
 
@@ -77,7 +76,7 @@ function createMenu() {
 			submenu: [
 				{
 					label: "Quit",
-					click: app.quit,
+					click: quitApp,
 					accelerator: "CommandOrControl+Q"
 				}
 			]
@@ -120,8 +119,9 @@ function loadConfig() {
 // Init functions
 
 // window events
-function windowClosedEvent() {
-	window = null;
+function windowCloseEvent(event) {
+	event.preventDefault();
+	minimizeToTray();
 }
 // window events
 
@@ -130,8 +130,7 @@ function toggleWindow() {
 	window.isVisible() ? window.hide() : window.show();
 }
 
-function minimizeToTray(event) {
-	event.preventDefault();
+function minimizeToTray() {
 	window.hide();
 }
 // window functions
@@ -142,6 +141,10 @@ function appInit() {
 	createTray();
 	createMenu();
 	loadConfig();
+}
+
+function quitApp() {
+	window.destroy();
 }
 // app functions
 
