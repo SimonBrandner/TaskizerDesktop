@@ -14,6 +14,7 @@ For the features that are coming visit section [Roadmap](#Roadmap).
 + Taskizer is in pre-alpha development.
 + The roadmap may change at any point in time.
 + You have to build the app on MacOS.
++ The was not tested on MacOs.
 
 ## How to
 
