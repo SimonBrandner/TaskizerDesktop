@@ -25,7 +25,7 @@ For the features that are coming visit section [Roadmap](#Roadmap).
 
 ### Build
 
-+ Install `Node.js` and `npm`
++ Install [Node.js](https://nodejs.org/)
 + Run the following commands. Replace `<platform>` with `Linux` `Win` or `Mac`.
 
 ``` bash
