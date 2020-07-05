@@ -101,12 +101,12 @@ export class SpeedDialFabComponent implements OnInit {
 
 	fabButtons = [
 		{
-			icon: "playlist_add",
-			name: "addProject"
-		},
-		{
 			icon: "check_circle",
 			name: "addTask"
+		},
+		{
+			icon: "playlist_add",
+			name: "addProject"
 		},
 		{
 			icon: "import_export",
