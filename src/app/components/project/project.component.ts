@@ -190,7 +190,6 @@ export class ProjectComponent implements OnInit {
 	}
 
 	addTask(task: TaskNode) {
-		console.log(task);
 		this.database.addTask(task);
 	}
 
