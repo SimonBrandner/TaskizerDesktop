@@ -142,22 +142,19 @@ export class ProjectComponent implements OnInit {
 		if (task !== this.dragTask) {
 			let newTask: TaskNode;
 			if (this.dragTaskExpandOverArea === 1) {
-				newTask = this.database.copyPasteTaskAbove(
+				newTask = this.database.insertTaskAbove(
 					this.flatTaskMap.get(this.dragTask),
 					this.flatTaskMap.get(task)
 				);
 			}
 			else if (this.dragTaskExpandOverArea === -1) {
-				newTask = this.database.copyPasteTaskBelow(
+				newTask = this.database.insertTaskBelow(
 					this.flatTaskMap.get(this.dragTask),
 					this.flatTaskMap.get(task)
 				);
 			}
 			else {
-				newTask = this.database.copyPasteSubtask(
-					this.flatTaskMap.get(this.dragTask),
-					this.flatTaskMap.get(task)
-				);
+				newTask = this.database.insertSubtask(this.flatTaskMap.get(this.dragTask), this.flatTaskMap.get(task));
 			}
 			this.database.deleteTask(this.flatTaskMap.get(this.dragTask));
 			this.treeControl.expandDescendants(this.nestedTaskMap.get(newTask));

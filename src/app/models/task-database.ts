@@ -53,38 +53,52 @@ export class TaskDatabase {
 		return output;
 	}
 
-	insertSubtask(parent: TaskNode, name: string): TaskNode {
-		if (!parent.tasks) {
-			parent.tasks = [];
+	insertSubtask(childTask: TaskNode, parentTask: TaskNode): TaskNode {
+		console.log("Inserting subtask.");
+		if (!parentTask.tasks) {
+			parentTask.tasks = [];
+			parentTask.isExpanded = true;
 		}
-		const newTask = { name: name } as TaskNode;
-		parent.tasks.push(newTask);
+		const newTask = childTask;
+		parentTask.tasks.push(newTask);
 		this.dataChange.next(this.data);
 		return newTask;
 	}
 
-	insertItemAbove(node: TaskNode, name: string): TaskNode {
-		const parentNode = this.getParentFromNodes(node);
-		const newTask = { name: name } as TaskNode;
-		if (parentNode != null) {
-			parentNode.tasks.splice(parentNode.tasks.indexOf(node), 0, newTask);
+	insertTaskAbove(topTask: TaskNode, bottomTask: TaskNode): TaskNode {
+		console.log("Inserting task above.");
+		const parentTask = this.getParentFromNodes(bottomTask);
+		var newTask: TaskNode = {} as TaskNode;
+		Object.assign(newTask, topTask);
+
+		//var newTask = topTask;
+
+		if (parentTask != null) {
+			parentTask.tasks.splice(parentTask.tasks.indexOf(bottomTask), 0, newTask);
 		}
 		else {
-			this.data.splice(this.data.indexOf(node), 0, newTask);
+			this.data.splice(this.data.indexOf(bottomTask), 0, newTask);
 		}
+
 		this.dataChange.next(this.data);
 		return newTask;
 	}
 
-	insertItemBelow(node: TaskNode, name: string): TaskNode {
-		const parentNode = this.getParentFromNodes(node);
-		const newTask = { name: name } as TaskNode;
-		if (parentNode != null) {
-			parentNode.tasks.splice(parentNode.tasks.indexOf(node) + 1, 0, newTask);
+	insertTaskBelow(bottomTask: TaskNode, topTask: TaskNode): TaskNode {
+		console.log("Inserting task below.");
+		const parentTask = this.getParentFromNodes(topTask);
+		var newTask: TaskNode = {} as TaskNode;
+		Object.assign(newTask, bottomTask);
+
+		//var newTask = bottomTask;
+
+		if (parentTask != null) {
+			parentTask.tasks.splice(parentTask.tasks.indexOf(topTask) + 1, 0, newTask);
 		}
 		else {
-			this.data.splice(this.data.indexOf(node) + 1, 0, newTask);
+			this.data.splice(this.data.indexOf(topTask) + 1, 0, newTask);
 		}
+
 		this.dataChange.next(this.data);
 		return newTask;
 	}
@@ -126,7 +140,6 @@ export class TaskDatabase {
 
 	updateTask(task: TaskNode, newTask: TaskNode) {
 		task = Object.assign(task, newTask);
-		task.name = newTask.name;
 		this.dataChange.next(this.data);
 	}
 
@@ -141,32 +154,7 @@ export class TaskDatabase {
 	}
 
 	copyPasteSubtask(from: TaskNode, to: TaskNode): TaskNode {
-		const newItem = this.insertSubtask(to, from.name);
-		if (from.tasks) {
-			from.tasks.forEach((task) => {
-				this.copyPasteSubtask(task, newItem);
-			});
-		}
-		return newItem;
-	}
-
-	copyPasteTaskAbove(from: TaskNode, to: TaskNode): TaskNode {
-		const newItem = this.insertItemAbove(to, from.name);
-		if (from.tasks) {
-			from.tasks.forEach((task) => {
-				this.copyPasteSubtask(task, newItem);
-			});
-		}
-		return newItem;
-	}
-
-	copyPasteTaskBelow(from: TaskNode, to: TaskNode): TaskNode {
-		const newItem = this.insertItemBelow(to, from.name);
-		if (from.tasks) {
-			from.tasks.forEach((task) => {
-				this.copyPasteSubtask(task, newItem);
-			});
-		}
+		const newItem = this.insertSubtask(to, from);
 		return newItem;
 	}
 
