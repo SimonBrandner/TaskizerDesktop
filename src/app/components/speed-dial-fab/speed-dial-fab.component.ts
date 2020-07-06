@@ -57,7 +57,7 @@ export class SpeedDialFabComponent implements OnInit {
 	addTask(): void {
 		console.log("Add task button clicked.");
 		const dialogRef = this.dialog.open(TaskMenuComponent, {
-			data: { name: "New task", level: 1, expandable: false, date: undefined }
+			data: { name: "New task", date: undefined } as TaskNode
 		});
 		console.log("Opened TaskMenuComponent dialog.");
 		dialogRef.afterClosed().subscribe((result: TaskNode) => {
