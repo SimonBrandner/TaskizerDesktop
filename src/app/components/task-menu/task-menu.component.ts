@@ -32,4 +32,8 @@ export class TaskMenuComponent implements OnInit {
 			date: this.data.date
 		});
 	}
+
+	clearDateInput() {
+		this.data.date = undefined;
+	}
 }
