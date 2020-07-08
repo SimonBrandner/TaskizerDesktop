@@ -2,7 +2,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 // Angular
 
 // Material
@@ -25,6 +25,14 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 // Material
 
+// Material Components
+import {
+	NgxMatDatetimePickerModule,
+	NgxMatTimepickerModule,
+	NgxMatNativeDateModule
+} from "@angular-material-components/datetime-picker";
+// Material Components
+
 // App
 import { AppRoutingModule } from "./app-routing.module";
 // App
@@ -38,9 +46,7 @@ import { TodayComponent } from "./components/today/today.component";
 import { ProjectComponent } from "./components/project/project.component";
 import { SettingsComponent } from "./components/settings/settings.component";
 import { ProjectMenuComponent } from "./components/project-menu/project-menu.component";
-import { format } from "path";
 import { ConfirmComponent } from "./components/confirm/confirm.component";
-import { from } from "rxjs";
 import { TaskMenuComponent } from "./components/task-menu/task-menu.component";
 import { MatNativeDateModule } from "@angular/material/core";
 import { ImportProjectMenuComponent } from "./components/import-project-menu/import-project-menu.component";
@@ -82,7 +88,11 @@ import { ImportProjectMenuComponent } from "./components/import-project-menu/imp
 		MatTreeModule,
 		MatCheckboxModule,
 		MatDatepickerModule,
-		MatNativeDateModule
+		MatNativeDateModule,
+		NgxMatDatetimePickerModule,
+		NgxMatTimepickerModule,
+		ReactiveFormsModule,
+		NgxMatNativeDateModule
 	],
 	providers: [],
 	exports: [],
