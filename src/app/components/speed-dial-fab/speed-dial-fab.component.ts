@@ -22,11 +22,13 @@ export class SpeedDialFabComponent implements OnInit {
 	ngOnInit(): void {}
 
 	showItems(): void {
+		console.log("Showing items.");
 		this.fabTogglerState = "active";
 		this.buttons = this.fabButtons;
 	}
 
 	hideItems(): void {
+		console.log("Hiding items.");
 		this.fabTogglerState = "inactive";
 		this.buttons = [];
 	}

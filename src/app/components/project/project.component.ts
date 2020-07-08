@@ -44,11 +44,13 @@ export class ProjectComponent implements OnInit {
 				projectService.getProjectByPath(this.projectPath).then((result) => {
 					console.log("Retrieved project " + result["name"] + " from ProjectService.");
 					this.database = new TaskDatabase(result);
+					console.log("Pushed data from ProjectService to TaskDatabase.");
 					this.database.dataChange.subscribe((data) => {
 						console.log("Data in database changed.");
 						this.dataSource.data = [];
 						this.dataSource.data = data;
 						projectService.setProjectContent(this.projectPath, this.database.getProjectJSON());
+						console.log("Saved project using ProjectService.");
 						this.nestedTaskMap.forEach((element) => {
 							element.isExpanded ? this.treeControl.expand(element) : this.treeControl.collapse(element);
 						});
@@ -56,6 +58,10 @@ export class ProjectComponent implements OnInit {
 				});
 			});
 		});
+	}
+
+	ngOnInit(): void {
+		this.taskService.addTaskEvent.subscribe((result) => this.addTask(result));
 	}
 
 	transformer = (task: TaskNode, level: number) => {
@@ -73,6 +79,7 @@ export class ProjectComponent implements OnInit {
 
 	addTask(task: TaskNode) {
 		this.database.addTask(task);
+		console.log("Added task " + task.name);
 	}
 
 	editTask(task: FlatTaskNode) {
@@ -83,20 +90,118 @@ export class ProjectComponent implements OnInit {
 		console.log("Opened TaskMenuComponent dialog.");
 		dialogRef.afterClosed().subscribe((result: TaskNode) => {
 			if (result == null) {
-				console.log("Nothing changed.");
+				console.log("No edits were made to the task.");
 			}
 			else {
 				this.database.updateDatabase();
+				console.log("Edits were made to task + " + result.name);
 			}
 		});
 	}
 
 	deleteTask(task: FlatTaskNode) {
+		console.log("Deleting task " + task.name);
 		this.database.deleteTask(this.flatTaskMap.get(task));
 	}
 
+	taskStatusChanged(task: FlatTaskNode) {
+		setTimeout(() => {
+			this.deleteTask(task);
+		}, 500);
+	}
+
+	taskExpansionHandler(task: FlatTaskNode) {
+		this.database.taskExpansionHandler(this.flatTaskMap.get(task));
+	}
+
+	handleDragStart(event, task: FlatTaskNode) {
+		console.log("Dragging started on task " + task.name);
+		event.dataTransfer.setData("foo", "bar");
+		//event.dataTransfer.setDragImage(this.emptyItem.nativeElement, 0, 0);
+		this.dragTask = task;
+		this.treeControl.collapse(task);
+	}
+
+	handleDragOver(event, task: FlatTaskNode) {
+		console.log("Dragging over task " + task.name);
+		event.preventDefault();
+		// Handle node expand
+		if (this.dragTaskExpandOverTask && task === this.dragTaskExpandOverTask) {
+			if (Date.now() - this.dragExpandOverTime > this.dragExpandOverWaitTimeMs) {
+				if (!this.treeControl.isExpanded(task)) {
+					this.treeControl.expand(task);
+				}
+			}
+		}
+		else {
+			this.dragTaskExpandOverTask = task;
+			this.dragExpandOverTime = new Date().getTime();
+		}
+
+		// Handle drag area
+		const percentageY = event.offsetY / event.target.clientHeight;
+		if (0 <= percentageY && percentageY <= 0.25) {
+			this.dragTaskExpandOverArea = 1;
+		}
+		else if (1 >= percentageY && percentageY >= 0.75) {
+			this.dragTaskExpandOverArea = -1;
+		}
+		else {
+			this.dragTaskExpandOverArea = 0;
+		}
+	}
+
+	handleDrop(event, task: FlatTaskNode) {
+		console.log("Dropped task " + task.name);
+		if (task !== this.dragTask) {
+			let newTask: TaskNode;
+			if (this.dragTaskExpandOverArea === 1) {
+				newTask = this.database.insertTaskAbove(
+					this.flatTaskMap.get(this.dragTask),
+					this.flatTaskMap.get(task)
+				);
+			}
+			else if (this.dragTaskExpandOverArea === -1) {
+				newTask = this.database.insertTaskBelow(
+					this.flatTaskMap.get(this.dragTask),
+					this.flatTaskMap.get(task)
+				);
+			}
+			else {
+				newTask = this.database.insertSubtask(this.flatTaskMap.get(this.dragTask), this.flatTaskMap.get(task));
+			}
+			this.database.deleteTask(this.flatTaskMap.get(this.dragTask));
+			this.treeControl.expandDescendants(this.nestedTaskMap.get(newTask));
+		}
+		this.handleDragEnd(event);
+	}
+
+	handleDragEnd(event) {
+		console.log("Dragging ended.");
+		this.dragTask = null;
+		this.dragTaskExpandOverTask = null;
+		this.dragExpandOverTime = 0;
+		this.dragTaskExpandOverArea = NaN;
+		event.preventDefault();
+	}
+
+	getStyle(task: FlatTaskNode) {
+		if (this.dragTask === task) {
+			return "drag-start";
+		}
+		else if (this.dragTaskExpandOverTask === task) {
+			switch (this.dragTaskExpandOverArea) {
+				case 1:
+					return "drop-above";
+				case -1:
+					return "drop-below";
+				default:
+					return "drop-center";
+			}
+		}
+	}
+
 	generateDateOutput(input: Date): string {
-		console.log("Generating date output.");
 		var weekDays: string[] = [
 			"sunday",
 			"monday",
@@ -162,105 +267,6 @@ export class ProjectComponent implements OnInit {
 		else {
 			return "default";
 		}
-	}
-
-	taskStatusChanged(task: FlatTaskNode) {
-		setTimeout(() => {
-			this.deleteTask(task);
-		}, 500);
-	}
-
-	taskExpansionHandler(task: FlatTaskNode) {
-		this.database.taskExpansionHandler(this.flatTaskMap.get(task));
-	}
-
-	handleDragStart(event, task) {
-		// Required by Firefox (https://stackoverflow.com/questions/19055264/why-doesnt-html5-drag-and-drop-work-in-firefox)
-		event.dataTransfer.setData("foo", "bar");
-		//event.dataTransfer.setDragImage(this.emptyItem.nativeElement, 0, 0);
-		this.dragTask = task;
-		this.treeControl.collapse(task);
-	}
-
-	handleDragOver(event, task) {
-		event.preventDefault();
-		// Handle node expand
-		if (this.dragTaskExpandOverTask && task === this.dragTaskExpandOverTask) {
-			if (Date.now() - this.dragExpandOverTime > this.dragExpandOverWaitTimeMs) {
-				if (!this.treeControl.isExpanded(task)) {
-					this.treeControl.expand(task);
-					//this.cd.detectChanges();
-				}
-			}
-		}
-		else {
-			this.dragTaskExpandOverTask = task;
-			this.dragExpandOverTime = new Date().getTime();
-		}
-
-		// Handle drag area
-		const percentageY = event.offsetY / event.target.clientHeight;
-		if (0 <= percentageY && percentageY <= 0.25) {
-			this.dragTaskExpandOverArea = 1;
-		}
-		else if (1 >= percentageY && percentageY >= 0.75) {
-			this.dragTaskExpandOverArea = -1;
-		}
-		else {
-			this.dragTaskExpandOverArea = 0;
-		}
-	}
-
-	handleDrop(event, task) {
-		if (task !== this.dragTask) {
-			let newTask: TaskNode;
-			if (this.dragTaskExpandOverArea === 1) {
-				newTask = this.database.insertTaskAbove(
-					this.flatTaskMap.get(this.dragTask),
-					this.flatTaskMap.get(task)
-				);
-			}
-			else if (this.dragTaskExpandOverArea === -1) {
-				newTask = this.database.insertTaskBelow(
-					this.flatTaskMap.get(this.dragTask),
-					this.flatTaskMap.get(task)
-				);
-			}
-			else {
-				newTask = this.database.insertSubtask(this.flatTaskMap.get(this.dragTask), this.flatTaskMap.get(task));
-			}
-			this.database.deleteTask(this.flatTaskMap.get(this.dragTask));
-			this.treeControl.expandDescendants(this.nestedTaskMap.get(newTask));
-		}
-		this.handleDragEnd(event);
-	}
-
-	handleDragEnd(event) {
-		this.dragTask = null;
-		this.dragTaskExpandOverTask = null;
-		this.dragExpandOverTime = 0;
-		this.dragTaskExpandOverArea = NaN;
-		event.preventDefault();
-	}
-
-	getStyle(task: FlatTaskNode) {
-		if (this.dragTask === task) {
-			return "drag-start";
-		}
-		else if (this.dragTaskExpandOverTask === task) {
-			switch (this.dragTaskExpandOverArea) {
-				case 1:
-					return "drop-above";
-				case -1:
-					return "drop-below";
-				default:
-					return "drop-center";
-			}
-		}
-	}
-
-	ngOnInit(): void {
-		this.taskService.addTaskEvent.subscribe((result) => this.addTask(result));
 	}
 
 	getLevel = (flatTaskNode: FlatTaskNode) => flatTaskNode.level;

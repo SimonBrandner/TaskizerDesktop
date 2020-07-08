@@ -34,6 +34,7 @@ export class TaskMenuComponent implements OnInit {
 	}
 
 	clearDateInput() {
+		console.log("Clear date input button clicked.");
 		this.data.date = undefined;
 	}
 }

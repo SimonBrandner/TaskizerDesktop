@@ -39,7 +39,7 @@ export class NavigationComponent implements OnInit {
 
 	settingsButtonClicked(): void {
 		console.log("Settings button clicked.");
-		const dialogRef = this.dialog.open(SettingsComponent);
+		this.dialog.open(SettingsComponent);
 	}
 
 	addProjectEvent($event): void {

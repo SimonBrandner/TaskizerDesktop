@@ -54,7 +54,6 @@ export class TaskDatabase {
 	}
 
 	insertSubtask(childTask: TaskNode, parentTask: TaskNode): TaskNode {
-		console.log("Inserting subtask.");
 		if (!parentTask.tasks) {
 			parentTask.tasks = [];
 			parentTask.isExpanded = true;
@@ -66,7 +65,6 @@ export class TaskDatabase {
 	}
 
 	insertTaskAbove(topTask: TaskNode, bottomTask: TaskNode): TaskNode {
-		console.log("Inserting task above.");
 		const parentTask = this.getParentFromNodes(bottomTask);
 		var newTask: TaskNode = {} as TaskNode;
 		Object.assign(newTask, topTask);
@@ -85,7 +83,6 @@ export class TaskDatabase {
 	}
 
 	insertTaskBelow(bottomTask: TaskNode, topTask: TaskNode): TaskNode {
-		console.log("Inserting task below.");
 		const parentTask = this.getParentFromNodes(topTask);
 		var newTask: TaskNode = {} as TaskNode;
 		Object.assign(newTask, bottomTask);
@@ -118,7 +115,6 @@ export class TaskDatabase {
 		if (currentRoot.tasks && currentRoot.tasks.length > 0) {
 			for (let i = 0; i < currentRoot.tasks.length; ++i) {
 				const child = currentRoot.tasks[i];
-				//console.log(child);
 				if (child === task) {
 					return currentRoot;
 				}
