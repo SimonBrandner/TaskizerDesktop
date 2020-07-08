@@ -109,7 +109,7 @@ export class ProjectComponent implements OnInit {
 		var currentDate: Date = new Date();
 
 		if (input == undefined) {
-			return undefined;
+			return "empty";
 		}
 		else if (
 			input.getMonth() == currentDate.getMonth() &&
@@ -160,7 +160,7 @@ export class ProjectComponent implements OnInit {
 			return weekDays[input.getDay().toString()];
 		}
 		else {
-			return undefined;
+			return "default";
 		}
 	}
 

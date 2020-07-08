@@ -27,7 +27,7 @@
 					{{task.date.toLocaleTimeString()}}</div>
 				<div style="color: blue;" *ngIf="generateDateOutput(task.date) == 'saturday'"> On Saturday at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div *ngIf="generateDateOutput(task.date) == undefined"> {{task.date.toLocaleString()}} </div>
+				<div *ngIf="generateDateOutput(task.date) == 'default'"> {{task.date.toLocaleString()}} </div>
 
 
 				<button (click)="editTask(task)" mat-icon-button [attr.aria-label]="'Edit ' + task.name">
@@ -70,7 +70,7 @@
 					{{task.date.toLocaleTimeString()}}</div>
 				<div style="color: blue;" *ngIf="generateDateOutput(task.date) == 'saturday'"> On Saturday at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div *ngIf="generateDateOutput(task.date) == undefined"> {{task.date.toLocaleString()}} </div>
+				<div *ngIf="generateDateOutput(task.date) == 'default'"> {{task.date.toLocaleString()}} </div>
 
 				<button (click)="editTask(task)" mat-icon-button [attr.aria-label]="'Edit ' + task.name">
 					<mat-icon> edit </mat-icon>
