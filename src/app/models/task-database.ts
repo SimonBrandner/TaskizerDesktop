@@ -26,7 +26,7 @@ export class TaskDatabase {
 				name: element["name"],
 				tasks: subtasks,
 				isExpanded: element["isExpanded"],
-				date: element["date"]
+				date: new Date(element["date"])
 			});
 		});
 
