@@ -138,8 +138,7 @@ export class TaskDatabase {
 		this.dataChange.next(this.data);
 	}
 
-	updateTask(task: TaskNode, newTask: TaskNode) {
-		task = Object.assign(task, newTask);
+	updateDatabase() {
 		this.dataChange.next(this.data);
 	}
 

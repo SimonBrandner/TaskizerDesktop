@@ -82,7 +82,7 @@ export class ProjectComponent implements OnInit {
 				console.log("Nothing changed.");
 			}
 			else {
-				this.database.updateTask(this.flatTaskMap.get(task), result);
+				this.database.updateDatabase();
 			}
 		});
 	}
