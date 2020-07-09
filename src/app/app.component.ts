@@ -12,9 +12,6 @@ import { DomSanitizer } from "@angular/platform-browser";
 export class AppComponent {
 	title = "taskizer";
 	constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
-		matIconRegistry.addSvgIcon(
-			"taskizer",
-			domSanitizer.bypassSecurityTrustResourceUrl("../assets/Icon_task_circle.svg")
-		);
+		matIconRegistry.addSvgIcon("taskizer", domSanitizer.bypassSecurityTrustResourceUrl("../assets/icon.svg"));
 	}
 }
