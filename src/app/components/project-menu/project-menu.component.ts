@@ -47,7 +47,6 @@ export class ProjectMenuComponent implements OnInit {
 		this.data.name = this.projectNameInput;
 		this.data.path = this.projectPathInput + "/" + this.projectNameInput + ".taskizer";
 		this.dialogRef.close(this.data);
-		// TODO Make sure path input is a path
 	}
 
 	deleteProjectClicked(): void {
