@@ -24,6 +24,21 @@ mat-action-list mat-list-item:focus {
 	background: lightgray;
 }
 
+.title {
+	padding-left: 7px;
+}
+
+.icon {
+	display: flex;
+	fill: currentColor;
+	line-height: 40px;
+	border-radius: 50%;
+	align-items: center;
+	min-width: 30px;
+	min-height: 30px;
+	max-width: 30px;
+}
+
 .spacer {
 	width: 100%;
 }

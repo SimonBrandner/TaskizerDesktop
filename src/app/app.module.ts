@@ -3,6 +3,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
 // Angular
 
 // Material
@@ -92,7 +93,8 @@ import { ImportProjectMenuComponent } from "./components/import-project-menu/imp
 		NgxMatDatetimePickerModule,
 		NgxMatTimepickerModule,
 		ReactiveFormsModule,
-		NgxMatNativeDateModule
+		NgxMatNativeDateModule,
+		HttpClientModule
 	],
 	providers: [],
 	exports: [],
