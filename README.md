@@ -6,15 +6,19 @@ Taskizer Desktop is a desktop client for the the Taskizer App. Taskizer is task-
 
 + Nested tasks
 + Scheduling
++ Project importing
++ System tray icon
++ Deadlines
++ Keyboard shortcuts
 
 For the features that are coming visit section [Roadmap](#Roadmap).
 
 ## Warning
 
-+ Taskizer is in pre-alpha development.
++ Taskizer is in alpha development.
 + The roadmap may change at any point in time.
 + You have to build the app on MacOS.
-+ The was not tested on MacOs.
++ The app was not tested on MacOs.
 
 ## How to
 
