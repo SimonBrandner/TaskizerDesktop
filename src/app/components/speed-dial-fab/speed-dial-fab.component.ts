@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter, NgZone } from "@angular/core";
 import { speedDialFabAnimations } from "./speed-dial-fab.animations";
 import { ProjectMenuComponent } from "../project-menu/project-menu.component";
 import { MatDialog } from "@angular/material/dialog";
@@ -7,6 +7,7 @@ import { TaskMenuComponent } from "../task-menu/task-menu.component";
 import { TaskService } from "../../services/task.service";
 import { TaskNode } from "src/app/models/task-node";
 import { ImportProjectMenuComponent } from "../import-project-menu/import-project-menu.component";
+import { MenuService } from "../../services/menu.service";
 
 @Component({
 	selector: "speed-dial-fab",
@@ -17,9 +18,34 @@ import { ImportProjectMenuComponent } from "../import-project-menu/import-projec
 	animations: speedDialFabAnimations
 })
 export class SpeedDialFabComponent implements OnInit {
-	constructor(public dialog: MatDialog, private configService: ConfigService, private taskService: TaskService) {}
+	constructor(
+		public dialog: MatDialog,
+		private configService: ConfigService,
+		private taskService: TaskService,
+		private menuService: MenuService,
+		private zone: NgZone
+	) {}
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		this.menuService.newProjectEvent.subscribe(() => {
+			console.log("newProject");
+			this.zone.run(() => {
+				this.addProject();
+			});
+		});
+		this.menuService.importProjectEvent.subscribe(() => {
+			console.log("importProject");
+			this.zone.run(() => {
+				this.importProject();
+			});
+		});
+		this.menuService.newTaskEvent.subscribe(() => {
+			console.log("newTask");
+			this.zone.run(() => {
+				this.addTask();
+			});
+		});
+	}
 
 	showItems(): void {
 		console.log("Showing items.");
@@ -37,9 +63,10 @@ export class SpeedDialFabComponent implements OnInit {
 		this.buttons.length ? this.hideItems() : this.showItems();
 	}
 
-	addProject(): void {
+	addProject() {
 		console.log("Add project button clicked.");
 		this.configService.getDefaultProjectPath().then((result) => {
+			console.log("Retrieved defaultProjectPath from ConfigService.");
 			var name: string = "New project";
 			var extension: string = ".taskizer";
 			const dialogRef = this.dialog.open(ProjectMenuComponent, {

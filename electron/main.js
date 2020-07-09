@@ -72,24 +72,44 @@ function createWindow() {
 function createMenu() {
 	menu = Menu.buildFromTemplate([
 		{
-			label: "File",
+			label: "App",
 			submenu: [
 				{
-					label: "Quit",
+					label: "Hide window",
+					click: () => {
+						window.hide();
+					},
+					accelerator: "CommandOrControl+H"
+				},
+				{
+					label: "Quit app",
 					click: quitApp,
 					accelerator: "CommandOrControl+Q"
 				}
 			]
 		},
 		{
-			label: "Window",
+			label: "Project",
 			submenu: [
 				{
-					label: "Hide",
-					click: () => {
-						window.hide();
-					},
-					accelerator: "CommandOrControl+H"
+					label: "New project",
+					click: newProject,
+					accelerator: "CommandOrControl+N"
+				},
+				{
+					label: "Import project",
+					click: importProject,
+					accelerator: "CommandOrControl+I"
+				}
+			]
+		},
+		{
+			label: "Task",
+			submenu: [
+				{
+					label: "New task",
+					click: newTask,
+					accelerator: "CommandOrControl+Shift+N"
 				}
 			]
 		},
@@ -235,6 +255,18 @@ function saveConfig() {
 // app events
 app.on("ready", appInit); // Create window on electron initialization
 // app events
+
+// Menu events
+function newProject() {
+	window.webContents.send("newProject");
+}
+function importProject() {
+	window.webContents.send("importProject");
+}
+function newTask() {
+	window.webContents.send("newTask");
+}
+// Menu events
 
 // IPC events - dialogs
 ipcMain.on("saveDialogSync", ipcMainSaveDialogSync);
