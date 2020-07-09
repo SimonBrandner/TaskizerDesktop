@@ -25,7 +25,12 @@ export class DialogService {
 		return new Promise<string | undefined>((resolve, reject) => {
 			this.configService.getDefaultProjectPath().then((result) => {
 				this.ipcRenderer.once("openDialogResponse", (event, arg) => {
-					resolve(arg);
+					if (arg.canceled == true) {
+						resolve(undefined);
+					}
+					else {
+						resolve(arg.filePaths[0]);
+					}
 				});
 				this.ipcRenderer.send("openDialog", {
 					title: "Set directory to which save the project",
@@ -42,7 +47,13 @@ export class DialogService {
 		return new Promise<string | undefined>((resolve, reject) => {
 			this.configService.getDefaultProjectPath().then((result) => {
 				this.ipcRenderer.once("openDialogResponse", (event, arg) => {
-					resolve(arg);
+					if (arg.canceled == true) {
+						resolve(undefined);
+					}
+					else {
+						resolve(arg.filePaths[0]);
+					}
+					console.log(arg);
 				});
 				this.ipcRenderer.send("openDialog", {
 					title: "Set default project path",
@@ -59,7 +70,12 @@ export class DialogService {
 		return new Promise<string | undefined>((resolve, reject) => {
 			this.configService.getDefaultProjectPath().then((result) => {
 				this.ipcRenderer.once("openDialogResponse", (event, arg) => {
-					resolve(arg);
+					if (arg.canceled == true) {
+						resolve(undefined);
+					}
+					else {
+						resolve(arg.filePaths[0]);
+					}
 				});
 				this.ipcRenderer.send("openDialog", {
 					title: "Set default project path",
