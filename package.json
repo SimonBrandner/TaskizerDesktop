@@ -44,9 +44,9 @@
 		"build-angular": "ng build",
 		"run-electron": "electron . --no-sandbox",
 		"build-angular-and-run-electron": "ng build && electron . --no-sandbox",
-		"buildLinux": "electron-builder -l --ia32 --x64",
-		"buildWin": "electron-builder -w --ia32 --x64",
-		"buildMac": "electron-builder -m --ia32--x64"
+		"buildLinux": "ng build && electron-builder -l --ia32 --x64",
+		"buildWin": "ng build && electron-builder -w --ia32 --x64",
+		"buildMac": "ng build && electron-builder -m --ia32--x64"
 	},
 	"private": true,
 	"dependencies": {
