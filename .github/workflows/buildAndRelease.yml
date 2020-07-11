@@ -14,22 +14,17 @@ jobs:
         id: createRelease
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           draft: true
           prerelease: false
-  buildAndReleaseAssets:
-    name: Build and release assets
+  buildAndReleaseAssetsOnWin:
+    name: Build and release assets on Win
     needs: prepareRelease
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: windows-latest
     steps:
-      # Setup
-      #########################################################
       # Checkout
       - name: Checkout code
         uses: actions/checkout@v1
@@ -47,55 +42,87 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       # Build
-      #########################################################
-      # Build on Windows
-      - name: npm install and npm run buildWin
-        if: ${{ matrix.os == 'windows-latest'}}
+      - name: npm install and npm run
         run: |
           npm install
           npm run buildWin32
           npm run buildWin64
-      # Build on Linux
+      # Release assets
+      - name: Upload release asset on Windows
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ./build/*
+  buildAndReleaseAssetsOnLinux:
+    name: Build and release assets on Linux
+    needs: prepareRelease
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: Checkout code
+        uses: actions/checkout@v1
+      # Cache Node modules
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      # Setup Node
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      # Build
       - name: npm install and npm run buildLinux
-        if: ${{ matrix.os == 'ubuntu-latest'}}
         run: |
           npm install
           npm run buildLinux32
           npm run buildLinux64
+      # Release assets
+      #########################################################
+      - name: Upload release asset on Linux
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ./build/*
+  buildAndReleaseAssetsOnMac:
+    name: Build and release assets Mac
+    needs: prepareRelease
+    runs-on: macos-latest
+    steps:
+      # Checkout
+      - name: Checkout code
+        uses: actions/checkout@v1
+      # Cache Node modules
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      # Setup Node
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
       # Build on Mac
       - name: npm install and npm run buildMac
-        if: ${{ matrix.os == 'macos-latest'}}
         run: |
           npm install
           npm run buildMac32
           npm run buildMac64
-      # Release Win assets
-      #########################################################
-      - name: Upload release asset NSIS
-        if: ${{matrix.os == 'windows-latest'}}
+      # Release assets
+      - name: Upload release asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/*
-      # Release Linux assets
-      #########################################################
-      - name: Upload release asset NSIS
-        if: ${{matrix.os == 'linux-latest'}}
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/*
-      # Release Mac assets
-      #########################################################
-      - name: Upload release asset NSIS
-        if: ${{matrix.os == 'macos-latest'}}
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_path: ./build/*
