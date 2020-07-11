@@ -79,7 +79,7 @@ jobs:
           npm run buildLinux32
           npm run buildLinux64
   buildAndReleaseAssetsOnMac:
-    name: Build and release assets Mac
+    name: Build and release assets on Mac
     needs: prepareRelease
     runs-on: macos-latest
     env:
