@@ -26,10 +26,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        config:
-          - os: windows-latest
-          - os: ubuntu-latest
-          - os: macos-latest
+        os: [windows-latest, ubuntu-latest, macos-latest]
     steps:
       # Setup
       #########################################################
@@ -53,21 +50,21 @@ jobs:
       #########################################################
       # Build on Windows
       - name: npm install and npm run buildWin
-        if: ${{ matrix.config.os == 'windows-latest'}}
+        if: ${{ matrix.os == 'windows-latest'}}
         run: |
           npm install
           npm run buildWin32
           npm run buildWin64
       # Build on Linux
       - name: npm install and npm run buildLinux
-        if: ${{ matrix.config.os == 'ubuntu-latest'}}
+        if: ${{ matrix.os == 'ubuntu-latest'}}
         run: |
           npm install
           npm run buildLinux32
           npm run buildLinux64
       # Build on Mac
       - name: npm install and npm run buildMac
-        if: ${{ matrix.config.os == 'macos-latest'}}
+        if: ${{ matrix.os == 'macos-latest'}}
         run: |
           npm install
           npm run buildMac32
@@ -75,7 +72,7 @@ jobs:
       # Release Win assets
       #########################################################
       - name: Upload release asset NSIS
-        if: ${{matrix.config.os == 'windows-latest'}}
+        if: ${{matrix.os == 'windows-latest'}}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
@@ -85,7 +82,7 @@ jobs:
       # Release Linux assets
       #########################################################
       - name: Upload release asset NSIS
-        if: ${{matrix.config.os == 'linux-latest'}}
+        if: ${{matrix.os == 'linux-latest'}}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
@@ -95,7 +92,7 @@ jobs:
       # Release Mac assets
       #########################################################
       - name: Upload release asset NSIS
-        if: ${{matrix.config.os == 'macos-latest'}}
+        if: ${{matrix.os == 'macos-latest'}}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
