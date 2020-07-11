@@ -24,6 +24,8 @@ jobs:
     name: Build and release assets on Win
     needs: prepareRelease
     runs-on: windows-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       # Checkout
       - name: Checkout code
@@ -48,10 +50,8 @@ jobs:
           npm run buildWin32
           npm run buildWin64
       # Release assets
-      - name: Upload release asset on Windows
+      - name: Upload release assets
         uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_path: ./build/*
@@ -59,6 +59,8 @@ jobs:
     name: Build and release assets on Linux
     needs: prepareRelease
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       # Checkout
       - name: Checkout code
@@ -84,10 +86,8 @@ jobs:
           npm run buildLinux64
       # Release assets
       #########################################################
-      - name: Upload release asset on Linux
+      - name: Upload release assets
         uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_path: ./build/*
@@ -95,6 +95,8 @@ jobs:
     name: Build and release assets Mac
     needs: prepareRelease
     runs-on: macos-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       # Checkout
       - name: Checkout code
@@ -119,10 +121,8 @@ jobs:
           npm run buildMac32
           npm run buildMac64
       # Release assets
-      - name: Upload release asset
+      - name: Upload release assets
         uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_path: ./build/*
