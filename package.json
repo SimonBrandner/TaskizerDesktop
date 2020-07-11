@@ -15,16 +15,27 @@
 		"appId": "com.electron.taskizer",
 		"productName": "Taskizer",
 		"icon": "./assets/icon.png",
+		"artifactName": "Taskizer-v${version}-${platform}-${arch}.${ext}",
 		"win": {
-			"target": "nsis"
+			"target": [
+				"nsis",
+				"zip"
+			]
 		},
 		"mac": {
-			"category": "public.app-category.productivity"
+			"category": "public.app-category.productivity",
+			"target": [
+				"dmg",
+				"pkg",
+				"tar.gz"
+			]
 		},
 		"linux": {
 			"target": [
 				"deb",
-				"rpm"
+				"rpm",
+				"tar.gz",
+				"appImage"
 			],
 			"desktop": {
 				"StartupWMClass": "taskizer"
@@ -44,9 +55,12 @@
 		"build-angular": "ng build",
 		"run-electron": "electron . --no-sandbox",
 		"build-angular-and-run-electron": "ng build && electron . --no-sandbox",
-		"buildLinux": "ng build && electron-builder -l --ia32 --x64",
-		"buildWin": "ng build && electron-builder -w --ia32 --x64",
-		"buildMac": "ng build && electron-builder -m --ia32--x64"
+		"buildLinux32": "ng build && electron-builder -l --ia32",
+		"buildWin32": "ng build && electron-builder -w --ia32",
+		"buildMac32": "ng build && electron-builder -m --ia32",
+		"buildLinux64": "ng build && electron-builder -l --x64",
+		"buildWin64": "ng build && electron-builder -w --x64",
+		"buildMac64": "ng build && electron-builder -m --x64"
 	},
 	"private": true,
 	"dependencies": {
