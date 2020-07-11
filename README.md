@@ -17,7 +17,6 @@ For the features that are coming visit section [Roadmap](#Roadmap).
 
 + Taskizer is in alpha development.
 + The roadmap may change at any point in time.
-+ You have to build the app on MacOS.
 + The app was not tested on MacOs.
 
 ## How to
@@ -25,19 +24,19 @@ For the features that are coming visit section [Roadmap](#Roadmap).
 ### Install
 
 + Go to [releases](https://github.com/SimonBrandner/TaskizerDesktop/releases).
-+ Download the package for your platform.
++ Download the package for your platform. The Windows installer works both on 32 bit and 64 bit systems.
 
 ### Build
 
 + Install [Node.js](https://nodejs.org/)
-+ Run the following commands. Replace `<platform>` with `Linux` `Win` or `Mac`.
++ Run the following commands. Replace `<platform>` with `Linux` `Win` or `Mac`. Replace `<arch>` with `32`, `64` or nothing if you're building for Windows.
 
 ``` bash
 git clone https://github.com/SimonBrandner/TaskizerDesktop.git
 cd TaskizerDesktop
 npm install
 mkdir build
-npm run build<platform>
+npm run build<platform><arch>
 ```
 
 + The compiled app should be in `./build/`.
