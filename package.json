@@ -15,7 +15,8 @@
 		"appId": "com.electron.taskizer",
 		"productName": "Taskizer",
 		"icon": "./assets/icon.png",
-		"artifactName": "Taskizer-v${version}-${platform}-${arch}.${ext}",
+		"artifactName": "Taskizer-${version}-${platform}-${arch}.${ext}",
+		"publish": "always",
 		"win": {
 			"target": [
 				"nsis",

@@ -8,7 +8,7 @@ jobs:
     name: Prepare release
     runs-on: ubuntu-latest
     outputs:
-      upload_url: ${{ steps.createRelease.outputs.upload_url }}
+      upload_url: ${{ steps.prepareRelease.outputs.upload_url }}
     steps:
       - name: Create release
         id: createRelease
@@ -49,12 +49,6 @@ jobs:
           npm install
           npm run buildWin32
           npm run buildWin64
-      # Release assets
-      - name: Upload release assets
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/*
   buildAndReleaseAssetsOnLinux:
     name: Build and release assets on Linux
     needs: prepareRelease
@@ -84,13 +78,6 @@ jobs:
           npm install
           npm run buildLinux32
           npm run buildLinux64
-      # Release assets
-      #########################################################
-      - name: Upload release assets
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/*
   buildAndReleaseAssetsOnMac:
     name: Build and release assets Mac
     needs: prepareRelease
@@ -120,9 +107,3 @@ jobs:
           npm install
           npm run buildMac32
           npm run buildMac64
-      # Release assets
-      - name: Upload release assets
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/*
