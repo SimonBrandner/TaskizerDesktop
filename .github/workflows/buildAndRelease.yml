@@ -47,8 +47,7 @@ jobs:
       - name: npm install and npm run build
         run: |
           npm install
-          npm run buildWin32
-          npm run buildWin64
+          npm run buildWin
   buildAndReleaseAssetsOnLinux:
     name: Build and release assets on Linux
     needs: prepareRelease
