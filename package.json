@@ -16,6 +16,10 @@
 		"productName": "Taskizer",
 		"icon": "./assets/icon.png",
 		"artifactName": "Taskizer-${version}-${platform}-${arch}.${ext}",
+<<<<<<< HEAD
+=======
+		"publish": "always",
+>>>>>>> d9885ed769f63fab5d3553de1d768ff49a227cba
 		"win": {
 			"target": [
 				"nsis",
