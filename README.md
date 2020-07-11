@@ -17,7 +17,7 @@ For the features that are coming visit section [Roadmap](#Roadmap).
 
 + Taskizer is in alpha development.
 + The roadmap may change at any point in time.
-+ The app was not tested on MacOs.
++ The app was not tested on MacOS.
 
 ## How to
 
@@ -29,7 +29,7 @@ For the features that are coming visit section [Roadmap](#Roadmap).
 ### Build
 
 + Install [Node.js](https://nodejs.org/)
-+ Run the following commands. Replace `<platform>` with `Linux` `Win` or `Mac`. Replace `<arch>` with `32`, `64` or nothing if you're building for Windows.
++ Run the following commands. Replace `<platform>` with `Linux`, `Win` or `Mac`. If you are building for Linux or Mac replace `<arch>` with `32`, `64` or if you're building for Windows simply use `npm run buildWin`.
 
 ``` bash
 git clone https://github.com/SimonBrandner/TaskizerDesktop.git
