@@ -44,7 +44,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       # Build
-      - name: npm install and npm run
+      - name: npm install and npm run build
         run: |
           npm install
           npm run buildWin32
@@ -73,7 +73,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       # Build
-      - name: npm install and npm run
+      - name: npm install and npm run build
         run: |
           npm install
           npm run buildLinux32
@@ -102,7 +102,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       # Build on Mac
-      - name: npm install and npm run
+      - name: npm install and npm run build
         run: |
           npm install
           npm run buildMac32

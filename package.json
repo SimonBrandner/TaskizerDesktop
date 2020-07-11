@@ -16,10 +16,13 @@
 		"productName": "Taskizer",
 		"icon": "./assets/icon.png",
 		"artifactName": "Taskizer-${version}-${platform}-${arch}.${ext}",
+		"nsis": {
+			"oneClick": false,
+			"artifactName": "Taskizer-Windows-installer-${version}.${ext}"
+		},
 		"win": {
 			"target": [
-				"nsis",
-				"zip"
+				"nsis"
 			]
 		},
 		"mac": {
@@ -55,11 +58,10 @@
 		"build-angular": "ng build",
 		"run-electron": "electron . --no-sandbox",
 		"build-angular-and-run-electron": "ng build && electron . --no-sandbox",
+		"buildWin": "ng build && electron-builder -w --ia32 --x64",
 		"buildLinux32": "ng build && electron-builder -l --ia32",
-		"buildWin32": "ng build && electron-builder -w --ia32",
 		"buildMac32": "ng build && electron-builder -m --ia32",
 		"buildLinux64": "ng build && electron-builder -l --x64",
-		"buildWin64": "ng build && electron-builder -w --x64",
 		"buildMac64": "ng build && electron-builder -m --x64"
 	},
 	"private": true,
