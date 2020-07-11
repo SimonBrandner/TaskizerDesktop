@@ -1,20 +1,20 @@
 on:
   push:
     tags:
-      - "tag-v[0-9]+.*"
+      - "-v[0-9]+.*"
 name: Build and release Taskizer
 jobs:
   prepareRelease:
     name: Prepare release
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     outputs:
-      upload_url: ${{ steps.createRelease.outputs.upload_url }}
+      upload_url: ${{ steps.prepareRelease.outputs.upload_url }}
     steps:
       - name: Create release
         id: createRelease
         uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
@@ -49,12 +49,6 @@ jobs:
           npm install
           npm run buildWin32
           npm run buildWin64
-      # Release assets
-      - name: Upload release assets
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/*
   buildAndReleaseAssetsOnLinux:
     name: Build and release assets on Linux
     needs: prepareRelease
@@ -79,18 +73,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       # Build
-      - name: npm install and npm run buildLinux
+      - name: npm install and npm run
         run: |
           npm install
           npm run buildLinux32
           npm run buildLinux64
-      # Release assets
-      #########################################################
-      - name: Upload release assets
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/*
   buildAndReleaseAssetsOnMac:
     name: Build and release assets Mac
     needs: prepareRelease
@@ -115,14 +102,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       # Build on Mac
-      - name: npm install and npm run buildMac
+      - name: npm install and npm run
         run: |
           npm install
           npm run buildMac32
           npm run buildMac64
-      # Release assets
-      - name: Upload release assets
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/*
