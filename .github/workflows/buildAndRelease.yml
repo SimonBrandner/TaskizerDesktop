@@ -1,0 +1,104 @@
+on:
+  push:
+    tags:
+      - "v[0-9]+.*"
+name: Build and release Taskizer
+jobs:
+  prepareRelease:
+    name: Prepare release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.createRelease.outputs.upload_url }}
+    steps:
+      - name: Create release
+        id: createRelease
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+          prerelease: false
+  buildAndReleaseAssets:
+    name: Build and release assets
+    needs: prepareRelease
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        config:
+          - os: windows-latest
+          - os: ubuntu-latest
+          - os: macos-latest
+    steps:
+      # Setup
+      #########################################################
+      # Checkout
+      - name: Checkout code
+        uses: actions/checkout@v1
+      # Cache Node modules
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      # Setup Node
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      # Build
+      #########################################################
+      # Build on Windows
+      - name: npm install and npm run buildWin
+        if: ${{ matrix.config.os == 'windows-latest'}}
+        run: |
+          npm install
+          npm run buildWin32
+          npm run buildWin64
+      # Build on Linux
+      - name: npm install and npm run buildLinux
+        if: ${{ matrix.config.os == 'ubuntu-latest'}}
+        run: |
+          npm install
+          npm run buildLinux32
+          npm run buildLinux64
+      # Build on Mac
+      - name: npm install and npm run buildMac
+        if: ${{ matrix.config.os == 'macos-latest'}}
+        run: |
+          npm install
+          npm run buildMac32
+          npm run buildMac64
+      # Release Win assets
+      #########################################################
+      - name: Upload release asset NSIS
+        if: ${{matrix.config.os == 'windows-latest'}}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ./build/*
+      # Release Linux assets
+      #########################################################
+      - name: Upload release asset NSIS
+        if: ${{matrix.config.os == 'linux-latest'}}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ./build/*
+      # Release Mac assets
+      #########################################################
+      - name: Upload release asset NSIS
+        if: ${{matrix.config.os == 'macos-latest'}}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ./build/*
