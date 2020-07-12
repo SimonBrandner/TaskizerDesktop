@@ -52,7 +52,8 @@ function createWindow() {
 		webPreferences: {
 			nodeIntegration: true
 		},
-		autoHideMenuBar: true
+		autoHideMenuBar: true,
+		icon: path.join(__dirname, "../assets/icon.png")
 	});
 
 	window.loadURL(
