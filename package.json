@@ -63,8 +63,7 @@
 				{
 					"provider": "github"
 				}
-			],
-			"afterInstall": "./scripts/debAfterInstall.sh"
+			]
 		},
 		"rpm": {
 			"publish": [
@@ -77,8 +76,7 @@
 				{
 					"provider": "github"
 				}
-			],
-			"afterInstall": "./scripts/rpmAfterInstall.sh"
+			]
 		}
 	},
 	"scripts": {
