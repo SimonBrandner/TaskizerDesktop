@@ -16,6 +16,9 @@
 		"productName": "Taskizer",
 		"icon": "./assets/icon.png",
 		"artifactName": "Taskizer-${version}-${platform}-${arch}.${ext}",
+		"publish": {
+			"provider": "github"
+		},
 		"nsis": {
 			"oneClick": false,
 			"artifactName": "Taskizer-Windows-installer-${version}.${ext}"
@@ -49,9 +52,27 @@
 			"output": "build"
 		},
 		"deb": {
+			"publish": [
+				{
+					"provider": "bintray",
+					"package": "taskizer",
+					"repo": "simon-s-debian-repo",
+					"owner": "simonbrandner",
+					"component": "main",
+					"distribution": "default"					
+				}
+			],
 			"afterInstall": "./scripts/debAfterInstall.sh"
 		},
 		"rpm": {
+			"publish": [
+				{
+					"provider": "bintray",
+					"package": "taskizer",
+					"repo": "simon-s-rpm-repo",
+					"owner": "simonbrandner"
+				}
+			],
 			"afterInstall": "./scripts/rpmAfterInstall.sh"
 		}
 	},
