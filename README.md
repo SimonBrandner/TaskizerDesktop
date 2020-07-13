@@ -15,7 +15,7 @@ For the features that are coming visit section [Roadmap](#Roadmap).
 
 ## Warning
 
-+ Taskizer is in alpha development.
++ Taskizer is in beta development.
 + The roadmap may change at any point in time.
 + The app was not tested on MacOS.
 
@@ -23,6 +23,26 @@ For the features that are coming visit section [Roadmap](#Roadmap).
 
 ### Install
 
+#### Debian
+
+```
+sudo apt install -y curl
+sudo curl "https://bintray.com/user/downloadSubjectPublicKey?username=bintray" | sudo apt-key add
+echo "deb https://dl.bintray.com/simonbrandner/simon-s-debian-repo default main" | sudo tee -a /etc/apt/sources.list.d/simon-s-debian-repo.list
+sudo apt update
+sudo apt install taskizer
+```
+
+#### RPM
+
+```
+sudo yum install -y curl wget
+sudo curl "https://bintray.com/user/downloadSubjectPublicKey?username=bintray" | sudo rpm --import
+sudo wget https://bintray.com/simonbrandner/simon-s-rpm-repo/rpm -O /etc/yum.repos.d/bintray-simonbrandner-simon-s-rpm-repo.repo
+sudo yum install taskizer
+```
+
+#### Other
 + Go to [releases](https://github.com/SimonBrandner/TaskizerDesktop/releases).
 + Download the package for your platform. The Windows installer works both on 32 bit and 64 bit systems.
 
