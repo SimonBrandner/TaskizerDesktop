@@ -20,10 +20,12 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: true
           prerelease: false
+      - name: Setup JFrog CLI 
+        id: setupJFrogCLI
+        uses: jfrog/setup-jfrog-cli@v1
       - name: Create version 
         id: createVersion
-      - uses: jfrog/setup-jfrog-cli@v1
-      - run: jfrog bt vc simonbrandner/simon-s-debian-repo/taskizer/${{ github.ref }} --user simonbrandner --key ${{ secrets.BT_TOKEN }}
+        run: jfrog bt vc simonbrandner/simon-s-debian-repo/taskizer/${{ github.ref }} --user simonbrandner --key ${{ secrets.BT_TOKEN }}
   buildAndReleaseAssetsOnWin:
     name: Build and release assets on Win
     needs: prepareRelease
