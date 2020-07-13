@@ -15,6 +15,7 @@
 		"appId": "com.electron.taskizer",
 		"productName": "Taskizer",
 		"icon": "./assets/icons/512x512.png",
+		"artifactName": "taskizer-${version}-${platform}-${arch}.${ext}",
 		"publish": {
 			"provider": "github"
 		},
@@ -45,6 +46,7 @@
 			"desktop": {
 				"StartupWMClass": "taskizer"
 			},
+			"category": "Office;Utility",
 			"icon": "./assets/icons/"
 		},
 		"directories": {
