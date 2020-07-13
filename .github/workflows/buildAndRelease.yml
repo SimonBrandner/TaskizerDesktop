@@ -29,6 +29,7 @@ jobs:
           GITHUB_REF=${{github.ref}}
           TAG="${GITHUB_REF##*/}"
           jfrog bt vc simonbrandner/simon-s-debian-repo/taskizer/$TAG --user simonbrandner --key ${{ secrets.BT_TOKEN }}
+          jfrog bt vc simonbrandner/simon-s-rpm-repo/taskizer/$TAG --user simonbrandner --key ${{ secrets.BT_TOKEN }}
   buildAndReleaseAssetsOnWin:
     name: Build and release assets on Win
     needs: prepareRelease
