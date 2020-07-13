@@ -37,7 +37,7 @@ function createTray() {
 		}
 	]);
 
-	tray = new Tray(path.join(__dirname, "../assets/icon.png"));
+	tray = new Tray(path.join(__dirname, "../assets/icons/512x512.png"));
 	tray.setToolTip("This is Taskizer!");
 	tray.setContextMenu(trayMenu);
 	// Create the tray menu
@@ -53,7 +53,7 @@ function createWindow() {
 			nodeIntegration: true
 		},
 		autoHideMenuBar: true,
-		icon: path.join(__dirname, "../assets/icon.png")
+		icon: path.join(__dirname, "../assets/icons/512x512.png")
 	});
 
 	window.loadURL(
