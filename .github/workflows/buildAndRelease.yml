@@ -25,7 +25,10 @@ jobs:
         uses: jfrog/setup-jfrog-cli@v1
       - name: Create version 
         id: createVersion
-        run: jfrog bt vc simonbrandner/simon-s-debian-repo/taskizer/${ ${{github.ref}}##*/ } --user simonbrandner --key ${{ secrets.BT_TOKEN }}
+        run: |
+          GITHUB_REF=${{github.ref}}
+          TAG="${GITHUB_REF##*/}"
+          jfrog bt vc simonbrandner/simon-s-debian-repo/taskizer/$TAG --user simonbrandner --key ${{ secrets.BT_TOKEN }}
   buildAndReleaseAssetsOnWin:
     name: Build and release assets on Win
     needs: prepareRelease
