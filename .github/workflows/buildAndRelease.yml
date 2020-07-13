@@ -54,6 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      BINTRAY_TOKEN: ${{ secrets.BT_TOKEN }}
     steps:
       # Checkout
       - name: Checkout code
