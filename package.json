@@ -59,7 +59,10 @@
 					"repo": "simon-s-debian-repo",
 					"owner": "simonbrandner",
 					"component": "main",
-					"distribution": "default"					
+					"distribution": "default"
+				},
+				{
+					"provider": "github"
 				}
 			],
 			"afterInstall": "./scripts/debAfterInstall.sh"
@@ -71,6 +74,9 @@
 					"package": "taskizer",
 					"repo": "simon-s-rpm-repo",
 					"owner": "simonbrandner"
+				},
+				{
+					"provider": "github"
 				}
 			],
 			"afterInstall": "./scripts/rpmAfterInstall.sh"
