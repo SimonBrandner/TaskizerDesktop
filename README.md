@@ -2,6 +2,8 @@
 
 Taskizer Desktop is a desktop client for the the Taskizer App. Taskizer is task-management app. It is not dependent on any backend, therefore there is no necessity to pay for a server, thus the app can be completely free. The projects and config are saved in JSON format making them easily readable. I am planning on implementing sync using third-party cloud services like Google Drive and others.
 
+It was built using Angular and Electron.
+
 ## Features
 
 + Nested tasks
