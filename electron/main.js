@@ -287,13 +287,13 @@ autoUpdater.on("update-downloaded", () => {
 		title: "Updates available",
 		body: "Click to restart the app and install updates.",
 		icon: appIcon
-	}).show();
+	});
+	notification.show();
 	notification.on("click", () => {
+		autoUpdater.quitAndInstall();
 		quitApp();
-		app.relaunch();
 	});
 });
-
 // Auto updater
 
 // IPC events - dialogs
