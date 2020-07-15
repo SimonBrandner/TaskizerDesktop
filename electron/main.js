@@ -40,7 +40,7 @@ function createTray() {
 	]);
 
 	tray = new Tray(appIcon);
-	tray.setToolTip("Taskizer!");
+	tray.setToolTip("Taskizer");
 	tray.setContextMenu(trayMenu);
 	// Create the tray menu
 }
