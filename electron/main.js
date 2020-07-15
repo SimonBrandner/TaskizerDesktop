@@ -1,4 +1,5 @@
-const { app, BrowserWindow, Tray, Menu, ipcMain, dialog } = require("electron");
+const { app, ipcMain, dialog, BrowserWindow, Tray, Menu, Notification } = require("electron");
+const { autoUpdater } = require("electron-updater");
 const url = require("url");
 const path = require("path");
 const fs = require("fs");
@@ -19,6 +20,7 @@ let defaultConfig = {
 };
 
 let indexFilePath = "../dist/index.html";
+let appIcon = path.join(__dirname, "../assets/icons/512x512.png");
 // Global variables
 
 // Init functions
@@ -37,8 +39,8 @@ function createTray() {
 		}
 	]);
 
-	tray = new Tray(path.join(__dirname, "../assets/icons/512x512.png"));
-	tray.setToolTip("This is Taskizer!");
+	tray = new Tray(appIcon);
+	tray.setToolTip("Taskizer!");
 	tray.setContextMenu(trayMenu);
 	// Create the tray menu
 }
@@ -53,7 +55,7 @@ function createWindow() {
 			nodeIntegration: true
 		},
 		autoHideMenuBar: true,
-		icon: path.join(__dirname, "../assets/icons/512x512.png")
+		icon: appIcon
 	});
 
 	window.loadURL(
@@ -81,6 +83,12 @@ function createMenu() {
 						window.hide();
 					},
 					accelerator: "CommandOrControl+H"
+				},
+				{
+					label: "Check for updates",
+					click: () => {
+						autoUpdater.checkForUpdatesAndNotify();
+					}
 				},
 				{
 					label: "Quit app",
@@ -162,6 +170,7 @@ function appInit() {
 	createTray();
 	createMenu();
 	loadConfig();
+	autoUpdater.checkForUpdatesAndNotify();
 }
 
 function quitApp() {
@@ -268,6 +277,24 @@ function newTask() {
 	window.webContents.send("newTask");
 }
 // Menu events
+
+// Auto updater
+autoUpdater.autoDownload = true;
+autoUpdater.autoInstallOnAppQuit = true;
+autoUpdater.allowPrerelease = true;
+autoUpdater.on("update-downloaded", () => {
+	const notification = new Notification({
+		title: "Updates available",
+		body: "Click to restart the app and install updates.",
+		icon: appIcon
+	}).show();
+	notification.on("click", () => {
+		quitApp();
+		app.relaunch();
+	});
+});
+
+// Auto updater
 
 // IPC events - dialogs
 ipcMain.on("saveDialogSync", ipcMainSaveDialogSync);
