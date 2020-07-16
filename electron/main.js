@@ -5,6 +5,8 @@ const path = require("path");
 const fs = require("fs");
 const jp = require("jsonpath");
 
+const dialogs = require("./dialogs.js");
+
 // Global variables
 let window;
 let tray;
@@ -47,7 +49,7 @@ function createTray() {
 
 function createWindow() {
 	// Create the browser window and set its properties
-	window = new BrowserWindow({
+	window = global.window = new BrowserWindow({
 		width: 800,
 		height: 600,
 		title: "Taskizer",
@@ -178,28 +180,6 @@ function quitApp() {
 }
 // app functions
 
-// IPC functions - dialogs
-function ipcMainSaveDialogSync(event, options) {
-	window.webContents.send("saveDialogSyncResponse", dialog.showSaveDialogSync(window, options));
-}
-
-function ipcMainOpenDialogSync(event, options) {
-	window.webContents.send("openDialogSyncResponse", dialog.showOpenDialogSync(window, options));
-}
-
-function ipcMainSaveDialog(event, options) {
-	dialog.showSaveDialog(window, options).then((result) => {
-		window.webContents.send("saveDialogResponse", result);
-	});
-}
-
-function ipcMainOpenDialog(event, options) {
-	dialog.showOpenDialog(window, options).then((result) => {
-		window.webContents.send("openDialogResponse", result);
-	});
-}
-// IPC functions - dialogs
-
 // IPC functions - config
 function ipcMainGetConfigEvent(event, pathExpression) {
 	window.webContents.send("getConfigResponse", jp.value(config, pathExpression));
@@ -297,10 +277,10 @@ autoUpdater.on("update-downloaded", () => {
 // Auto updater
 
 // IPC events - dialogs
-ipcMain.on("saveDialogSync", ipcMainSaveDialogSync);
-ipcMain.on("openDialogSync", ipcMainOpenDialogSync);
-ipcMain.on("saveDialog", ipcMainSaveDialog);
-ipcMain.on("openDialog", ipcMainOpenDialog);
+ipcMain.on("saveDialogSync", dialogs.saveDialogSync);
+ipcMain.on("openDialogSync", dialogs.openDialogSync);
+ipcMain.on("saveDialog", dialogs.saveDialog);
+ipcMain.on("openDialog", dialogs.openDialog);
 // IPC events - dialogs
 
 // IPC events - config
