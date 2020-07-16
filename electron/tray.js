@@ -1,5 +1,7 @@
 const { Tray, Menu } = require("electron");
 
+const window = require("./window.js");
+
 // Global variables
 let tray;
 // Global variables
@@ -10,7 +12,7 @@ module.exports = {
 			{
 				label: "Toggle window",
 				type: "normal",
-				click: global.toggleWindow
+				click: window.toggleWindow
 			},
 			{
 				label: "Exit",

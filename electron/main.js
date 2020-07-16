@@ -1,5 +1,4 @@
-const { app, ipcMain, BrowserWindow } = require("electron");
-const url = require("url");
+const { app, ipcMain } = require("electron");
 const path = require("path");
 
 const dialogs = require("./dialogs.js");
@@ -8,9 +7,9 @@ const config = require("./config.js");
 const tray = require("./tray.js");
 const menu = require("./menu.js");
 const updater = require("./updater.js");
+const window = require("./window.js");
 
 // Global variables
-let window;
 let indexFilePath;
 let appIcon;
 // Global variables
@@ -21,50 +20,9 @@ function setupGlobalVariables() {
 	appIcon = global.appIcon = path.join(__dirname, "../assets/icons/512x512.png");
 }
 
-function createWindow() {
-	// Create the browser window and set its properties
-	window = global.window = new BrowserWindow({
-		width: 800,
-		height: 600,
-		title: "Taskizer",
-		webPreferences: {
-			nodeIntegration: true
-		},
-		autoHideMenuBar: true,
-		icon: appIcon
-	});
-
-	window.loadURL(
-		url.format({
-			pathname: path.join(__dirname, indexFilePath),
-			protocol: "file:",
-			slashes: true
-		})
-	);
-	// Create the browser window and set its properties
-
-	// Events
-	window.on("close", windowCloseEvent);
-	// Events
-}
-// Init functions
-
-// window events
-function windowCloseEvent(event) {
-	event.preventDefault();
-	window.hide();
-}
-// window events
-
-// window functions
-toggleWindow = global.toggleWindow = function() {
-	window.isVisible() ? window.hide() : window.show();
-};
-// window functions
-
 function appInit() {
 	setupGlobalVariables();
-	createWindow();
+	window.create();
 	updater.create();
 	updater.checkForUpdates();
 	menu.create();
@@ -73,7 +31,7 @@ function appInit() {
 }
 
 quitApp = global.quitApp = function() {
-	window.destroy();
+	global.window.destroy();
 };
 
 // app events
