@@ -6,6 +6,7 @@ const fs = require("fs");
 const jp = require("jsonpath");
 
 const dialogs = require("./dialogs.js");
+const project = require("./project.js");
 
 // Global variables
 let window;
@@ -204,38 +205,6 @@ function ipcMainDeleteProjectFromConfigEvent(event, projectId) {
 }
 // IPC functions - config
 
-// IPC functions - project
-function ipcMainGetProjectEvent(event, projectPath, pathExpression) {
-	var project = JSON.parse(fs.readFileSync(projectPath));
-	window.webContents.send("getProjectResponse", project);
-}
-function ipcMainSetProjectEvent(event, projectPath, pathExpression, value) {
-	var project = JSON.parse(fs.readFileSync(projectPath));
-	jp.value(project, pathExpression, value);
-	fs.writeFileSync(projectPath, JSON.stringify(project));
-}
-
-function ipcMainCreateNewProjectEvent(event, projectName, projectPath) {
-	if (!fs.existsSync(projectPath)) {
-		var project = {
-			name: projectName,
-			tasks: []
-		};
-		fs.writeFileSync(projectPath, JSON.stringify(project));
-	}
-}
-
-function ipcMainCopyProjectFileEvent(event, oldPath, newPath) {
-	fs.rename(oldPath, newPath, (error) => {
-		if (error) throw error;
-	});
-}
-
-function ipcMainDeleteProjectFileEvent(event, projectPath) {
-	fs.unlinkSync(projectPath);
-}
-// IPC functions - project
-
 // Config
 function saveConfig() {
 	fs.writeFileSync(configPath, JSON.stringify(config));
@@ -287,13 +256,13 @@ ipcMain.on("openDialog", dialogs.openDialog);
 ipcMain.on("getConfig", ipcMainGetConfigEvent);
 ipcMain.on("setConfig", ipcMainSetConfigEvent);
 ipcMain.on("runAQuery", ipcMainRunAQueryEvent);
+ipcMain.on("deleteProjectFromConfig", ipcMainDeleteProjectFromConfigEvent);
 // IPC events - config
 
 // IPC events - project
-ipcMain.on("getProject", ipcMainGetProjectEvent);
-ipcMain.on("setProject", ipcMainSetProjectEvent);
-ipcMain.on("createNewProject", ipcMainCreateNewProjectEvent);
-ipcMain.on("copyProjectFile", ipcMainCopyProjectFileEvent);
-ipcMain.on("deleteProjectFile", ipcMainDeleteProjectFileEvent);
-ipcMain.on("deleteProjectFromConfig", ipcMainDeleteProjectFromConfigEvent);
+ipcMain.on("getProject", project.getProject);
+ipcMain.on("setProject", project.setProject);
+ipcMain.on("createNewProject", project.createNewProject);
+ipcMain.on("copyProjectFile", project.copyProjectFile);
+ipcMain.on("deleteProjectFile", project.deleteProjectFile);
 // IPC events - project
