@@ -1,4 +1,4 @@
-const { app, ipcMain, BrowserWindow, Tray, Menu, Notification } = require("electron");
+const { app, ipcMain, BrowserWindow, Menu, Notification } = require("electron");
 const { autoUpdater } = require("electron-updater");
 const url = require("url");
 const path = require("path");
@@ -6,36 +6,19 @@ const path = require("path");
 const dialogs = require("./dialogs.js");
 const project = require("./project.js");
 const config = require("./config.js");
+const tray = require("./tray.js");
 
 // Global variables
 let window;
-let tray;
 let menu;
-
-let indexFilePath = "../dist/index.html";
-let appIcon = path.join(__dirname, "../assets/icons/512x512.png");
+let indexFilePath;
+let appIcon;
 // Global variables
 
 // Init functions
-function createTray() {
-	// Create the tray menu
-	const trayMenu = Menu.buildFromTemplate([
-		{
-			label: "Toggle window",
-			type: "normal",
-			click: toggleWindow
-		},
-		{
-			label: "Exit",
-			type: "normal",
-			click: quitApp
-		}
-	]);
-
-	tray = new Tray(appIcon);
-	tray.setToolTip("Taskizer");
-	tray.setContextMenu(trayMenu);
-	// Create the tray menu
+function setupGlobalVariables() {
+	indexFilePath = global.indexFilePath = "../dist/index.html";
+	appIcon = global.appIcon = path.join(__dirname, "../assets/icons/512x512.png");
 }
 
 function createWindow() {
@@ -135,32 +118,29 @@ function createMenu() {
 // window events
 function windowCloseEvent(event) {
 	event.preventDefault();
-	minimizeToTray();
+	window.hide();
 }
 // window events
 
 // window functions
-function toggleWindow() {
+toggleWindow = global.toggleWindow = function() {
 	window.isVisible() ? window.hide() : window.show();
-}
-
-function minimizeToTray() {
-	window.hide();
-}
+};
 // window functions
 
 // app functions
 function appInit() {
+	setupGlobalVariables();
 	createWindow();
-	createTray();
 	createMenu();
+	tray.create();
 	config.loadConfig();
 	autoUpdater.checkForUpdatesAndNotify();
 }
 
-function quitApp() {
+quitApp = global.quitApp = function() {
 	window.destroy();
-}
+};
 // app functions
 
 // app events
