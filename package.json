@@ -34,7 +34,8 @@
 				"dmg",
 				"pkg",
 				"tar.gz"
-			]
+			],
+			"icon": "./assets/icons/icon.icns"
 		},
 		"linux": {
 			"target": [
