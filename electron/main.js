@@ -1,26 +1,16 @@
-const { app, ipcMain, dialog, BrowserWindow, Tray, Menu, Notification } = require("electron");
+const { app, ipcMain, BrowserWindow, Tray, Menu, Notification } = require("electron");
 const { autoUpdater } = require("electron-updater");
 const url = require("url");
 const path = require("path");
-const fs = require("fs");
-const jp = require("jsonpath");
 
 const dialogs = require("./dialogs.js");
 const project = require("./project.js");
+const config = require("./config.js");
 
 // Global variables
 let window;
 let tray;
 let menu;
-
-let config;
-let configPath = `${app.getPath("appData")}/taskizer.cfg.json`;
-
-let defaultConfig = {
-	defaultView: "Today",
-	defaultProjectPath: "/",
-	projects: []
-};
 
 let indexFilePath = "../dist/index.html";
 let appIcon = path.join(__dirname, "../assets/icons/512x512.png");
@@ -140,14 +130,6 @@ function createMenu() {
 	]);
 	Menu.setApplicationMenu(menu);
 }
-
-function loadConfig() {
-	if (!fs.existsSync(configPath)) {
-		fs.writeFileSync(configPath, JSON.stringify(defaultConfig));
-	}
-
-	config = JSON.parse(fs.readFileSync(configPath));
-}
 // Init functions
 
 // window events
@@ -172,7 +154,7 @@ function appInit() {
 	createWindow();
 	createTray();
 	createMenu();
-	loadConfig();
+	config.loadConfig();
 	autoUpdater.checkForUpdatesAndNotify();
 }
 
@@ -180,36 +162,6 @@ function quitApp() {
 	window.destroy();
 }
 // app functions
-
-// IPC functions - config
-function ipcMainGetConfigEvent(event, pathExpression) {
-	window.webContents.send("getConfigResponse", jp.value(config, pathExpression));
-}
-
-function ipcMainSetConfigEvent(event, pathExpression, value) {
-	jp.value(config, pathExpression, value);
-	saveConfig();
-}
-
-function ipcMainRunAQueryEvent(event, pathExpression) {
-	window.webContents.send("runAQueryResponse", jp.query(config, pathExpression));
-}
-
-function ipcMainDeleteProjectFromConfigEvent(event, projectId) {
-	config["projects"].forEach((project, index) => {
-		if (project.id == projectId) {
-			config["projects"].splice(index, 1);
-		}
-	});
-	saveConfig();
-}
-// IPC functions - config
-
-// Config
-function saveConfig() {
-	fs.writeFileSync(configPath, JSON.stringify(config));
-}
-// Config
 
 // app events
 app.on("ready", appInit); // Create window on electron initialization
@@ -253,10 +205,10 @@ ipcMain.on("openDialog", dialogs.openDialog);
 // IPC events - dialogs
 
 // IPC events - config
-ipcMain.on("getConfig", ipcMainGetConfigEvent);
-ipcMain.on("setConfig", ipcMainSetConfigEvent);
-ipcMain.on("runAQuery", ipcMainRunAQueryEvent);
-ipcMain.on("deleteProjectFromConfig", ipcMainDeleteProjectFromConfigEvent);
+ipcMain.on("getConfig", config.getConfig);
+ipcMain.on("setConfig", config.setConfig);
+ipcMain.on("runAQuery", config.runAQuery);
+ipcMain.on("deleteProjectFromConfig", config.deleteProjectFromConfig);
 // IPC events - config
 
 // IPC events - project
