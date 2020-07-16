@@ -1,13 +1,9 @@
 const { Menu } = require("electron");
 const updater = require("./updater");
 
-// Global variables
-let menu;
-// Global variables
-
 module.exports = {
 	create() {
-		menu = global.menu = Menu.buildFromTemplate([
+		global.menu = Menu.buildFromTemplate([
 			{
 				label: "App",
 				submenu: [

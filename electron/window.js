@@ -23,15 +23,13 @@ module.exports = {
 			})
 		);
 
-		window.on("close", module.exports.windowCloseEvent);
+		window.on("close", (event) => {
+			event.preventDefault();
+			global.window.hide();
+		});
 	},
 
-	windowCloseEvent(event) {
-		event.preventDefault();
-		global.window.hide();
-	},
-
-	toggleWindow() {
+	toggle() {
 		global.window.isVisible() ? global.window.hide() : global.window.show();
 	}
 };

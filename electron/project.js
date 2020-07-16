@@ -2,17 +2,17 @@ const fs = require("fs");
 const jp = require("jsonpath");
 
 module.exports = {
-	getProject(event, projectPath, pathExpression) {
+	get(event, projectPath) {
 		var project = JSON.parse(fs.readFileSync(projectPath));
 		window.webContents.send("getProjectResponse", project);
 	},
-	setProject(event, projectPath, pathExpression, value) {
+	set(event, projectPath, pathExpression, value) {
 		var project = JSON.parse(fs.readFileSync(projectPath));
 		jp.value(project, pathExpression, value);
 		fs.writeFileSync(projectPath, JSON.stringify(project));
 	},
 
-	createNewProject(event, projectName, projectPath) {
+	createNew(event, projectName, projectPath) {
 		if (!fs.existsSync(projectPath)) {
 			var project = {
 				name: projectName,

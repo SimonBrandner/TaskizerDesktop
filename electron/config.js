@@ -2,7 +2,6 @@ const { app } = require("electron");
 const fs = require("fs");
 const jp = require("jsonpath");
 
-let config;
 let configPath = `${app.getPath("appData")}/taskizer.cfg.json`;
 let defaultConfig = {
 	defaultView: "Today",
@@ -11,37 +10,37 @@ let defaultConfig = {
 };
 
 module.exports = {
-	getConfig(event, pathExpression) {
-		window.webContents.send("getConfigResponse", jp.value(config, pathExpression));
+	get(event, pathExpression) {
+		window.webContents.send("getConfigResponse", jp.value(global.config, pathExpression));
 	},
 
-	setConfig(event, pathExpression, value) {
-		jp.value(config, pathExpression, value);
-		module.exports.saveConfig();
+	set(event, pathExpression, value) {
+		jp.value(global.config, pathExpression, value);
+		module.exports.save();
 	},
 
 	runAQuery(event, pathExpression) {
-		window.webContents.send("runAQueryResponse", jp.query(config, pathExpression));
+		window.webContents.send("runAQueryResponse", jp.query(global.config, pathExpression));
 	},
 
-	deleteProjectFromConfig(event, projectId) {
-		config["projects"].forEach((project, index) => {
+	deleteProject(event, projectId) {
+		global.config["projects"].forEach((project, index) => {
 			if (project.id == projectId) {
-				config["projects"].splice(index, 1);
+				global.config["projects"].splice(index, 1);
 			}
 		});
-		saveConfig();
+		module.exports.save();
 	},
 
-	saveConfig() {
+	save() {
 		fs.writeFileSync(configPath, JSON.stringify(config));
 	},
 
-	loadConfig() {
+	load() {
 		if (!fs.existsSync(configPath)) {
 			fs.writeFileSync(configPath, JSON.stringify(defaultConfig));
 		}
 
-		config = JSON.parse(fs.readFileSync(configPath));
+		global.config = JSON.parse(fs.readFileSync(configPath));
 	}
 };

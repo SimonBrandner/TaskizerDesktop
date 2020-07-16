@@ -14,16 +14,16 @@ module.exports = {
 		// IPC events - dialogs
 
 		// IPC events - config
-		ipcMain.on("getConfig", config.getConfig);
-		ipcMain.on("setConfig", config.setConfig);
+		ipcMain.on("getConfig", config.get);
+		ipcMain.on("setConfig", config.set);
 		ipcMain.on("runAQuery", config.runAQuery);
-		ipcMain.on("deleteProjectFromConfig", config.deleteProjectFromConfig);
+		ipcMain.on("deleteProjectFromConfig", config.deleteProject);
 		// IPC events - config
 
 		// IPC events - project
-		ipcMain.on("getProject", project.getProject);
-		ipcMain.on("setProject", project.setProject);
-		ipcMain.on("createNewProject", project.createNewProject);
+		ipcMain.on("getProject", project.get);
+		ipcMain.on("setProject", project.set);
+		ipcMain.on("createNewProject", project.createNew);
 		ipcMain.on("copyProjectFile", project.copyProjectFile);
 		ipcMain.on("deleteProjectFile", project.deleteProjectFile);
 		// IPC events - project
