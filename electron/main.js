@@ -1,5 +1,4 @@
-const { app, ipcMain, BrowserWindow, Menu, Notification } = require("electron");
-const { autoUpdater } = require("electron-updater");
+const { app, ipcMain, BrowserWindow } = require("electron");
 const url = require("url");
 const path = require("path");
 
@@ -7,10 +6,11 @@ const dialogs = require("./dialogs.js");
 const project = require("./project.js");
 const config = require("./config.js");
 const tray = require("./tray.js");
+const menu = require("./menu.js");
+const updater = require("./updater.js");
 
 // Global variables
 let window;
-let menu;
 let indexFilePath;
 let appIcon;
 // Global variables
@@ -47,72 +47,6 @@ function createWindow() {
 	window.on("close", windowCloseEvent);
 	// Events
 }
-
-function createMenu() {
-	menu = Menu.buildFromTemplate([
-		{
-			label: "App",
-			submenu: [
-				{
-					label: "Hide window",
-					click: () => {
-						window.hide();
-					},
-					accelerator: "CommandOrControl+H"
-				},
-				{
-					label: "Check for updates",
-					click: () => {
-						autoUpdater.checkForUpdatesAndNotify();
-					}
-				},
-				{
-					label: "Quit app",
-					click: quitApp,
-					accelerator: "CommandOrControl+Q"
-				}
-			]
-		},
-		{
-			label: "Project",
-			submenu: [
-				{
-					label: "New project",
-					click: newProject,
-					accelerator: "CommandOrControl+N"
-				},
-				{
-					label: "Import project",
-					click: importProject,
-					accelerator: "CommandOrControl+I"
-				}
-			]
-		},
-		{
-			label: "Task",
-			submenu: [
-				{
-					label: "New task",
-					click: newTask,
-					accelerator: "CommandOrControl+Shift+N"
-				}
-			]
-		},
-		{
-			label: "Advanced",
-			submenu: [
-				{
-					label: "Toggle developer tools",
-					click: () => {
-						window.webContents.toggleDevTools();
-					},
-					accelerator: "F12"
-				}
-			]
-		}
-	]);
-	Menu.setApplicationMenu(menu);
-}
 // Init functions
 
 // window events
@@ -128,54 +62,23 @@ toggleWindow = global.toggleWindow = function() {
 };
 // window functions
 
-// app functions
 function appInit() {
 	setupGlobalVariables();
 	createWindow();
-	createMenu();
+	updater.create();
+	updater.checkForUpdates();
+	menu.create();
 	tray.create();
 	config.loadConfig();
-	autoUpdater.checkForUpdatesAndNotify();
 }
 
 quitApp = global.quitApp = function() {
 	window.destroy();
 };
-// app functions
 
 // app events
 app.on("ready", appInit); // Create window on electron initialization
 // app events
-
-// Menu events
-function newProject() {
-	window.webContents.send("newProject");
-}
-function importProject() {
-	window.webContents.send("importProject");
-}
-function newTask() {
-	window.webContents.send("newTask");
-}
-// Menu events
-
-// Auto updater
-autoUpdater.autoDownload = true;
-autoUpdater.autoInstallOnAppQuit = true;
-autoUpdater.allowPrerelease = true;
-autoUpdater.on("update-downloaded", () => {
-	const notification = new Notification({
-		title: "Updates available",
-		body: "Click to restart the app and install updates.",
-		icon: appIcon
-	});
-	notification.show();
-	notification.on("click", () => {
-		autoUpdater.quitAndInstall();
-		quitApp();
-	});
-});
-// Auto updater
 
 // IPC events - dialogs
 ipcMain.on("saveDialogSync", dialogs.saveDialogSync);
