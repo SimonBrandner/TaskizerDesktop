@@ -8,7 +8,7 @@ const updater = require("./updater.js");
 const window = require("./window.js");
 const ipc = require("./ipc");
 
-global.indexFilePath = "../dist/index.html";
+global.indexFilePath = path.join(__dirname, "../dist/index.html");
 global.appIcon = path.join(__dirname, "../assets/icons/512x512.png");
 
 initApp = function() {

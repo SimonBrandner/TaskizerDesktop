@@ -1,6 +1,5 @@
 const { BrowserWindow } = require("electron");
 const url = require("url");
-const path = require("path");
 
 module.exports = {
 	create() {
@@ -15,15 +14,15 @@ module.exports = {
 			icon: appIcon
 		});
 
-		window.loadURL(
+		global.window.loadURL(
 			url.format({
-				pathname: path.join(__dirname, global.indexFilePath),
+				pathname: global.indexFilePath,
 				protocol: "file:",
 				slashes: true
 			})
 		);
 
-		window.on("close", (event) => {
+		global.window.on("close", (event) => {
 			event.preventDefault();
 			global.window.hide();
 		});
