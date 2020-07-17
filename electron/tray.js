@@ -21,5 +21,8 @@ module.exports = {
 		global.tray = new Tray(global.appIcon);
 		global.tray.setToolTip("Taskizer");
 		global.tray.setContextMenu(trayMenu);
+		global.tray.on("click", () => {
+			window.toggle();
+		});
 	}
 };
