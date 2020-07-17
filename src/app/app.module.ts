@@ -24,6 +24,7 @@ import { MatRadioModule } from "@angular/material/radio";
 import { MatTreeModule } from "@angular/material/tree";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatTabsModule } from "@angular/material/tabs";
 // Material
 
 // Material Components
@@ -94,7 +95,8 @@ import { ImportProjectMenuComponent } from "./components/import-project-menu/imp
 		NgxMatTimepickerModule,
 		ReactiveFormsModule,
 		NgxMatNativeDateModule,
-		HttpClientModule
+		HttpClientModule,
+		MatTabsModule
 	],
 	providers: [],
 	exports: [],
