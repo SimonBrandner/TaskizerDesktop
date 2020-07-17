@@ -19,7 +19,6 @@ For the features that are coming visit section [Roadmap](#Roadmap).
 
 + Taskizer is in beta development.
 + The roadmap may change at any point in time.
-+ The app was not tested on MacOS.
 
 ## How to
 
