@@ -45,7 +45,7 @@ export class ProjectService {
 	}
 
 	moveProject(id: number, oldPath: string, newPath: string): void {
-		this.ipcRenderer.send("copyProjectFile", oldPath, newPath);
+		this.ipcRenderer.send("moveProjectFile", oldPath, newPath);
 	}
 
 	changeProjectName(id: number, path: string, name: string): void {

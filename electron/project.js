@@ -22,7 +22,7 @@ module.exports = {
 		}
 	},
 
-	copyProjectFile(event, oldPath, newPath) {
+	moveProjectFile(event, oldPath, newPath) {
 		fs.rename(oldPath, newPath, (error) => {
 			if (error) throw error;
 		});
