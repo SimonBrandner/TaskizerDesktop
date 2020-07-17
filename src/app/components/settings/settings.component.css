@@ -1,15 +1,25 @@
-mat-card-content {
-	width: 100%;
+.container {
+	height: 100%;
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	flex-direction: row;
+	flex-direction: column;
 }
 
-mat-card {
-	margin-bottom: 10px;
+.tab {
+	padding: 10px;
+}
+
+mat-tab {
+	height: 100%;
 }
 
 mat-form-field {
 	width: 100%;
+}
+
+mat-dialog-content {
+	height: 100%;
+}
+
+mat-dialog-actions {
+	align-self: flex-end;
 }
