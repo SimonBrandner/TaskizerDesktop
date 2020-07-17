@@ -19,7 +19,7 @@ module.exports = {
 		]);
 
 		global.tray = new Tray(global.appIcon);
-		tray.setToolTip("Taskizer");
-		tray.setContextMenu(trayMenu);
+		global.tray.setToolTip("Taskizer");
+		global.tray.setContextMenu(trayMenu);
 	}
 };
