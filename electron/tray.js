@@ -4,6 +4,7 @@ const window = require("./window.js");
 
 module.exports = {
 	create() {
+		console.log("Creating tray.");
 		const trayMenu = Menu.buildFromTemplate([
 			{
 				label: "Toggle window",

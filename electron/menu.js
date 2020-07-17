@@ -3,6 +3,7 @@ const updater = require("./updater");
 
 module.exports = {
 	create() {
+		console.log("Creating menu.");
 		global.menu = Menu.buildFromTemplate([
 			{
 				label: "App",
@@ -10,6 +11,7 @@ module.exports = {
 					{
 						label: "Hide window",
 						click: () => {
+							console.log("Hiding window.");
 							window.hide();
 						},
 						accelerator: "CommandOrControl+H"
@@ -56,6 +58,7 @@ module.exports = {
 					{
 						label: "Toggle developer tools",
 						click: () => {
+							console.log("Toggling developer tools.");
 							window.webContents.toggleDevTools();
 						},
 						accelerator: "F12"
@@ -67,14 +70,17 @@ module.exports = {
 	},
 
 	newProject() {
+		console.log("New project button clicked.");
 		global.window.webContents.send("newProject");
 	},
 
 	importProject() {
+		console.log("Import project button clicked.");
 		global.window.webContents.send("importProject");
 	},
 
 	newTask() {
+		console.log("New task button clicked.");
 		global.window.webContents.send("newTask");
 	}
 };

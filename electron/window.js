@@ -3,6 +3,7 @@ const url = require("url");
 
 module.exports = {
 	create() {
+		console.log("Creating window.");
 		global.window = new BrowserWindow({
 			width: 800,
 			height: 600,
@@ -23,6 +24,7 @@ module.exports = {
 		);
 
 		global.window.on("close", (event) => {
+			console.log("Closing window.");
 			event.preventDefault();
 			global.window.hide();
 		});

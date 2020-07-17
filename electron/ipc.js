@@ -6,6 +6,8 @@ const config = require("./config.js");
 
 module.exports = {
 	create() {
+		console.log("Creating ipc.");
+
 		// IPC events - dialogs
 		ipcMain.on("saveDialogSync", dialogs.saveDialogSync);
 		ipcMain.on("openDialogSync", dialogs.openDialogSync);

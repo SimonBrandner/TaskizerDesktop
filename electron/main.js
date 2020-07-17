@@ -12,6 +12,7 @@ global.indexFilePath = path.join(__dirname, "../dist/index.html");
 global.appIcon = path.join(__dirname, "../assets/icons/512x512.png");
 
 initApp = function() {
+	console.log("Running init.");
 	ipc.create();
 	window.create();
 	updater.create();
@@ -21,6 +22,7 @@ initApp = function() {
 	updater.checkForUpdates();
 };
 global.quitApp = function() {
+	console.log("Quitting app.");
 	global.window.destroy();
 };
 
