@@ -4,7 +4,7 @@ import { ConfigService } from "../../services/config.service";
 import { DialogService } from "../../services/dialog.service";
 
 @Component({
-	selector: "app-settings",
+	selector: "settings",
 	templateUrl: "./settings.component.html",
 	styleUrls: [
 		"./settings.component.css"
