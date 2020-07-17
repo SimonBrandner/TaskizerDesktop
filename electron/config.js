@@ -33,7 +33,7 @@ module.exports = {
 	},
 
 	save() {
-		fs.writeFileSync(configPath, JSON.stringify(config));
+		fs.writeFileSync(configPath, JSON.stringify(global.config));
 	},
 
 	load() {
