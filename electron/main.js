@@ -15,10 +15,10 @@ initApp = function() {
 	ipc.create();
 	window.create();
 	updater.create();
-	updater.checkForUpdates();
 	menu.create();
 	tray.create();
 	config.load();
+	updater.checkForUpdates();
 };
 global.quitApp = function() {
 	global.window.destroy();
