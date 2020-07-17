@@ -18,7 +18,7 @@ module.exports = {
 			notification.show();
 			notification.on("click", () => {
 				autoUpdater.quitAndInstall();
-				quitApp();
+				global.quitApp();
 			});
 		});
 	}
