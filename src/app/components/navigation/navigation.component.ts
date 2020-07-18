@@ -1,7 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, HostListener } from "@angular/core";
 import { BreakpointObserver, Breakpoints, BreakpointState } from "@angular/cdk/layout";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { Observable } from "rxjs";
+import { Observable, Subject, BehaviorSubject } from "rxjs";
 import { ConfigService } from "../../services/config.service";
 import { ProjectService } from "../../services/project.service";
 import { SettingsComponent } from "../settings/settings.component";
@@ -27,7 +27,12 @@ export class NavigationComponent implements OnInit {
 		});
 	}
 
-	ngOnInit() {}
+	ngOnInit() {
+		this.windowSize.next([
+			window.innerWidth,
+			window.innerHeight
+		]);
+	}
 
 	drop(event: CdkDragDrop<string[]>): void {
 		console.log("Project dropped.");
@@ -39,7 +44,10 @@ export class NavigationComponent implements OnInit {
 
 	settingsButtonClicked(): void {
 		console.log("Settings button clicked.");
-		this.dialog.open(SettingsComponent, { height: "500px", width: "500px" });
+		var dio = this.dialog.open(SettingsComponent);
+		this.windowSize.subscribe((data) => {
+			dio.updateSize((data[0] - 500).toString() + "px", (data[1] - 250).toString() + "px");
+		});
 	}
 
 	addProjectEvent($event): void {
@@ -90,8 +98,20 @@ export class NavigationComponent implements OnInit {
 		console.log("selectedProjectId has been set.");
 	}
 
+	@HostListener("window:resize", [
+		"$event"
+	])
+	onResize(event) {
+		this.windowSize.next([
+			event.target.innerWidth,
+			event.target.innerHeight
+		]);
+	}
+
 	isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.Handset);
 	projects = [];
 	defaultView: string;
 	selectedProjectId: number;
+
+	windowSize: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
 }
