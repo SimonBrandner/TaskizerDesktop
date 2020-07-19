@@ -25,6 +25,7 @@ import { MatTreeModule } from "@angular/material/tree";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatTabsModule } from "@angular/material/tabs";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 // Material
 
 // Material Components
@@ -96,7 +97,8 @@ import { ImportProjectMenuComponent } from "./components/import-project-menu/imp
 		ReactiveFormsModule,
 		NgxMatNativeDateModule,
 		HttpClientModule,
-		MatTabsModule
+		MatTabsModule,
+		MatAutocompleteModule
 	],
 	providers: [],
 	exports: [],
