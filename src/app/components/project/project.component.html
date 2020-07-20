@@ -11,23 +11,32 @@
 				{{task.name}}
 			</mat-checkbox>
 			<div class="task-left">
-				<div style="color: red;" *ngIf="generateDateOutput(task.date) == 'today'"> Today at
+				<div style="color: red;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'today'"> Today
+					at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div style="color: green;" *ngIf="generateDateOutput(task.date) == 'tomorrow'"> Tomorrow at
+				<div style="color: green;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'tomorrow'">
+					Tomorrow at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div style="color: blue;" *ngIf="generateDateOutput(task.date) == 'sunday'"> On Sunday at
+				<div style="color: blue;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'sunday'"> On
+					Sunday at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div style="color: blue;" *ngIf="generateDateOutput(task.date) == 'monday'"> On Monday at
+				<div style="color: blue;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'monday'"> On
+					Monday at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div style="color: blue;" *ngIf="generateDateOutput(task.date) == 'tuesday'"> On Tuesday at
+				<div style="color: blue;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'tuesday'"> On
+					Tuesday at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div style="color: blue;" *ngIf="generateDateOutput(task.date) == 'thursday'"> On Thursday at
+				<div style="color: blue;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'thursday'">
+					On Thursday at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div style="color: blue;" *ngIf="generateDateOutput(task.date) == 'friday'"> On Friday at
+				<div style="color: blue;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'friday'"> On
+					Friday at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div style="color: blue;" *ngIf="generateDateOutput(task.date) == 'saturday'"> On Saturday at
+				<div style="color: blue;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'saturday'">
+					On Saturday at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div *ngIf="generateDateOutput(task.date) == 'default'"> {{task.date.toLocaleString()}} </div>
+				<div *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'default'">
+					{{task.date.toLocaleString()}} </div>
 
 
 				<button (click)="editTask(task)" mat-icon-button [attr.aria-label]="'Edit ' + task.name">
@@ -54,23 +63,32 @@
 				{{task.name}}
 			</mat-checkbox>
 			<div class="task-left">
-				<div style="color: red;" *ngIf="generateDateOutput(task.date) == 'today'"> Today at
+				<div style="color: red;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'today'"> Today
+					at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div style="color: green;" *ngIf="generateDateOutput(task.date) == 'tomorrow'"> Tomorrow at
+				<div style="color: green;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'tomorrow'">
+					Tomorrow at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div style="color: blue;" *ngIf="generateDateOutput(task.date) == 'sunday'"> On Sunday at
+				<div style="color: blue;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'sunday'"> On
+					Sunday at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div style="color: blue;" *ngIf="generateDateOutput(task.date) == 'monday'"> On Monday at
+				<div style="color: blue;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'monday'"> On
+					Monday at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div style="color: blue;" *ngIf="generateDateOutput(task.date) == 'tuesday'"> On Tuesday at
+				<div style="color: blue;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'tuesday'"> On
+					Tuesday at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div style="color: blue;" *ngIf="generateDateOutput(task.date) == 'thursday'"> On Thursday at
+				<div style="color: blue;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'thursday'">
+					On Thursday at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div style="color: blue;" *ngIf="generateDateOutput(task.date) == 'friday'"> On Friday at
+				<div style="color: blue;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'friday'"> On
+					Friday at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div style="color: blue;" *ngIf="generateDateOutput(task.date) == 'saturday'"> On Saturday at
+				<div style="color: blue;" *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'saturday'">
+					On Saturday at
 					{{task.date.toLocaleTimeString()}}</div>
-				<div *ngIf="generateDateOutput(task.date) == 'default'"> {{task.date.toLocaleString()}} </div>
+				<div *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'default'">
+					{{task.date.toLocaleString()}} </div>
 
 				<button (click)="editTask(task)" mat-icon-button [attr.aria-label]="'Edit ' + task.name">
 					<mat-icon> edit </mat-icon>

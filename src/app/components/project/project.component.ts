@@ -13,6 +13,7 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { TaskService } from "../../services/task.service";
 import { TaskMenuComponent } from "../task-menu/task-menu.component";
 import { MatDialog } from "@angular/material/dialog";
+import { DateHandlerService } from "../../services/date-handler.service";
 
 @Component({
 	selector: "app-project",
@@ -28,6 +29,7 @@ export class ProjectComponent implements OnInit {
 		private projectService: ProjectService,
 		private algorithmsService: AlgorithmsService,
 		private taskService: TaskService,
+		public dateHandlerService: DateHandlerService,
 		public dialog: MatDialog
 	) {
 		this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel, this.isExpandable, this.getChildren);
@@ -72,6 +74,7 @@ export class ProjectComponent implements OnInit {
 		flatTask.expandable = task.tasks && task.tasks.length > 0;
 		flatTask.isExpanded = task.isExpanded;
 		flatTask.date = task.date;
+		flatTask.repeat = task.repeat;
 		this.flatTaskMap.set(flatTask, task);
 		this.nestedTaskMap.set(task, flatTask);
 		return flatTask;
@@ -198,74 +201,6 @@ export class ProjectComponent implements OnInit {
 				default:
 					return "drop-center";
 			}
-		}
-	}
-
-	generateDateOutput(input: Date): string {
-		var weekDays: string[] = [
-			"sunday",
-			"monday",
-			"tuesday",
-			"wednesday",
-			"thursday",
-			"friday",
-			"saturday"
-		];
-		var currentDate: Date = new Date();
-
-		if (input == undefined) {
-			return "empty";
-		}
-		else if (
-			input.getMonth() == currentDate.getMonth() &&
-			input.getFullYear() == currentDate.getFullYear() &&
-			input.getDate() == currentDate.getDate()
-		) {
-			return "today";
-		}
-		else if (
-			new Date(input.getFullYear(), input.getMonth(), input.getDate(), 0, 0, 0, 0).getTime() -
-				new Date(
-					currentDate.getFullYear(),
-					currentDate.getMonth(),
-					currentDate.getDate(),
-					0,
-					0,
-					0,
-					0
-				).getTime() ==
-			1000 * 60 * 60 * 24
-		) {
-			return "tomorrow";
-		}
-		else if (
-			new Date(input.getFullYear(), input.getMonth(), input.getDate(), 0, 0, 0, 0).getTime() -
-				new Date(
-					currentDate.getFullYear(),
-					currentDate.getMonth(),
-					currentDate.getDate(),
-					0,
-					0,
-					0,
-					0
-				).getTime() >
-				0 &&
-			new Date(input.getFullYear(), input.getMonth(), input.getDate(), 0, 0, 0, 0).getTime() -
-				new Date(
-					currentDate.getFullYear(),
-					currentDate.getMonth(),
-					currentDate.getDate(),
-					0,
-					0,
-					0,
-					0
-				).getTime() <
-				1000 * 60 * 60 * 24 * 7
-		) {
-			return weekDays[input.getDay().toString()];
-		}
-		else {
-			return "default";
 		}
 	}
 
