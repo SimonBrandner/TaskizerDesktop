@@ -38,9 +38,11 @@
 				<div *ngIf="this.dateHandlerService.generateDateOutput(task.date) == 'default'">
 					{{task.date.toLocaleString()}} </div>
 
-
 				<button (click)="editTask(task)" mat-icon-button [attr.aria-label]="'Edit ' + task.name">
 					<mat-icon> edit </mat-icon>
+				</button>
+				<button (click)="deleteTask(task)" mat-icon-button [attr.aria-label]="'Delete ' + task.name">
+					<mat-icon> delete </mat-icon>
 				</button>
 			</div>
 		</div>
@@ -92,6 +94,9 @@
 
 				<button (click)="editTask(task)" mat-icon-button [attr.aria-label]="'Edit ' + task.name">
 					<mat-icon> edit </mat-icon>
+				</button>
+				<button (click)="deleteTask(task)" mat-icon-button [attr.aria-label]="'Delete ' + task.name">
+					<mat-icon> delete </mat-icon>
 				</button>
 			</div>
 		</div>
