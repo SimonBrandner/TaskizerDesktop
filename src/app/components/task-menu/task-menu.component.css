@@ -1,9 +1,15 @@
-.mat-card-content-local {
-	width: 100%;
+.repeat-main {
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
 	flex-direction: row;
+	--horizontal-distance-between-form-fields: 8px;
+}
+
+.unit-form-field {
+	margin-left: var(--horizontal-distance-between-form-fields);
+}
+
+.ordinal-form-field {
+	margin-right: var(--horizontal-distance-between-form-fields);
 }
 
 mat-card {

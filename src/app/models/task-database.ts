@@ -26,7 +26,13 @@ export class TaskDatabase {
 				name: element["name"],
 				tasks: subtasks,
 				isExpanded: element["isExpanded"],
-				date: new Date(element["date"])
+				date: new Date(element["date"]),
+				repeat: {
+					preset: element["repeat"]["preset"],
+					ordinal: element["repeat"]["ordinal"],
+					unit: element["repeat"]["unit"],
+					category: element["repeat"]["category"]
+				}
 			});
 		});
 
@@ -47,7 +53,13 @@ export class TaskDatabase {
 				subtasks = this.buildProjectJSON(element.tasks);
 			}
 
-			output.push({ name: element.name, tasks: subtasks, isExpanded: element.isExpanded, date: element.date });
+			output.push({
+				name: element.name,
+				tasks: subtasks,
+				isExpanded: element.isExpanded,
+				date: element.date,
+				repeat: element.repeat
+			});
 		});
 
 		return output;

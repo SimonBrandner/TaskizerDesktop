@@ -51,4 +51,13 @@ export class AlgorithmsService {
 			return [];
 		}
 	}
+
+	getArrayElementWithOverflowHandling(array: Array<any>, index: number): any {
+		if (index > array.length - 1) {
+			return array[index - array.length];
+		}
+		else {
+			return array[index];
+		}
+	}
 }

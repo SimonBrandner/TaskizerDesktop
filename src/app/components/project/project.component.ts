@@ -107,9 +107,22 @@ export class ProjectComponent implements OnInit {
 		this.database.deleteTask(this.flatTaskMap.get(task));
 	}
 
-	taskStatusChanged(task: FlatTaskNode) {
+	taskStatusChanged(event, task: FlatTaskNode) {
 		setTimeout(() => {
-			this.deleteTask(task);
+			if (
+				task.repeat.ordinal == undefined &&
+				task.repeat.preset == undefined &&
+				task.repeat.unit == undefined &&
+				task.repeat.category == undefined
+			) {
+				this.deleteTask(task);
+			}
+			else {
+				console.log("Handling repetition of task " + task.name);
+				this.dateHandlerService.handleRepeatedTaskDeletion(task);
+				this.database.updateDatabase();
+				event.source.checked = false;
+			}
 		}, 500);
 	}
 

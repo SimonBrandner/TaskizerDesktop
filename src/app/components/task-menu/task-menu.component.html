@@ -2,15 +2,12 @@
 <mat-dialog-content>
 	<form ngNativeValidate #form="ngForm" (keydown.control.enter)="form.valid && saveButtonClicked()">
 		<mat-card>
+			<mat-card-title>General</mat-card-title>
 			<mat-card-content>
 				<mat-form-field>
 					<input matInput name="taskNameInput" [(ngModel)]="data.name" required>
 					<mat-label> Task name </mat-label>
 				</mat-form-field>
-			</mat-card-content>
-		</mat-card>
-		<mat-card>
-			<mat-card-content>
 				<mat-form-field>
 					<input matInput name="taskDateInput" readonly="true" [ngxMatDatetimePicker]="picker"
 						placeholder="Choose a deadline" [(ngModel)]="data.date">
@@ -24,9 +21,46 @@
 				</mat-form-field>
 			</mat-card-content>
 		</mat-card>
+		<mat-card>
+			<mat-card-title>Repeat</mat-card-title>
+			<mat-card-content>
+				<mat-form-field>
+					<mat-select name="taskRepeatPresetInput" placeholder="Select a preset"
+						[(ngModel)]="data.repeat.preset" (change)="presetSelectionChanged()">
+						<mat-option value="none"> None </mat-option>
+						<mat-option value="custom"> Custom </mat-option>
+					</mat-select>
+					<mat-label> Repeat preset </mat-label>
+				</mat-form-field>
+				<div class="repeat-main" *ngIf="data.repeat.preset=='custom'">
+					<mat-form-field class="ordinal-form-field">
+						<input matInput type="number" min="1" name="taskOrdinalInput" placeholder="Choose a unit"
+							[(ngModel)]="data.repeat.ordinal">
+						<mat-label> Ordinal </mat-label>
+					</mat-form-field>
+					<mat-form-field class="unit-form-field">
+						<mat-select name="taskUnitSelect" [multiple]="true" placeholder="Choose a unit"
+							[multiple]="true" [(ngModel)]="unitInput">
+							<mat-option>
+								<ngx-mat-select-search type="text" placeholderLabel="Search"
+									noEntriesFoundLabel="Nothing found" [formControl]="unitCategoriesFilterControl"
+									(ngModelChange)="unitSelectionChanged()">
+								</ngx-mat-select-search>
+							</mat-option>
+							<mat-optgroup *ngFor="let category of filteredUnits | async" [label]="category.name">
+								<mat-option *ngFor="let unit of category.units" [value]=" unit.id">
+									{{unit.name}}
+								</mat-option>
+							</mat-optgroup>
+						</mat-select>
+						<mat-label> Unit </mat-label>
+					</mat-form-field>
+				</div>
+			</mat-card-content>
+		</mat-card>
 	</form>
 </mat-dialog-content>
-<mat-dialog-actions align=" end">
+<mat-dialog-actions align="end">
 	<button mat-button [mat-dialog-close]="null"> Cancel </button>
 	<button mat-button type="submit" [disabled]="form.invalid" (click)="saveButtonClicked()"> Save
 	</button>
