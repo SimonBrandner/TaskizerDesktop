@@ -58,6 +58,7 @@ import { ImportProjectMenuComponent } from "./components/import-project-menu/imp
 // Components
 
 // Directives
+import { UnitValidatorDirective } from "./directives/unit-validator.directive";
 import { OrdinalValidatorDirective } from "./directives/ordinal-validator.directive";
 // Directives
 
@@ -74,6 +75,7 @@ import { OrdinalValidatorDirective } from "./directives/ordinal-validator.direct
 		ConfirmComponent,
 		TaskMenuComponent,
 		ImportProjectMenuComponent,
+		UnitValidatorDirective,
 		OrdinalValidatorDirective
 	],
 	imports: [
@@ -109,6 +111,11 @@ import { OrdinalValidatorDirective } from "./directives/ordinal-validator.direct
 		NgxMatSelectSearchModule
 	],
 	providers: [
+		{
+			provide: NG_VALIDATORS,
+			useExisting: UnitValidatorDirective,
+			multi: true
+		},
 		{
 			provide: NG_VALIDATORS,
 			useExisting: OrdinalValidatorDirective,

@@ -45,7 +45,8 @@
 					</mat-form-field>
 					<mat-form-field class="unit-form-field">
 						<mat-select name="taskUnitSelect" [multiple]="true" placeholder="Choose a unit"
-							[multiple]="true" [(ngModel)]="unitInput">
+							[multiple]="true" [(ngModel)]="unitInput" required unitValidatorDirective
+							#taskUnitNgModel="ngModel">
 							<mat-option>
 								<ngx-mat-select-search type="text" placeholderLabel="Search"
 									noEntriesFoundLabel="Nothing found" [formControl]="unitCategoriesFilterControl"
@@ -58,6 +59,14 @@
 								</mat-option>
 							</mat-optgroup>
 						</mat-select>
+						<mat-error *ngIf="taskUnitNgModel.errors && taskUnitNgModel.errors.moreThanOneCategory"
+							class="alert alert-danger">
+							Only one category can be selected
+						</mat-error>
+						<mat-error *ngIf="taskUnitNgModel.errors && taskUnitNgModel.errors.moreThanOneUnitCategories"
+							class="alert alert-danger">
+							Only one unit in Units category can be selected
+						</mat-error>
 						<mat-label> Unit </mat-label>
 					</mat-form-field>
 				</div>
