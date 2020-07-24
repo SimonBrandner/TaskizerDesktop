@@ -58,6 +58,7 @@ export class DateHandlerService {
 
 	handleRepeatedTaskDeletion(task: FlatTaskNode) {
 		var currentDateDay = task.date.getDay();
+		var currentDateMonth = task.date.getMonth();
 
 		if (task.repeat.category == "days") {
 			if (task.repeat.unit.indexOf(currentDateDay) == task.repeat.unit.length - 1) {
@@ -75,14 +76,14 @@ export class DateHandlerService {
 			);
 		}
 		else if (task.repeat.category == "months") {
-			if (task.repeat.unit.indexOf(currentDateDay) == task.repeat.unit.length - 1) {
+			if (task.repeat.unit.indexOf(currentDateMonth) == task.repeat.unit.length - 1) {
 				task.date.setFullYear(task.date.getFullYear() + 1 * task.repeat.ordinal);
 			}
 
 			task.date.setMonth(
 				this.algorithmsService.getArrayElementWithOverflowHandling(
 					task.repeat.unit,
-					task.repeat.unit.indexOf(currentDateDay) + 1
+					task.repeat.unit.indexOf(currentDateMonth) + 1
 				)
 			);
 		}
