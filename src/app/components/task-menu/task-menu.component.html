@@ -35,7 +35,12 @@
 				<div class="repeat-main" *ngIf="data.repeat.preset=='custom'">
 					<mat-form-field class="ordinal-form-field">
 						<input matInput type="number" min="1" name="taskOrdinalInput" placeholder="Choose a unit"
-							[(ngModel)]="data.repeat.ordinal">
+							[(ngModel)]="data.repeat.ordinal" required ordinalValidatorDirective
+							#taskOrdinalNgModel="ngModel">
+						<mat-error *ngIf="taskOrdinalNgModel.errors && taskOrdinalNgModel.errors.ordinalTooSmall"
+							class="alert alert-danger">
+							Ordinal must be higher than 0
+						</mat-error>
 						<mat-label> Ordinal </mat-label>
 					</mat-form-field>
 					<mat-form-field class="unit-form-field">

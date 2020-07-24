@@ -4,6 +4,7 @@ import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
+import { NG_VALIDATORS } from "@angular/forms";
 // Angular
 
 // Material
@@ -56,6 +57,10 @@ import { MatNativeDateModule } from "@angular/material/core";
 import { ImportProjectMenuComponent } from "./components/import-project-menu/import-project-menu.component";
 // Components
 
+// Directives
+import { OrdinalValidatorDirective } from "./directives/ordinal-validator.directive";
+// Directives
+
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -68,7 +73,8 @@ import { ImportProjectMenuComponent } from "./components/import-project-menu/imp
 		ProjectMenuComponent,
 		ConfirmComponent,
 		TaskMenuComponent,
-		ImportProjectMenuComponent
+		ImportProjectMenuComponent,
+		OrdinalValidatorDirective
 	],
 	imports: [
 		BrowserModule,
@@ -102,7 +108,13 @@ import { ImportProjectMenuComponent } from "./components/import-project-menu/imp
 		MatAutocompleteModule,
 		NgxMatSelectSearchModule
 	],
-	providers: [],
+	providers: [
+		{
+			provide: NG_VALIDATORS,
+			useExisting: OrdinalValidatorDirective,
+			multi: true
+		}
+	],
 	exports: [],
 	bootstrap: [
 		AppComponent
