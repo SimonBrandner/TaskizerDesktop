@@ -14,6 +14,9 @@ import { element } from "protractor";
 })
 export class UnitValidatorDirective implements Validator {
 	validate(control: AbstractControl): { [key: string]: any } | null {
+		if (!control.value || !control.value.length) {
+			return null;
+		}
 		var categories: Array<string> = [];
 		var numberOfUnitCategories: number = 0;
 		var numberOfDayCategories: number = 0;
