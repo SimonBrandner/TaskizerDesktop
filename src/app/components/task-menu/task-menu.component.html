@@ -10,7 +10,7 @@
 				</mat-form-field>
 				<mat-form-field>
 					<input matInput name="taskDateInput" readonly="true" [ngxMatDatetimePicker]="picker"
-						placeholder="Choose a deadline" [(ngModel)]="data.date">
+						placeholder="Choose a deadline" [(ngModel)]="data.date" (ngModelChange)="deadlineChanged()">
 					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 					<button mat-icon-button matSuffix (click)="clearDateInput()">
 						<mat-icon> clear </mat-icon>
@@ -26,7 +26,7 @@
 			<mat-card-content>
 				<mat-form-field>
 					<mat-select name="taskRepeatPresetInput" placeholder="Select a preset"
-						[(ngModel)]="data.repeat.preset" (change)="presetSelectionChanged()">
+						[(ngModel)]="data.repeat.preset" (ngModelChange)="presetSelectionChanged()">
 						<mat-option value="none"> None </mat-option>
 						<mat-option value="custom"> Custom </mat-option>
 					</mat-select>
@@ -46,11 +46,10 @@
 					<mat-form-field class="unit-form-field">
 						<mat-select name="taskUnitSelect" [multiple]="true" placeholder="Choose a unit"
 							[multiple]="true" [(ngModel)]="unitInput" required unitValidatorDirective
-							#taskUnitNgModel="ngModel">
+							#taskUnitNgModel="ngModel" (ngModelChange)="unitSelectionChanged()">
 							<mat-option>
 								<ngx-mat-select-search type="text" placeholderLabel="Search"
-									noEntriesFoundLabel="Nothing found" [formControl]="unitCategoriesFilterControl"
-									(ngModelChange)="unitSelectionChanged()">
+									noEntriesFoundLabel="Nothing found" [formControl]="unitCategoriesFilterControl">
 								</ngx-mat-select-search>
 							</mat-option>
 							<mat-optgroup *ngFor="let category of filteredUnits | async" [label]="category.name">

@@ -7,6 +7,7 @@ import { TaskNode } from "src/app/models/task-node";
 import { FormControl } from "@angular/forms";
 import { ReplaySubject, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
+import { DateHandlerService } from "src/app/services/date-handler.service";
 
 @Component({
 	selector: "task-menu",
@@ -21,6 +22,7 @@ export class TaskMenuComponent implements OnInit, OnDestroy {
 		private dialogService: DialogService,
 		private projectService: ProjectService,
 		private configService: ConfigService,
+		private dateHandlerService: DateHandlerService,
 		@Inject(MAT_DIALOG_DATA) public data: TaskNode,
 		public dialog: MatDialog
 	) {
@@ -51,26 +53,43 @@ export class TaskMenuComponent implements OnInit, OnDestroy {
 		console.log("Clear date input button clicked.");
 		this.data.date = undefined;
 		this.data.repeat.ordinal = undefined;
-		this.data.repeat.unit = undefined;
+		this.data.repeat.unit = [];
 		this.data.repeat.category = undefined;
 		this.data.repeat.preset = "none";
-		this.unitInput = undefined;
+		this.unitInput = [];
+	}
+
+	deadlineChanged() {
+		this.data.repeat.ordinal = undefined;
+		this.data.repeat.unit = [];
+		this.data.repeat.category = undefined;
+		this.unitInput = [];
+		this.data.repeat.preset = "none";
 	}
 
 	presetSelectionChanged() {
 		if (this.data.repeat.preset == "none") {
 			this.data.repeat.ordinal = undefined;
-			this.data.repeat.unit = undefined;
+			this.data.repeat.unit = [];
 			this.data.repeat.category = undefined;
-			this.unitInput = undefined;
+			this.unitInput = [];
 		}
 	}
 
 	unitSelectionChanged() {
+		if (!this.unitInput || !this.unitInput.length) {
+			return;
+		}
 		this.data.repeat.category = this.unitInput[0].slice(0, this.unitInput[0].indexOf("."));
 		this.unitInput.forEach((element, index) => {
 			this.data.repeat.unit[index] = +element.slice(element.indexOf(".") + 1, element.length);
 		});
+
+		this.data.date = this.dateHandlerService.getDateBasedOnRepeatRules(
+			this.data.repeat.unit,
+			this.data.repeat.category,
+			this.data.date
+		);
 	}
 
 	filterUnitCategories() {
