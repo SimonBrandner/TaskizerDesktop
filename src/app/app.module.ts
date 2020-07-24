@@ -28,6 +28,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
+import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 // Material
 
 // Material Components
@@ -108,7 +109,8 @@ import { OrdinalValidatorDirective } from "./directives/ordinal-validator.direct
 		HttpClientModule,
 		MatTabsModule,
 		MatAutocompleteModule,
-		NgxMatSelectSearchModule
+		NgxMatSelectSearchModule,
+		MatSnackBarModule
 	],
 	providers: [
 		{

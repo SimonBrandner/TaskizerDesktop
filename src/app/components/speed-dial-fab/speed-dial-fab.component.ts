@@ -8,6 +8,8 @@ import { TaskService } from "../../services/task.service";
 import { TaskNode } from "src/app/models/task-node";
 import { ImportProjectMenuComponent } from "../import-project-menu/import-project-menu.component";
 import { MenuService } from "../../services/menu.service";
+import { Router } from "@angular/router";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
 	selector: "speed-dial-fab",
@@ -23,7 +25,9 @@ export class SpeedDialFabComponent implements OnInit {
 		private configService: ConfigService,
 		private taskService: TaskService,
 		private menuService: MenuService,
-		private zone: NgZone
+		private zone: NgZone,
+		private router: Router,
+		private snackBar: MatSnackBar
 	) {}
 
 	ngOnInit(): void {
@@ -85,6 +89,16 @@ export class SpeedDialFabComponent implements OnInit {
 
 	addTask(): void {
 		console.log("Add task button clicked.");
+		if (
+			this.router.url.slice(1, this.router.url.length).slice(0, this.router.url.indexOf("/", 1) - 1) != "project"
+		) {
+			console.log("No project selected.");
+			this.snackBar.open("Task can not be crated because no project is selected!", undefined, {
+				duration: 3000
+			});
+			return;
+		}
+		console.log();
 		const dialogRef = this.dialog.open(TaskMenuComponent, {
 			data: {
 				name: "New task",
