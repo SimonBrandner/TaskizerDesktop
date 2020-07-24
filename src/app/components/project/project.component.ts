@@ -14,6 +14,7 @@ import { TaskService } from "../../services/task.service";
 import { TaskMenuComponent } from "../task-menu/task-menu.component";
 import { MatDialog } from "@angular/material/dialog";
 import { DateHandlerService } from "../../services/date-handler.service";
+import { ConfirmComponent } from "../confirm/confirm.component";
 
 @Component({
 	selector: "app-project",
@@ -98,6 +99,19 @@ export class ProjectComponent implements OnInit {
 			else {
 				this.database.updateDatabase();
 				console.log("Edits were made to task + " + result.name);
+			}
+		});
+	}
+
+	deleteTaskButtonClicked(task: FlatTaskNode) {
+		console.log("Delete task button clicked.");
+		const dialogRef = this.dialog.open(ConfirmComponent, {
+			data: "you want to delete this task?"
+		});
+		console.log("Open ConfirmComponent dialog.");
+		dialogRef.afterClosed().subscribe((result) => {
+			if (result == true) {
+				this.deleteTask(task);
 			}
 		});
 	}
