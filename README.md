@@ -12,6 +12,7 @@ It was built using Angular and Electron.
 + System tray icon
 + Deadlines
 + Keyboard shortcuts
++ Repeated tasks
 
 For the features that are coming visit section [Roadmap](#Roadmap).
 
