@@ -14,27 +14,23 @@
 		<mat-icon aria-label="Settings icon">settings</mat-icon>
 	</button>
 </mat-toolbar>
+
 <mat-sidenav-container>
 	<mat-sidenav #sidenavDrawer [mode]="(isHandset | async)!.matches ? 'over' : 'side'"
 		[opened]="!(isHandset | async)!.matches" fixedInViewport="false">
 		<mat-nav-list>
-			<mat-expansion-panel [expanded]="true">
-				<mat-expansion-panel-header>
-					<mat-panel-title> Personal </mat-panel-title>
-				</mat-expansion-panel-header>
-				<mat-list-item [routerLink]="['today']" i18n>Today</mat-list-item>
-			</mat-expansion-panel>
+			<mat-list-item [routerLink]="['today']" [routerLinkActive]="['drag-item-selected']" i18n>Today
+			</mat-list-item>
 
 			<mat-divider></mat-divider>
 
-			<mat-expansion-panel>
+			<mat-expansion-panel [togglePosition]="'before'" expanded="true">
 				<mat-expansion-panel-header>
 					<mat-panel-title i18n> Projects </mat-panel-title>
 				</mat-expansion-panel-header>
-
 				<div class="drop-list" cdkDropList (cdkDropListDropped)="drop($event)">
-					<mat-list-item [ngClass]="(selectedProjectId == project.id) ? 'drag-item-selected' : 'drag-item'"
-						(click)="setSelectedProject(project.id)" [routerLink]="['project', project.id]" cdkDrag
+					<mat-list-item class="drag-item" (click)="setSelectedProject(project.id)"
+						[routerLink]="['project', project.id]" [routerLinkActive]="['drag-item-selected']" cdkDrag
 						*ngFor="let project of projects">
 						<project-nav-item (editProjectOutput)="editProjectEvent($event)"
 							(deleteProjectOutput)="deleteProjectEvent($event)" [project]=project>
