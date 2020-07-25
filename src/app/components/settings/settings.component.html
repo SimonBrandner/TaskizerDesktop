@@ -5,18 +5,36 @@
 			<mat-tab label="General">
 				<div class="tab">
 					<mat-form-field>
-						<mat-select matNativeControl [(value)]="defaultViewSelect">
-							<mat-option *ngFor="let option of defaultViewSelectList" value={{option}}>{{option}}
-							</mat-option>
+						<mat-select [(ngModel)]="defaultView">
+							<mat-option *ngFor="let option of views" [value]="option">{{option}}</mat-option>
 						</mat-select>
 						<mat-label>Open on: </mat-label>
 					</mat-form-field>
 					<mat-form-field>
-						<input matInput name="projectPathInput" [(ngModel)]="defaultProjectPath" required>
+						<input matInput name="projectPathInput" [(ngModel)]="defaultProjectPath" readonly required>
 						<mat-label> Default project directory: </mat-label>
 						<button class="path-button" mat-button mat-icon-button matSuffix (click)="pathButtonClicked()">
 							<mat-icon>save</mat-icon>
 						</button>
+					</mat-form-field>
+				</div>
+			</mat-tab>
+			<mat-tab label="Appearance">
+				<div class="tab">
+					<mat-form-field>
+						<mat-select name="themeSelect" [(value)]="currentTheme" (selectionChange)="themeChanged()">
+							<mat-optgroup label="Light">
+								<mat-option *ngFor="let lightTheme of themeService.themes.light" [value]="lightTheme">
+									{{lightTheme}}
+								</mat-option>
+							</mat-optgroup>
+							<mat-optgroup label="Dark">
+								<mat-option *ngFor="let darkTheme of themeService.themes.dark" [value]="darkTheme">
+									{{darkTheme}}
+								</mat-option>
+							</mat-optgroup>
+						</mat-select>
+						<mat-label> Theme </mat-label>
 					</mat-form-field>
 				</div>
 			</mat-tab>

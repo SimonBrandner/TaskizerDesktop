@@ -39,12 +39,30 @@ export class ConfigService {
 		});
 	}
 
+	async get(): Promise<string> {
+		return new Promise<string>((resolve, reject) => {
+			this.ipcRenderer.once("getConfigResponse", (event, arg) => {
+				resolve(arg);
+			});
+			this.ipcRenderer.send("getConfig", "$");
+		});
+	}
+
 	async getDefaultView(): Promise<string> {
 		return new Promise<string>((resolve, reject) => {
 			this.ipcRenderer.once("getConfigResponse", (event, arg) => {
 				resolve(arg);
 			});
 			this.ipcRenderer.send("getConfig", "$.defaultView");
+		});
+	}
+
+	async getTheme(): Promise<string> {
+		return new Promise<string>((resolve, reject) => {
+			this.ipcRenderer.once("getConfigResponse", (event, arg) => {
+				resolve(arg);
+			});
+			this.ipcRenderer.send("getConfig", "$.theme");
 		});
 	}
 
@@ -94,6 +112,10 @@ export class ConfigService {
 
 	setDefaultView(value: string) {
 		this.ipcRenderer.send("setConfig", "$.defaultView", value);
+	}
+
+	setTheme(value: string) {
+		this.ipcRenderer.send("setConfig", "$.theme", value);
 	}
 
 	setDefaultProjectPath(value: string) {

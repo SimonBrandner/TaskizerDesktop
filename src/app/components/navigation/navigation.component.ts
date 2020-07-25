@@ -21,8 +21,8 @@ export class NavigationComponent implements OnInit {
 		private projectService: ProjectService,
 		public dialog: MatDialog
 	) {
-		configService.getProjects().then((result) => {
-			this.projects = result;
+		configService.get().then((result) => {
+			this.projects = result["projects"];
 			console.log("Retrieved projects from ConfigService.");
 		});
 	}

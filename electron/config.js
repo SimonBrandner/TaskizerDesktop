@@ -6,6 +6,7 @@ let configPath = `${app.getPath("appData")}/taskizer.cfg.json`;
 let defaultConfig = {
 	defaultView: "Today",
 	defaultProjectPath: "/",
+	theme: "Indigo & Pink",
 	projects: []
 };
 

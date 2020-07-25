@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
 import { ConfigService } from "../../services/config.service";
 import { DialogService } from "../../services/dialog.service";
+import { ThemeService } from "../../services/theme.service";
 
 @Component({
 	selector: "settings",
@@ -11,22 +12,17 @@ import { DialogService } from "../../services/dialog.service";
 	]
 })
 export class SettingsComponent implements OnInit {
-	defaultViewSelectList = [
-		"Today"
-	];
-
 	constructor(
 		public dialogRef: MatDialogRef<SettingsComponent>,
 		private configService: ConfigService,
-		private dialogService: DialogService
+		private dialogService: DialogService,
+		public themeService: ThemeService
 	) {
-		this.configService.getDefaultView().then((result) => {
-			this.defaultViewSelect = result;
-			console.log("Retrieved defaultView from ConfigService");
-			this.configService.getDefaultProjectPath().then((result) => {
-				this.defaultProjectPath = result;
-				console.log("Retrieved defaultProjectPath from ConfigService");
-			});
+		this.configService.get().then((result) => {
+			this.defaultView = result["defaultView"];
+			this.defaultProjectPath = result["defaultProjectPath"];
+			this.currentTheme = result["theme"];
+			console.log("Retrieved config from ConfigService.");
 		});
 	}
 
@@ -34,10 +30,12 @@ export class SettingsComponent implements OnInit {
 
 	saveButtonClicked(): void {
 		console.log("Save button clicked.");
-		this.configService.setDefaultView(this.defaultViewSelect);
+		this.configService.setDefaultView(this.defaultView);
 		console.log("Setting defaultView using ConfigService.");
 		this.configService.setDefaultProjectPath(this.defaultProjectPath);
 		console.log("Setting defaultProjectPath using ConfigService.");
+		this.configService.setTheme(this.currentTheme);
+		console.log("Setting theme using ConfigService.");
 
 		this.dialogRef.close();
 	}
@@ -55,6 +53,16 @@ export class SettingsComponent implements OnInit {
 		});
 	}
 
-	defaultViewSelect: string;
+	themeChanged() {
+		console.log("Theme changed to " + this.currentTheme);
+		this.themeService.set(this.currentTheme);
+	}
+
+	defaultView: string;
 	defaultProjectPath: string;
+	currentTheme: any;
+
+	views = [
+		"Today"
+	];
 }
