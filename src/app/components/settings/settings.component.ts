@@ -54,7 +54,6 @@ export class SettingsComponent implements OnInit {
 	}
 
 	themeChanged() {
-		console.log("Theme changed to " + this.currentTheme);
 		this.themeService.set(this.currentTheme);
 	}
 
