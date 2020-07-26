@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 	selector: "project-nav-item",
 	templateUrl: "./project-nav-item.component.html",
 	styleUrls: [
-		"./project-nav-item.component.css"
+		"./project-nav-item.component.scss"
 	]
 })
 export class ProjectNavItemComponent implements OnInit {

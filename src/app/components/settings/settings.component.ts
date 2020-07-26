@@ -8,7 +8,7 @@ import { ThemeService } from "../../services/theme.service";
 	selector: "settings",
 	templateUrl: "./settings.component.html",
 	styleUrls: [
-		"./settings.component.css"
+		"./settings.component.scss"
 	]
 })
 export class SettingsComponent implements OnInit {

@@ -4,7 +4,7 @@ import { Component, OnInit } from "@angular/core";
 	selector: "today",
 	templateUrl: "./today.component.html",
 	styleUrls: [
-		"./today.component.css"
+		"./today.component.scss"
 	]
 })
 export class TodayComponent implements OnInit {

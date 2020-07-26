@@ -15,7 +15,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 	selector: "speed-dial-fab",
 	templateUrl: "./speed-dial-fab.component.html",
 	styleUrls: [
-		"./speed-dial-fab.component.css"
+		"./speed-dial-fab.component.scss"
 	],
 	animations: speedDialFabAnimations
 })

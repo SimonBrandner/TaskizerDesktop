@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
 	selector: "import-project-menu",
 	templateUrl: "./import-project-menu.component.html",
 	styleUrls: [
-		"./import-project-menu.component.css"
+		"./import-project-menu.component.scss"
 	]
 })
 export class ImportProjectMenuComponent implements OnInit {

@@ -20,7 +20,7 @@ import { ConfirmComponent } from "../confirm/confirm.component";
 	selector: "app-project",
 	templateUrl: "./project.component.html",
 	styleUrls: [
-		"./project.component.css"
+		"./project.component.scss"
 	]
 })
 export class ProjectComponent implements OnInit {

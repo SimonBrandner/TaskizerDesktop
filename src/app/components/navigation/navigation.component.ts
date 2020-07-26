@@ -11,7 +11,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 	selector: "navigation",
 	templateUrl: "./navigation.component.html",
 	styleUrls: [
-		"./navigation.component.css"
+		"./navigation.component.scss"
 	]
 })
 export class NavigationComponent implements OnInit {

@@ -8,7 +8,7 @@ import { ConfigService } from "./services/config.service";
 	selector: "app-root",
 	templateUrl: "./app.component.html",
 	styleUrls: [
-		"./app.component.css"
+		"./app.component.scss"
 	]
 })
 export class AppComponent implements OnInit {

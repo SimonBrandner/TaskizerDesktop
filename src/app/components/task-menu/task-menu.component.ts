@@ -13,7 +13,7 @@ import { DateHandlerService } from "src/app/services/date-handler.service";
 	selector: "task-menu",
 	templateUrl: "./task-menu.component.html",
 	styleUrls: [
-		"./task-menu.component.css"
+		"./task-menu.component.scss"
 	]
 })
 export class TaskMenuComponent implements OnInit, OnDestroy {
