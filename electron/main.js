@@ -18,7 +18,6 @@ initApp = function() {
 	updater.create();
 	menu.create();
 	tray.create();
-	config.load();
 	updater.checkForUpdates();
 };
 global.quitApp = function() {

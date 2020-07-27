@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { IpcRenderer } from "electron";
-import { rejects } from "assert";
 import { AlgorithmsService } from "./algorithms.service";
 
 export interface Project {
@@ -26,125 +25,147 @@ export class ConfigService {
 		}
 	}
 
+	async get(): Promise<any> {
+		return new Promise<any>((resolve, reject) => {
+			this.load().then(() => {
+				resolve(this.config);
+			});
+		});
+	}
+
 	async getProjects(): Promise<Array<Object>> {
 		return new Promise<Array<Object>>((resolve, reject) => {
-			this.ipcRenderer.once("getConfigResponse", (event, arg) => {
-				var projectsArray = Object.keys(arg).map((index) => {
-					var project = arg[index];
+			this.load().then(() => {
+				var projectsArray = Object.keys(this.config).map((index) => {
+					var project = this.config[index];
 					return project;
 				});
 				resolve(projectsArray);
 			});
-			this.ipcRenderer.send("getConfig", "$.projects");
-		});
-	}
-
-	async get(): Promise<string> {
-		return new Promise<string>((resolve, reject) => {
-			this.ipcRenderer.once("getConfigResponse", (event, arg) => {
-				resolve(arg);
-			});
-			this.ipcRenderer.send("getConfig", "$");
 		});
 	}
 
 	async getDefaultView(): Promise<string> {
 		return new Promise<string>((resolve, reject) => {
-			this.ipcRenderer.once("getConfigResponse", (event, arg) => {
-				resolve(arg);
+			this.load().then(() => {
+				resolve(this.config["defaultView"]);
 			});
-			this.ipcRenderer.send("getConfig", "$.defaultView");
 		});
 	}
 
 	async getTheme(): Promise<string> {
 		return new Promise<string>((resolve, reject) => {
-			this.ipcRenderer.once("getConfigResponse", (event, arg) => {
-				resolve(arg);
+			this.load().then(() => {
+				resolve(this.config["theme"]);
 			});
-			this.ipcRenderer.send("getConfig", "$.theme");
 		});
 	}
 
 	async getDefaultProjectPath(): Promise<string> {
 		return new Promise<string>((resolve, reject) => {
-			this.ipcRenderer.once("getConfigResponse", (event, arg) => {
-				resolve(arg);
+			this.load().then(() => {
+				resolve(this.config["defaultProjectPath"]);
 			});
-			this.ipcRenderer.send("getConfig", "$.defaultProjectPath");
-		});
-	}
-
-	async getIdForNewProject(): Promise<number> {
-		return new Promise<number>((resolve, reject) => {
-			this.ipcRenderer.once("runAQueryResponse", (event, arg) => {
-				resolve(this.algorithmsService.findLowestUnusedValueInNumberArray(arg));
-			});
-			this.ipcRenderer.send("runAQuery", "$.projects..id");
 		});
 	}
 
 	async getNumberOfProjects(): Promise<number> {
 		return new Promise<number>((resolve, reject) => {
-			this.ipcRenderer.once("runAQueryResponse", (event, arg) => {
-				resolve(arg);
+			this.load().then(() => {
+				resolve(this.config["projects"].length);
 			});
-			this.ipcRenderer.send("runAQuery", "$.projects.length");
 		});
 	}
 
 	async getProjectById(projectId: number) {
 		return new Promise<Object>((resolve, reject) => {
-			this.ipcRenderer.once("runAQueryResponse", (event, arg) => {
-				resolve(arg[0]);
+			this.load().then(() => {
+				resolve(this.config["projects"][projectId]);
 			});
-			this.ipcRenderer.send("runAQuery", `$.projects[${projectId}]`);
 		});
 	}
 
-	setProjectPath(projectId: number, projectPath: string) {
-		this.ipcRenderer.send("setConfig", `$.projects[${projectId}].path`, projectPath);
-	}
-
-	setProjectName(projectId: number, projectName: string) {
-		this.ipcRenderer.send("setConfig", `$.projects[${projectId}].name`, projectName);
-	}
-
-	setDefaultView(value: string) {
-		this.ipcRenderer.send("setConfig", "$.defaultView", value);
-	}
-
-	setTheme(value: string) {
-		this.ipcRenderer.send("setConfig", "$.theme", value);
-	}
-
-	setDefaultProjectPath(value: string) {
-		this.ipcRenderer.send("setConfig", "$.defaultProjectPath", value);
+	async getIdForNewProject(): Promise<number> {
+		return new Promise<number>((resolve, reject) => {
+			this.load().then(() => {
+				var ids: Array<number> = [];
+				for (let project of this.config["projects"]) {
+					ids.push(project.id);
+				}
+				resolve(this.algorithmsService.findLowestUnusedValueInNumberArray(ids));
+			});
+		});
 	}
 
 	addProject(projectName: string, projectPath: string) {
 		this.getIdForNewProject().then((idForNewProject) => {
 			this.getNumberOfProjects().then((numberOfProjects) => {
-				this.ipcRenderer.send("setConfig", `$.projects[${numberOfProjects}]`, {
+				this.config["projects"][numberOfProjects] = {
 					id: idForNewProject,
 					name: projectName,
 					path: projectPath
-				});
+				};
+				this.save();
 			});
 		});
 	}
 
-	editProject(project): void {
-		this.ipcRenderer.send("setConfig", `$.projects[?(@.id==${project.id})]`, project);
+	setProjectPath(projectId: number, projectPath: string) {
+		this.config["projects"][projectId]["path"] = projectPath;
+		this.save();
+	}
+
+	setProjectName(projectId: number, projectName: string) {
+		this.config["projects"][projectId]["name"] = projectName;
+		this.save();
+	}
+
+	setDefaultView(defaultView: string) {
+		this.config["defaultView"] = defaultView;
+		this.save();
+	}
+
+	setTheme(theme: string): void {
+		this.config["theme"] = theme;
+		this.save();
+	}
+
+	setDefaultProjectPath(path: string): void {
+		this.config["defaultProjectPath"] = path;
+		this.save();
+	}
+
+	setProject(project): void {
+		this.config["projects"][project.id] = project;
+		this.save();
 	}
 
 	deleteProject(projectId: number): void {
-		this.ipcRenderer.send("deleteProjectFromConfig", projectId);
+		this.config["projects"].splice(projectId, 1);
+		this.save();
 	}
 
-	orderProjects(projects): void {
-		this.ipcRenderer.send("setConfig", "$.projects", projects);
+	setProjects(projects: Array<any>): void {
+		this.config["projects"] = projects;
+		this.save();
+	}
+
+	private async load(): Promise<void> {
+		return new Promise<void>((resolve) => {
+			this.ipcRenderer.once("getConfigResponse", (event, arg) => {
+				this.config = arg;
+				console.log("Retrieved config from Electron: ", this.config);
+				resolve();
+			});
+			this.ipcRenderer.send("getConfig");
+		});
+	}
+
+	private save() {
+		console.log("Saving config: ", this.config);
+		this.ipcRenderer.send("setConfig", this.config);
 	}
 
 	private ipcRenderer: IpcRenderer;
+	config: any;
 }

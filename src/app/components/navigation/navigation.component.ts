@@ -38,7 +38,7 @@ export class NavigationComponent implements OnInit {
 		console.log("Project dropped.");
 		moveItemInArray(this.projects, event.previousIndex, event.currentIndex);
 		console.log("Saved reordered projects to the projects array.");
-		this.configService.orderProjects(this.projects);
+		this.configService.setProjects(this.projects);
 		console.log("Saving reordered projects using ConfigService.");
 	}
 
@@ -78,7 +78,7 @@ export class NavigationComponent implements OnInit {
 			console.log("Saved project changes to the projects array.");
 			this.projectService.editProject(oldProject, $event);
 			console.log("Saving project changes using ProjectService.");
-			this.configService.editProject($event);
+			this.configService.setProject($event);
 			console.log("Saving project changes using ConfigService.");
 		});
 	}

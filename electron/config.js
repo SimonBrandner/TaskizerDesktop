@@ -11,43 +11,17 @@ let defaultConfig = {
 };
 
 module.exports = {
-	get(event, pathExpression) {
-		console.log("Getting config. Path expression is " + pathExpression);
-		window.webContents.send("getConfigResponse", jp.value(global.config, pathExpression));
-	},
-
-	set(event, pathExpression, value) {
-		console.log("Setting config. Path expression is " + pathExpression + " and value is " + value);
-		jp.value(global.config, pathExpression, value);
-		module.exports.save();
-	},
-
-	runAQuery(event, pathExpression) {
-		console.log("Running quarry. Path expression is " + pathExpression);
-		window.webContents.send("runAQueryResponse", jp.query(global.config, pathExpression));
-	},
-
-	deleteProject(event, projectId) {
-		console.log("Deleting project with id " + projectId);
-		global.config["projects"].forEach((project, index) => {
-			if (project.id == projectId) {
-				global.config["projects"].splice(index, 1);
-			}
-		});
-		module.exports.save();
-	},
-
-	save() {
-		console.log("Saving config.");
-		fs.writeFileSync(configPath, JSON.stringify(global.config));
-	},
-
-	load() {
-		console.log("Loading config.");
+	get(event) {
 		if (!fs.existsSync(configPath)) {
 			fs.writeFileSync(configPath, JSON.stringify(defaultConfig));
 		}
+		config = JSON.parse(fs.readFileSync(configPath));
+		console.log("Retrieved config: ", config);
+		window.webContents.send("getConfigResponse", config);
+	},
 
-		global.config = JSON.parse(fs.readFileSync(configPath));
+	set(event, value) {
+		console.log("Setting config: ", value);
+		fs.writeFileSync(configPath, JSON.stringify(value));
 	}
 };

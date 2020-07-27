@@ -18,8 +18,6 @@ module.exports = {
 		// IPC events - config
 		ipcMain.on("getConfig", config.get);
 		ipcMain.on("setConfig", config.set);
-		ipcMain.on("runAQuery", config.runAQuery);
-		ipcMain.on("deleteProjectFromConfig", config.deleteProject);
 		// IPC events - config
 
 		// IPC events - project
