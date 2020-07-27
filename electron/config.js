@@ -1,6 +1,5 @@
 const { app } = require("electron");
 const fs = require("fs");
-const jp = require("jsonpath");
 
 let configPath = `${app.getPath("appData")}/taskizer.cfg.json`;
 let defaultConfig = {

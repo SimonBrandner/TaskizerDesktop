@@ -1,5 +1,4 @@
 const fs = require("fs");
-const jp = require("jsonpath");
 
 module.exports = {
 	get(event, projectPath) {
