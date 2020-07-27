@@ -23,9 +23,9 @@ module.exports = {
 		// IPC events - project
 		ipcMain.on("getProject", project.get);
 		ipcMain.on("setProject", project.set);
-		ipcMain.on("createNewProject", project.createNew);
-		ipcMain.on("moveProjectFile", project.moveProjectFile);
-		ipcMain.on("deleteProjectFile", project.deleteProjectFile);
+		ipcMain.on("handleNewProject", project.handleNew);
+		ipcMain.on("moveProjectFile", project.moveFile);
+		ipcMain.on("deleteProjectFile", project.deleteFile);
 		// IPC events - project
 	}
 };

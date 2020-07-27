@@ -26,39 +26,51 @@ export class ProjectService {
 		return fullPath.split("/")[fullPath.split("/").length - 1].split(".")[0];
 	}
 
-	setProjectContent(projectPath: string, project) {
-		this.ipcRenderer.send("setProject", projectPath, "$.tasks", project);
+	setProjectContent(path: string, content: any) {
+		console.log("Setting project content to ", content, ". The path is: ", path);
+		this.getProjectByPath(path).then((result) => {
+			result["tasks"] = content;
+			this.ipcRenderer.send("setProject", path, result);
+		});
 	}
 
-	createNewProject(projectName: string, projectPath: string): void {
-		this.ipcRenderer.send("createNewProject", projectName, projectPath);
+	createNewProject(name: string, path: string): void {
+		console.log("Handling new project ", name, " with path ", path);
+		this.ipcRenderer.send("handleNewProject", name, path);
 	}
 
 	editProject(oldProject, newProject): void {
 		if (oldProject.path != newProject.path) {
-			this.moveProject(newProject.id, oldProject.path, newProject.path);
+			this.moveProject(oldProject.path, newProject.path);
 		}
 
 		if (oldProject.name != newProject.name) {
-			this.changeProjectName(newProject.id, newProject.path, newProject.name);
+			this.changeProjectName(newProject.path, newProject.name);
 		}
 	}
 
-	moveProject(id: number, oldPath: string, newPath: string): void {
+	moveProject(oldPath: string, newPath: string): void {
+		console.log("Moving project from ", oldPath, " to ", newPath);
 		this.ipcRenderer.send("moveProjectFile", oldPath, newPath);
 	}
 
-	changeProjectName(id: number, path: string, name: string): void {
-		this.ipcRenderer.send("setProject", path, "$.name", name);
+	changeProjectName(path: string, name: string): void {
+		console.log("Changing project name to ", name, ". The path is: ", path);
+		this.getProjectByPath(path).then((result) => {
+			result["name"] = name;
+			this.ipcRenderer.send("setProject", path, result);
+		});
 	}
 
 	deleteProject(projectPath: string): void {
+		console.log("Deleting project with path ", projectPath);
 		this.ipcRenderer.send("deleteProjectFile", projectPath);
 	}
 
-	async getProjectByPath(projectPath: string) {
-		return new Promise<Object>((resolve) => {
+	async getProjectByPath(projectPath: string): Promise<any> {
+		return new Promise<any>((resolve) => {
 			this.ipcRenderer.once("getProjectResponse", (event, arg) => {
+				console.log("Retrieved project from Electron with path ", projectPath, ": ", arg);
 				resolve(arg);
 			});
 			this.ipcRenderer.send("getProject", projectPath);
