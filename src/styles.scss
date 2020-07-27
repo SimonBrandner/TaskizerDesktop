@@ -1,4 +1,5 @@
 @import '~@angular/material/theming';
+@import '~angular-material-dynamic-themes/themes-core';
 
 @include mat-core();
 
@@ -9,7 +10,20 @@ $themes-map: (
 	purple-green: (primary-base: $mat-purple, accent-base: $mat-green, light-or-dark: 'dark')
 );
 
-@import '~angular-material-dynamic-themes/themes-core';
+@mixin themed-stylesheets($mat-theme) {
+	$primary: map-get($mat-theme, primary);
+	$accent: map-get($mat-theme, accent);
+	$warn: map-get($mat-theme, warn);
+	$background: map-get($mat-theme, background);
+	$foreground: map-get($mat-theme, foreground);
+
+	$primary-color: mat-color($primary);
+	$accent-color: mat-color($accent);
+
+	.drag-item-selected {
+		background: rgba($primary-color, 0.15) !important;
+	}
+}
 
 @include make-stylesheets($themes-map);
 
