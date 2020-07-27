@@ -26,7 +26,7 @@ export class TaskDatabase {
 				name: element["name"],
 				tasks: subtasks,
 				isExpanded: element["isExpanded"],
-				date: new Date(element["date"]),
+				date: element["date"] == null ? undefined : new Date(element["date"]),
 				repeat: {
 					preset: element["repeat"]["preset"],
 					ordinal: element["repeat"]["ordinal"],

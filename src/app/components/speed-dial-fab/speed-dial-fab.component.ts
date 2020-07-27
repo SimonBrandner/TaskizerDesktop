@@ -102,12 +102,12 @@ export class SpeedDialFabComponent implements OnInit {
 		const dialogRef = this.dialog.open(TaskMenuComponent, {
 			data: {
 				name: "New task",
-				date: undefined,
+				date: null,
 				repeat: {
 					preset: "none",
-					ordinal: undefined,
+					ordinal: null,
 					unit: [],
-					category: undefined
+					category: null
 				}
 			} as TaskNode
 		});
