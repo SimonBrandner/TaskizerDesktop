@@ -13,6 +13,14 @@
 		background-color: mat-color(map-get($mat-theme, primary));
 		color: honeydew;
 	}
+
+	.date-today {
+		color: mat-color(map-get($mat-theme, warn));
+	}
+
+	.date-tomorrow {
+		color: mat-color(map-get($mat-theme, accent));
+	}
 }
 
 mat-tree {
