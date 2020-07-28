@@ -12,6 +12,12 @@
 	margin-right: var(--horizontal-distance-between-form-fields);
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
 mat-card {
 	margin-bottom: 10px;
 }
