@@ -19,7 +19,8 @@ export class ThemeService {
 		],
 		dark: [
 			"Pink & Blue-gray",
-			"Purple & Green"
+			"Purple & Green",
+			"Arc Dark"
 		]
 	};
 	themeMap2: Map<string, string> = new Map([
@@ -33,11 +34,15 @@ export class ThemeService {
 		],
 		[
 			"Pink & Blue-gray",
-			"pink-bluegrey-dark"
+			"pink-bluegrey"
 		],
 		[
 			"Purple & Green",
-			"purple-green-dark"
+			"purple-green"
+		],
+		[
+			"Arc Dark",
+			"arc-dark"
 		]
 	]);
 }

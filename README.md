@@ -13,6 +13,7 @@ It was built using Angular and Electron.
 + Deadlines
 + Keyboard shortcuts
 + Repeated tasks
++ Multiple themes
 
 For the features that are coming visit section [Roadmap](#Roadmap).
 

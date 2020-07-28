@@ -1,0 +1,13 @@
+// Material
+@import '~@angular/material/theming';
+@include mat-core();
+// Material
+
+$purple-green: (
+	primary-base: $mat-purple,
+	accent-base: $mat-green,
+	warn-base: $mat-red,
+	is-dark: true,
+	foreground-palette: $mat-dark-theme-foreground,
+	background-palette: $mat-dark-theme-background
+);

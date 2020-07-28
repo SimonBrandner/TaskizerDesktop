@@ -1,0 +1,49 @@
+// Material
+@import '~@angular/material/theming';
+@include mat-core();
+// Material
+
+// Themes
+@import './themes/purple-green.scss';
+@import './themes/arc-dark.scss';
+@import './themes/deeppurple-amber.scss';
+@import './themes/indigo-pink';
+@import './themes/pink-bluegrey.scss';
+// Themes
+
+// Components
+@import './app/components/navigation/navigation.component.scss';
+@import './app/components/project/project.component.scss';
+// Components
+
+$theme-map: (
+	indigo-pink: $indigo-pink,
+	deeppurple-amber: $deeppurple-amber,
+	pink-bluegrey: $pink-bluegrey,
+	purple-green: $purple-green,
+	arc-dark: $arc-dark
+);
+
+@mixin create-themes($themes-map) {
+	@each $css-class, $theme in $themes-map {
+		.#{$css-class} {
+			$mat-theme: (
+				primary: mat-palette(map-get($theme, primary-base)),
+				accent: mat-palette(map-get($theme, accent-base)),
+				warn: mat-palette(map-get($theme, warn-base)),
+				is-dark: map-get($theme, is-dark),
+				foreground: map-get($theme, foreground-palette),
+				background: map-get($theme, background-palette)
+			);
+
+			@include angular-material-theme($mat-theme); // Create theme
+
+			// Components
+			@include style-navigation-component($mat-theme);
+			@include style-project-component($mat-theme);
+			// Components
+		}
+	}
+}
+
+@include create-themes($theme-map); // Create themes

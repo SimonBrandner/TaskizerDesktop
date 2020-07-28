@@ -1,0 +1,112 @@
+// Material
+@import '~@angular/material/theming';
+@include mat-core();
+// Material
+
+$arc-dark: (
+	primary-base:
+		(
+			50 : #e7ebf3,
+			100 : #c4cee0,
+			200 : #9cadcc,
+			300 : #748cb7,
+			400 : #5773a7,
+			500 : #395a98,
+			600 : #335290,
+			700 : #2c4885,
+			800 : #243f7b,
+			900 : #172e6a,
+			A100 : #a3baff,
+			A200 : #7093ff,
+			A400 : #3d6cff,
+			A700 : #2459ff,
+			contrast:
+				(
+					50 : #000000,
+					100 : #000000,
+					200 : #000000,
+					300 : #000000,
+					400 : #ffffff,
+					500 : #ffffff,
+					600 : #ffffff,
+					700 : #ffffff,
+					800 : #ffffff,
+					900 : #ffffff,
+					A100 : #000000,
+					A200 : #000000,
+					A400 : #ffffff,
+					A700 : #ffffff
+				)
+		),
+	accent-base:(
+			50 : #e6e7e8,
+			100 : #c1c2c5,
+			200 : #979a9f,
+			300 : #6d7179,
+			400 : #4e525c,
+			500 : #2f343f,
+			600 : #2a2f39,
+			700 : #232731,
+			800 : #1d2129,
+			900 : #12151b,
+			A100 : #608dff,
+			A200 : #2d69ff,
+			A400 : #0047f9,
+			A700 : #0040e0,
+			contrast:
+				(
+					50 : #000000,
+					100 : #000000,
+					200 : #000000,
+					300 : #ffffff,
+					400 : #ffffff,
+					500 : #ffffff,
+					600 : #ffffff,
+					700 : #ffffff,
+					800 : #ffffff,
+					900 : #ffffff,
+					A100 : #000000,
+					A200 : #ffffff,
+					A400 : #ffffff,
+					A700 : #ffffff
+				)
+		),
+	warn-base: $mat-red,
+	is-dark: true,
+	foreground-palette:
+		(
+			base: white,
+			divider: $light-dividers,
+			dividers: $light-dividers,
+			disabled: $light-disabled-text,
+			disabled-button: rgba(white, 0.3),
+			disabled-text: $light-disabled-text,
+			elevation: black,
+			hint-text: $light-disabled-text,
+			secondary-text: $light-secondary-text,
+			icon: white,
+			icons: white,
+			text: white,
+			slider-min: white,
+			slider-off: rgba(white, 0.3),
+			slider-off-active: rgba(white, 0.3)
+		),
+	background-palette:
+		(
+			status-bar: black,
+			app-bar: map_get($mat-grey, 900),
+			background: #282c34,
+			hover: rgba(white, 0.04),
+			card: #21252b,
+			dialog: #21252b,
+			disabled-button: rgba(white, 0.12),
+			raised-button: #1d2129,
+			focused-button: $light-focused,
+			selected-button: map_get($mat-grey, 900),
+			selected-disabled-button: #1d2129,
+			disabled-button-toggle: black,
+			unselected-chip: map_get($mat-grey, 700),
+			disabled-list-option: black,
+			tooltip: map_get($mat-grey, 700)
+		)
+);

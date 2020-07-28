@@ -1,0 +1,13 @@
+// Material
+@import '~@angular/material/theming';
+@include mat-core();
+// Material
+
+$indigo-pink: (
+	primary-base: $mat-indigo,
+	accent-base: $mat-pink,
+	warn-base: $mat-red,
+	is-dark: false,
+	foreground-palette: $mat-light-theme-foreground,
+	background-palette: $mat-light-theme-background
+);

@@ -1,32 +1,3 @@
-@import '~@angular/material/theming';
-@import '~angular-material-dynamic-themes/themes-core';
-
-@include mat-core();
-
-$themes-map: (
-	indigo-pink: (primary-base: $mat-indigo, accent-base: $mat-pink, light-or-dark: 'light'),
-	deeppurple-amber: (primary-base: $mat-deep-purple, accent-base: $mat-amber, light-or-dark: 'light'),
-	pink-bluegrey: (primary-base: $mat-pink, accent-base: $mat-blue-gray, light-or-dark: 'dark'),
-	purple-green: (primary-base: $mat-purple, accent-base: $mat-green, light-or-dark: 'dark')
-);
-
-@mixin themed-stylesheets($mat-theme) {
-	$primary: map-get($mat-theme, primary);
-	$accent: map-get($mat-theme, accent);
-	$warn: map-get($mat-theme, warn);
-	$background: map-get($mat-theme, background);
-	$foreground: map-get($mat-theme, foreground);
-
-	$primary-color: mat-color($primary);
-	$accent-color: mat-color($accent);
-
-	.drag-item-selected {
-		background: rgba($primary-color, 0.15) !important;
-	}
-}
-
-@include make-stylesheets($themes-map);
-
 html,
 body {
 	height: 100%;
