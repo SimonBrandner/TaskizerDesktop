@@ -122,13 +122,9 @@ export class ProjectComponent implements OnInit {
 	}
 
 	taskStatusChanged(event, task: FlatTaskNode) {
+		console.log("Task status of task changed: ", task);
 		setTimeout(() => {
-			if (
-				task.repeat.ordinal == undefined &&
-				task.repeat.preset == undefined &&
-				task.repeat.unit == undefined &&
-				task.repeat.category == undefined
-			) {
+			if (task.repeat.preset == "none") {
 				this.deleteTask(task);
 			}
 			else {
