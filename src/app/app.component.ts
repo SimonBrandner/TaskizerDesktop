@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
 	}
 
 	setTheme(theme: string) {
-		theme = this.themeService.themeMap2.get(theme);
+		theme = this.themeService.themeMap.get(theme);
 		this.currentTheme = theme;
 		var classList = this.overlayContainer.getContainerElement().classList;
 

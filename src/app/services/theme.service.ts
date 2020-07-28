@@ -23,7 +23,7 @@ export class ThemeService {
 			"Arc Dark"
 		]
 	};
-	themeMap2: Map<string, string> = new Map([
+	themeMap: Map<string, string> = new Map([
 		[
 			"Deep Purple & Amber",
 			"deeppurple-amber"
