@@ -36,15 +36,31 @@ mat-list-item-content {
 	padding-left: 7px;
 }
 
-.icon {
+.button-icon {
 	display: flex;
-	fill: currentColor;
-	line-height: 40px;
-	border-radius: 50%;
 	align-items: center;
-	min-width: 30px;
-	min-height: 30px;
-	max-width: 30px;
+	justify-content: center;
+
+	span {
+		height: 24px;
+		display: flex;
+
+		//mat-icon {}
+	}
+}
+
+.app-icon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-width: 40px;
+	min-height: 40px;
+	max-width: 40px;
+
+	svg {
+		height: 30px;
+		width: 30px;
+	}
 }
 
 .spacer {
