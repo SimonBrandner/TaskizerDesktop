@@ -127,7 +127,7 @@ export class ProjectComponent implements OnInit {
 			}
 			else {
 				console.log("Handling repetition of task " + task.name);
-				this.dateHandlerService.handleRepeatedTaskDeletion(task);
+				task.nextRepeatDate();
 				this.database.updateDatabase();
 				event.source.checked = false;
 			}
