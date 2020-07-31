@@ -85,11 +85,7 @@ export class TaskMenuComponent implements OnInit, OnDestroy {
 			this.data.repeat.unit[index] = +element.slice(element.indexOf(".") + 1, element.length);
 		});
 
-		this.data.date = this.dateHandlerService.getDateBasedOnRepeatRules(
-			this.data.repeat.unit,
-			this.data.repeat.category,
-			this.data.date
-		);
+		this.data.setDateBasedOnRepeatRules();
 	}
 
 	filterUnitCategories() {

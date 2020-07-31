@@ -19,21 +19,24 @@ export class TaskDatabase {
 
 		obj["tasks"].forEach((element) => {
 			var subtasks: TaskNode[];
+			var task = new TaskNode();
+
 			if (element["tasks"]) {
 				subtasks = this.buildTaskTree(element, level + 1);
 			}
-			tasks.push({
-				name: element["name"],
-				tasks: subtasks,
-				isExpanded: element["isExpanded"],
-				date: element["date"] == null ? null : new Date(element["date"]),
-				repeat: {
-					preset: element["repeat"]["preset"],
-					ordinal: element["repeat"]["ordinal"],
-					unit: element["repeat"]["unit"],
-					category: element["repeat"]["category"]
-				}
-			});
+
+			task.name = element["name"];
+			task.tasks = subtasks;
+			task.isExpanded = element["isExpanded"];
+			task.date = element["date"] == null ? null : new Date(element["date"]);
+			task.repeat = {
+				preset: element["repeat"]["preset"],
+				ordinal: element["repeat"]["ordinal"],
+				unit: element["repeat"]["unit"],
+				category: element["repeat"]["category"]
+			};
+
+			tasks.push(task);
 		});
 
 		return tasks;
