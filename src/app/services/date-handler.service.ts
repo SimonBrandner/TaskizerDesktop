@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { TaskNode } from "../models/task-node";
-import { FlatTaskNode } from "../models/flat-task-node";
+import { TaskNode } from "../classes/task-node";
+import { FlatTaskNode } from "../classes/flat-task-node";
 import { AlgorithmsService } from "./algorithms.service";
 
 @Injectable({

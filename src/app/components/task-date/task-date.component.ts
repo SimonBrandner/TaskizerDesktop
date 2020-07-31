@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { FlatTaskNode } from "../../models/flat-task-node";
+import { FlatTaskNode } from "../../classes/flat-task-node";
 
 @Component({
 	selector: "task-date",

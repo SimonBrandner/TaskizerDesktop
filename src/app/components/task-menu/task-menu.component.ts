@@ -3,7 +3,7 @@ import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from "@angular/material/dial
 import { DialogService } from "../../services/dialog.service";
 import { ConfigService } from "../../services/config.service";
 import { ProjectService } from "../../services/project.service";
-import { TaskNode } from "src/app/models/task-node";
+import { TaskNode } from "src/app/classes/task-node";
 import { FormControl } from "@angular/forms";
 import { ReplaySubject, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";

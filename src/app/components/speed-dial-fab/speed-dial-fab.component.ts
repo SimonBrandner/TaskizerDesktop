@@ -5,7 +5,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { ConfigService } from "src/app/services/config.service";
 import { TaskMenuComponent } from "../task-menu/task-menu.component";
 import { TaskService } from "../../services/task.service";
-import { TaskNode } from "src/app/models/task-node";
+import { TaskNode } from "src/app/classes/task-node";
 import { ImportProjectMenuComponent } from "../import-project-menu/import-project-menu.component";
 import { MenuService } from "../../services/menu.service";
 import { Router } from "@angular/router";
