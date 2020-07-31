@@ -15,12 +15,12 @@ module.exports = {
 			fs.writeFileSync(configPath, JSON.stringify(defaultConfig));
 		}
 		config = JSON.parse(fs.readFileSync(configPath));
-		console.log("Retrieved config: ", config);
+		console.log("Retrieved config:", config);
 		window.webContents.send("getConfigResponse", config);
 	},
 
 	set(event, value) {
-		console.log("Setting config: ", value);
+		console.log("Setting config:", value);
 		fs.writeFileSync(configPath, JSON.stringify(value));
 	}
 };

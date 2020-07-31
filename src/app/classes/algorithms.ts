@@ -1,13 +1,7 @@
-import { Injectable } from "@angular/core";
-import { isDataSource } from "@angular/cdk/collections";
-
-@Injectable({
-	providedIn: "root"
-})
-export class AlgorithmsService {
+export class Algorithms {
 	constructor() {}
 
-	findLowestUnusedValueInNumberArray(array: Array<number>): number {
+	static findLowestUnusedValueInNumberArray(array: Array<number>): number {
 		var indexUpper: number = 0;
 		var index: number = 0;
 
@@ -29,7 +23,7 @@ export class AlgorithmsService {
 		return array.length;
 	}
 
-	findAllTaskIdsInProject(project, topLevelId: String): Array<String> {
+	static findAllTaskIdsInProject(project, topLevelId: String): Array<String> {
 		var ids: String[] = [];
 		var task = project;
 
@@ -52,7 +46,7 @@ export class AlgorithmsService {
 		}
 	}
 
-	getArrayElementWithOverflowHandling(array: Array<any>, index: number): any {
+	static getArrayElementWithOverflowHandling(array: Array<any>, index: number): any {
 		if (index > array.length - 1) {
 			return array[index - array.length];
 		}

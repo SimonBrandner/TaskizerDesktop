@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { TaskNode } from "../classes/task-node";
 import { FlatTaskNode } from "../classes/flat-task-node";
-import { AlgorithmsService } from "./algorithms.service";
+import { Algorithms } from "../classes/algorithms";
 
 @Injectable({
 	providedIn: "root"
 })
 export class DateHandlerService {
-	constructor(private algorithmsService: AlgorithmsService) {}
+	constructor() {}
 
 	getDateBasedOnRepeatRules(unit: Array<number>, category: string, currentDeadline: Date): Date {
 		var currentDate = new Date();
@@ -68,7 +68,7 @@ export class DateHandlerService {
 
 			task.date.setDate(
 				task.date.getDate() +
-					(this.algorithmsService.getArrayElementWithOverflowHandling(
+					(Algorithms.getArrayElementWithOverflowHandling(
 						task.repeat.unit,
 						task.repeat.unit.indexOf(currentDateDay) + 1
 					) -
@@ -81,7 +81,7 @@ export class DateHandlerService {
 			}
 
 			task.date.setMonth(
-				this.algorithmsService.getArrayElementWithOverflowHandling(
+				Algorithms.getArrayElementWithOverflowHandling(
 					task.repeat.unit,
 					task.repeat.unit.indexOf(currentDateMonth) + 1
 				)

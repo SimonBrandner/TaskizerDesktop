@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef, EventEmitter } from "@angular
 import { ConfigService } from "../../services/config.service";
 import { ProjectService } from "../../services/project.service";
 import { ActivatedRoute } from "@angular/router";
-import { AlgorithmsService } from "../../services/algorithms.service";
 import { MatTreeFlatDataSource, MatTreeFlattener } from "@angular/material/tree";
 import { FlatTreeControl } from "@angular/cdk/tree";
 import { Observable, of } from "rxjs";
@@ -28,7 +27,6 @@ export class ProjectComponent implements OnInit {
 		route: ActivatedRoute,
 		private configService: ConfigService,
 		private projectService: ProjectService,
-		private algorithmsService: AlgorithmsService,
 		private taskService: TaskService,
 		public dateHandlerService: DateHandlerService,
 		public dialog: MatDialog

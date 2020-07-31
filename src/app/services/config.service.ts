@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { IpcRenderer } from "electron";
-import { AlgorithmsService } from "./algorithms.service";
+import { Algorithms } from "../classes/algorithms";
 
 export interface Project {
 	id: number;
@@ -12,7 +12,7 @@ export interface Project {
 	providedIn: "root"
 })
 export class ConfigService {
-	constructor(private algorithmsService: AlgorithmsService) {
+	constructor() {
 		if ((<any>window).require) {
 			try {
 				this.ipcRenderer = (<any>window).require("electron").ipcRenderer;
@@ -92,7 +92,7 @@ export class ConfigService {
 				for (let project of this.config["projects"]) {
 					ids.push(project.id);
 				}
-				resolve(this.algorithmsService.findLowestUnusedValueInNumberArray(ids));
+				resolve(Algorithms.findLowestUnusedValueInNumberArray(ids));
 			});
 		});
 	}
