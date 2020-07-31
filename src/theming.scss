@@ -14,6 +14,7 @@
 // Components
 @import './app/components/navigation/navigation.component.scss';
 @import './app/components/project/project.component.scss';
+@import './app/components/task-date/task-date.component.scss';
 // Components
 
 $theme-map: (
@@ -41,6 +42,7 @@ $theme-map: (
 			// Components
 			@include style-navigation-component($mat-theme);
 			@include style-project-component($mat-theme);
+			@include style-task-date-component($mat-theme);
 			// Components
 		}
 	}

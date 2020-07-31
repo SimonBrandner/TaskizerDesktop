@@ -1,0 +1,9 @@
+@mixin style-task-date-component($mat-theme) {
+	.date-today {
+		color: mat-color(map-get($mat-theme, warn));
+	}
+
+	.date-tomorrow {
+		color: mat-color(map-get($mat-theme, accent));
+	}
+}

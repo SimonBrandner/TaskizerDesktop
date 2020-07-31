@@ -61,6 +61,7 @@ import { ImportProjectMenuComponent } from "./components/import-project-menu/imp
 // Directives
 import { UnitValidatorDirective } from "./directives/unit-validator.directive";
 import { OrdinalValidatorDirective } from "./directives/ordinal-validator.directive";
+import { TaskDateComponent } from './components/task-date/task-date.component';
 // Directives
 
 @NgModule({
@@ -77,7 +78,8 @@ import { OrdinalValidatorDirective } from "./directives/ordinal-validator.direct
 		TaskMenuComponent,
 		ImportProjectMenuComponent,
 		UnitValidatorDirective,
-		OrdinalValidatorDirective
+		OrdinalValidatorDirective,
+		TaskDateComponent
 	],
 	imports: [
 		BrowserModule,
