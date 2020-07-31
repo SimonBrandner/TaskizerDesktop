@@ -28,7 +28,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
-import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 // Material
 
 // Material Components
@@ -56,12 +56,12 @@ import { ConfirmComponent } from "./components/confirm/confirm.component";
 import { TaskMenuComponent } from "./components/task-menu/task-menu.component";
 import { MatNativeDateModule } from "@angular/material/core";
 import { ImportProjectMenuComponent } from "./components/import-project-menu/import-project-menu.component";
+import { TaskDateComponent } from "./components/task-date/task-date.component";
 // Components
 
 // Directives
 import { UnitValidatorDirective } from "./directives/unit-validator.directive";
 import { OrdinalValidatorDirective } from "./directives/ordinal-validator.directive";
-import { TaskDateComponent } from './components/task-date/task-date.component';
 // Directives
 
 @NgModule({
