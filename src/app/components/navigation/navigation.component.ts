@@ -40,6 +40,10 @@ export class NavigationComponent implements OnInit {
 		console.log("Saving reordered projects using ConfigService.");
 	}
 
+	refreshButtonClicked(): void {
+		this.configService.load();
+	}
+
 	settingsButtonClicked(): void {
 		console.log("Settings button clicked.");
 		var dio = this.dialog.open(SettingsComponent);
