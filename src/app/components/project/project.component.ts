@@ -12,7 +12,6 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { TaskService } from "../../services/task.service";
 import { TaskMenuComponent } from "../task-menu/task-menu.component";
 import { MatDialog } from "@angular/material/dialog";
-import { DateHandlerService } from "../../services/date-handler.service";
 import { ConfirmComponent } from "../confirm/confirm.component";
 
 @Component({
@@ -28,7 +27,6 @@ export class ProjectComponent implements OnInit {
 		private configService: ConfigService,
 		private projectService: ProjectService,
 		private taskService: TaskService,
-		public dateHandlerService: DateHandlerService,
 		public dialog: MatDialog
 	) {
 		this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel, this.isExpandable, this.getChildren);

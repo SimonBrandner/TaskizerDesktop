@@ -7,7 +7,6 @@ import { TaskNode } from "src/app/classes/task-node";
 import { FormControl } from "@angular/forms";
 import { ReplaySubject, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { DateHandlerService } from "src/app/services/date-handler.service";
 
 @Component({
 	selector: "task-menu",
@@ -22,7 +21,6 @@ export class TaskMenuComponent implements OnInit, OnDestroy {
 		private dialogService: DialogService,
 		private projectService: ProjectService,
 		private configService: ConfigService,
-		private dateHandlerService: DateHandlerService,
 		@Inject(MAT_DIALOG_DATA) public data: TaskNode,
 		public dialog: MatDialog
 	) {
