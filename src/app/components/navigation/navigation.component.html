@@ -20,7 +20,8 @@
 	<mat-sidenav #sidenavDrawer [mode]="(isHandset | async)!.matches ? 'over' : 'side'"
 		[opened]="!(isHandset | async)!.matches" fixedInViewport="false">
 		<mat-nav-list>
-			<mat-list-item [routerLink]="['today']" [routerLinkActive]="['drag-item-selected']" i18n>Today
+			<mat-list-item [routerLink]="['today']" [routerLinkActive]="['drag-item-selected']" i18n>
+				Today
 			</mat-list-item>
 
 			<mat-divider></mat-divider>

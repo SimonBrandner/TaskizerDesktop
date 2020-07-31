@@ -14,7 +14,10 @@ export class ProjectNavItemComponent implements OnInit {
 
 	ngOnInit(): void {}
 
-	editProjectClicked(): void {
+	editProjectClicked(event: Event): void {
+		event.preventDefault();
+		event.stopPropagation();
+
 		console.log("Edit project clicked.");
 		const dialogRef = this.dialog.open(ProjectMenuComponent, {
 			data: { id: this.project.id, name: this.project.name, path: this.project.path }
