@@ -8,7 +8,7 @@ module.exports = {
 	},
 	set(event, projectPath, project) {
 		console.log("Setting project", project["name"], "with path", projectPath, ": ", project);
-		fs.writeFileSync(projectPath, JSON.stringify(project));
+		fs.writeFileSync(projectPath, JSON.stringify(project, null, "\t"));
 	},
 
 	handleNew(event, projectName, projectPath) {
@@ -16,10 +16,14 @@ module.exports = {
 		if (!fs.existsSync(projectPath)) {
 			fs.writeFileSync(
 				projectPath,
-				JSON.stringify({
-					name: projectName,
-					tasks: []
-				})
+				JSON.stringify(
+					{
+						name: projectName,
+						tasks: []
+					},
+					null,
+					"\t"
+				)
 			);
 		}
 	},

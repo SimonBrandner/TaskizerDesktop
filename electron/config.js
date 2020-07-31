@@ -12,7 +12,7 @@ let defaultConfig = {
 module.exports = {
 	get(event) {
 		if (!fs.existsSync(configPath)) {
-			fs.writeFileSync(configPath, JSON.stringify(defaultConfig));
+			fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, "\t"));
 		}
 		config = JSON.parse(fs.readFileSync(configPath));
 		console.log("Retrieved config:", config);
@@ -21,6 +21,6 @@ module.exports = {
 
 	set(event, value) {
 		console.log("Setting config:", value);
-		fs.writeFileSync(configPath, JSON.stringify(value));
+		fs.writeFileSync(configPath, JSON.stringify(value, null, "\t"));
 	}
 };
