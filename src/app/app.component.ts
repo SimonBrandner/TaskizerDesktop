@@ -22,13 +22,11 @@ export class AppComponent implements OnInit {
 		public overlayContainer: OverlayContainer
 	) {
 		matIconRegistry.addSvgIcon("taskizer", domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/icon.svg"));
-		this.configService.get().then((result) => {
-			this.setTheme(result["theme"]);
-		});
 	}
 
 	ngOnInit() {
 		this.themeService.setEvent.subscribe((result) => this.setTheme(result));
+		this.setTheme(this.configService.getTheme());
 	}
 
 	setTheme(theme: string) {

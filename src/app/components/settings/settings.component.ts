@@ -17,16 +17,16 @@ export class SettingsComponent implements OnInit {
 		private configService: ConfigService,
 		private dialogService: DialogService,
 		public themeService: ThemeService
-	) {
-		this.configService.get().then((result) => {
-			this.defaultView = result["defaultView"];
-			this.defaultProjectPath = result["defaultProjectPath"];
-			this.currentTheme = result["theme"];
-			console.log("Retrieved config from ConfigService.");
-		});
-	}
+	) {}
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		this.defaultView = this.configService.getDefaultView();
+		console.log("Retrieved config from ConfigService", this.defaultView);
+		this.defaultProjectPath = this.configService.getDefaultProjectPath();
+		console.log("Retrieved config from ConfigService", this.defaultProjectPath);
+		this.currentTheme = this.configService.getTheme();
+		console.log("Retrieved config from ConfigService", this.currentTheme);
+	}
 
 	saveButtonClicked(): void {
 		console.log("Save button clicked.");

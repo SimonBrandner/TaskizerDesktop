@@ -20,18 +20,16 @@ export class NavigationComponent implements OnInit {
 		private configService: ConfigService,
 		private projectService: ProjectService,
 		public dialog: MatDialog
-	) {
-		configService.get().then((result) => {
-			this.projects = result["projects"];
-			console.log("Retrieved projects from ConfigService.");
-		});
-	}
+	) {}
 
 	ngOnInit() {
 		this.windowSize.next([
 			window.innerWidth,
 			window.innerHeight
 		]);
+
+		this.projects = this.configService.getProjects();
+		console.log("Retrieved projects from ConfigService", this.projects);
 	}
 
 	drop(event: CdkDragDrop<string[]>): void {
@@ -51,36 +49,32 @@ export class NavigationComponent implements OnInit {
 	}
 
 	addProjectEvent($event): void {
-		this.configService.getIdForNewProject().then((result) => {
-			console.log("New project id retrieved from ConfigService.");
-			this.projects.push({ id: result, name: $event.name, path: $event.path });
-			console.log("Project added to the projects array.");
-			this.configService.addProject($event.name, $event.path);
-			console.log("Adding project using ConfigService.");
-			this.projectService.createNewProject($event.name, $event.path);
-			console.log("Saving project using ProjectService.");
-		});
+		console.log("New project id retrieved from ConfigService.");
+		this.projects.push({ id: this.configService.getIdForNewProject(), name: $event.name, path: $event.path });
+		console.log("Project added to the projects array.");
+		this.configService.addProject($event.name, $event.path);
+		console.log("Adding project using ConfigService.");
+		this.projectService.createNewProject($event.name, $event.path);
+		console.log("Saving project using ProjectService.");
 	}
 
 	editProjectEvent($event): void {
-		this.configService.getProjectById($event.id).then((oldProject) => {
-			console.log("Project retrieved from ConfigService.");
-			var changedProjectIndex;
-			this.projects.forEach((value, index) => {
-				if (value.id == $event.id) {
-					value = $event;
-					changedProjectIndex = index;
-				}
-			});
-			console.log("Changed projects index found.");
-
-			this.projects[changedProjectIndex] = $event;
-			console.log("Saved project changes to the projects array.");
-			this.projectService.editProject(oldProject, $event);
-			console.log("Saving project changes using ProjectService.");
-			this.configService.setProject($event);
-			console.log("Saving project changes using ConfigService.");
+		console.log("Project retrieved from ConfigService.");
+		var changedProjectIndex;
+		this.projects.forEach((value, index) => {
+			if (value.id == $event.id) {
+				value = $event;
+				changedProjectIndex = index;
+			}
 		});
+		console.log("Changed projects index found.");
+
+		this.projects[changedProjectIndex] = $event;
+		console.log("Saved project changes to the projects array.");
+		this.projectService.editProject(this.configService.getProjectById($event.id), $event);
+		console.log("Saving project changes using ProjectService.");
+		this.configService.setProject($event);
+		console.log("Saving project changes using ConfigService.");
 	}
 
 	deleteProjectEvent($event): void {

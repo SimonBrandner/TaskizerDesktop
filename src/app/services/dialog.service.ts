@@ -23,72 +23,66 @@ export class DialogService {
 
 	async saveProjectDialog(): Promise<string | undefined> {
 		return new Promise<string | undefined>((resolve, reject) => {
-			this.configService.getDefaultProjectPath().then((result) => {
-				this.ipcRenderer.once("openDialogResponse", (event, arg) => {
-					if (arg.canceled == true) {
-						resolve(undefined);
-					}
-					else {
-						resolve(arg.filePaths[0]);
-					}
-				});
-				this.ipcRenderer.send("openDialog", {
-					title: "Set directory to which save the project",
-					defaultPath: result,
-					properties: [
-						"openDirectory"
-					]
-				});
+			this.ipcRenderer.once("openDialogResponse", (event, arg) => {
+				if (arg.canceled == true) {
+					resolve(undefined);
+				}
+				else {
+					resolve(arg.filePaths[0]);
+				}
+			});
+			this.ipcRenderer.send("openDialog", {
+				title: "Set directory to which save the project",
+				defaultPath: this.configService.getDefaultProjectPath(),
+				properties: [
+					"openDirectory"
+				]
 			});
 		});
 	}
 
 	async openDefaultProjectDirectoryDialog(): Promise<string | undefined> {
 		return new Promise<string | undefined>((resolve, reject) => {
-			this.configService.getDefaultProjectPath().then((result) => {
-				this.ipcRenderer.once("openDialogResponse", (event, arg) => {
-					if (arg.canceled == true) {
-						resolve(undefined);
-					}
-					else {
-						resolve(arg.filePaths[0]);
-					}
-					console.log(arg);
-				});
-				this.ipcRenderer.send("openDialog", {
-					title: "Set default project path",
-					defaultPath: result,
-					properties: [
-						"openDirectory"
-					]
-				});
+			this.ipcRenderer.once("openDialogResponse", (event, arg) => {
+				if (arg.canceled == true) {
+					resolve(undefined);
+				}
+				else {
+					resolve(arg.filePaths[0]);
+				}
+				console.log(arg);
+			});
+			this.ipcRenderer.send("openDialog", {
+				title: "Set default project path",
+				defaultPath: this.configService.getDefaultProjectPath(),
+				properties: [
+					"openDirectory"
+				]
 			});
 		});
 	}
 
 	async importProjectDialog(): Promise<string | undefined> {
 		return new Promise<string | undefined>((resolve, reject) => {
-			this.configService.getDefaultProjectPath().then((result) => {
-				this.ipcRenderer.once("openDialogResponse", (event, arg) => {
-					if (arg.canceled == true) {
-						resolve(undefined);
+			this.ipcRenderer.once("openDialogResponse", (event, arg) => {
+				if (arg.canceled == true) {
+					resolve(undefined);
+				}
+				else {
+					resolve(arg.filePaths[0]);
+				}
+			});
+			this.ipcRenderer.send("openDialog", {
+				title: "Set default project path",
+				defaultPath: this.configService.getDefaultProjectPath(),
+				filters: [
+					{
+						name: "Taskizer project",
+						extensions: [
+							"taskizer"
+						]
 					}
-					else {
-						resolve(arg.filePaths[0]);
-					}
-				});
-				this.ipcRenderer.send("openDialog", {
-					title: "Set default project path",
-					defaultPath: result,
-					filters: [
-						{
-							name: "Taskizer project",
-							extensions: [
-								"taskizer"
-							]
-						}
-					]
-				});
+				]
 			});
 		});
 	}

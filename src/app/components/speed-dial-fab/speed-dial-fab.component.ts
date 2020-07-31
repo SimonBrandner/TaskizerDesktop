@@ -69,21 +69,18 @@ export class SpeedDialFabComponent implements OnInit {
 
 	addProject() {
 		console.log("Add project button clicked.");
-		this.configService.getDefaultProjectPath().then((result) => {
-			console.log("Retrieved defaultProjectPath from ConfigService.");
-			var name: string = "New project";
-			var extension: string = ".taskizer";
-			const dialogRef = this.dialog.open(ProjectMenuComponent, {
-				data: { name: name, path: result + "/" + name + extension }
-			});
-			console.log("Opened ProjectMenuComponent dialog.");
-			dialogRef.afterClosed().subscribe((result) => {
-				if (result == null) {
-					console.log("New project empty.");
-					return;
-				}
-				this.createNewProjectOutput.emit(result);
-			});
+		var name: string = "New project";
+		var extension: string = ".taskizer";
+		const dialogRef = this.dialog.open(ProjectMenuComponent, {
+			data: { name: name, path: this.configService.getDefaultProjectPath() + "/" + name + extension }
+		});
+		console.log("Opened ProjectMenuComponent dialog.");
+		dialogRef.afterClosed().subscribe((result) => {
+			if (result == null) {
+				console.log("New project empty.");
+				return;
+			}
+			this.createNewProjectOutput.emit(result);
 		});
 	}
 

@@ -2,12 +2,6 @@ import { Injectable } from "@angular/core";
 import { IpcRenderer } from "electron";
 import { Algorithms } from "../classes/algorithms";
 
-export interface Project {
-	id: number;
-	name: string;
-	path: string;
-}
-
 @Injectable({
 	providedIn: "root"
 })
@@ -25,89 +19,45 @@ export class ConfigService {
 		}
 	}
 
-	async get(): Promise<any> {
-		return new Promise<any>((resolve, reject) => {
-			this.load().then(() => {
-				resolve(this.config);
-			});
-		});
+	getProjects(): Array<Object> {
+		return this.config["projects"];
 	}
 
-	async getProjects(): Promise<Array<Object>> {
-		return new Promise<Array<Object>>((resolve, reject) => {
-			this.load().then(() => {
-				var projectsArray = Object.keys(this.config).map((index) => {
-					var project = this.config[index];
-					return project;
-				});
-				resolve(projectsArray);
-			});
-		});
+	getDefaultView(): string {
+		return this.config["defaultView"];
 	}
 
-	async getDefaultView(): Promise<string> {
-		return new Promise<string>((resolve, reject) => {
-			this.load().then(() => {
-				resolve(this.config["defaultView"]);
-			});
-		});
+	getTheme(): string {
+		return this.config["theme"];
 	}
 
-	async getTheme(): Promise<string> {
-		return new Promise<string>((resolve, reject) => {
-			this.load().then(() => {
-				resolve(this.config["theme"]);
-			});
-		});
+	getDefaultProjectPath(): string {
+		return this.config["defaultProjectPath"];
 	}
 
-	async getDefaultProjectPath(): Promise<string> {
-		return new Promise<string>((resolve, reject) => {
-			this.load().then(() => {
-				resolve(this.config["defaultProjectPath"]);
-			});
-		});
+	getNumberOfProjects(): number {
+		return this.config["projects"].length;
 	}
 
-	async getNumberOfProjects(): Promise<number> {
-		return new Promise<number>((resolve, reject) => {
-			this.load().then(() => {
-				resolve(this.config["projects"].length);
-			});
-		});
+	getProjectById(projectId: number): any {
+		return this.config["projects"][projectId];
 	}
 
-	async getProjectById(projectId: number) {
-		return new Promise<Object>((resolve, reject) => {
-			this.load().then(() => {
-				resolve(this.config["projects"][projectId]);
-			});
-		});
-	}
-
-	async getIdForNewProject(): Promise<number> {
-		return new Promise<number>((resolve, reject) => {
-			this.load().then(() => {
-				var ids: Array<number> = [];
-				for (let project of this.config["projects"]) {
-					ids.push(project.id);
-				}
-				resolve(Algorithms.findLowestUnusedValueInNumberArray(ids));
-			});
-		});
+	getIdForNewProject(): number {
+		var ids: Array<number> = [];
+		for (let project of this.config["projects"]) {
+			ids.push(project.id);
+		}
+		return Algorithms.findLowestUnusedValueInNumberArray(ids);
 	}
 
 	addProject(projectName: string, projectPath: string) {
-		this.getIdForNewProject().then((idForNewProject) => {
-			this.getNumberOfProjects().then((numberOfProjects) => {
-				this.config["projects"][numberOfProjects] = {
-					id: idForNewProject,
-					name: projectName,
-					path: projectPath
-				};
-				this.save();
-			});
-		});
+		this.config["projects"][this.getNumberOfProjects()] = {
+			id: this.getIdForNewProject(),
+			name: projectName,
+			path: projectPath
+		};
+		this.save();
 	}
 
 	setProjectPath(projectId: number, projectPath: string) {
@@ -150,22 +100,22 @@ export class ConfigService {
 		this.save();
 	}
 
-	private async load(): Promise<void> {
+	async load(): Promise<void> {
 		return new Promise<void>((resolve) => {
 			this.ipcRenderer.once("getConfigResponse", (event, arg) => {
 				this.config = arg;
-				console.log("Retrieved config from Electron: ", this.config);
+				console.log("Retrieved config from Electron:", this.config);
 				resolve();
 			});
 			this.ipcRenderer.send("getConfig");
 		});
 	}
 
-	private save() {
-		console.log("Saving config: ", this.config);
+	save() {
+		console.log("Saving config:", this.config);
 		this.ipcRenderer.send("setConfig", this.config);
 	}
 
 	private ipcRenderer: IpcRenderer;
-	config: any;
+	private config: any;
 }

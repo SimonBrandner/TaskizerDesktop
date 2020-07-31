@@ -1,6 +1,6 @@
 // Angular
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { NgModule, APP_INITIALIZER } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
@@ -62,6 +62,7 @@ import { TaskDateComponent } from "./components/task-date/task-date.component";
 // Directives
 import { UnitValidatorDirective } from "./directives/unit-validator.directive";
 import { OrdinalValidatorDirective } from "./directives/ordinal-validator.directive";
+import { ConfigService } from "./services/config.service";
 // Directives
 
 @NgModule({
@@ -115,6 +116,7 @@ import { OrdinalValidatorDirective } from "./directives/ordinal-validator.direct
 		MatSnackBarModule
 	],
 	providers: [
+		ConfigService,
 		{
 			provide: NG_VALIDATORS,
 			useExisting: UnitValidatorDirective,
@@ -123,6 +125,14 @@ import { OrdinalValidatorDirective } from "./directives/ordinal-validator.direct
 		{
 			provide: NG_VALIDATORS,
 			useExisting: OrdinalValidatorDirective,
+			multi: true
+		},
+		{
+			provide: APP_INITIALIZER,
+			useFactory: init,
+			deps: [
+				ConfigService
+			],
 			multi: true
 		}
 	],
@@ -135,3 +145,7 @@ import { OrdinalValidatorDirective } from "./directives/ordinal-validator.direct
 	]
 })
 export class AppModule {}
+
+export function init(configService: ConfigService) {
+	return () => configService.load();
+}

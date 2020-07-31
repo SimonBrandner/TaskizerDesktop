@@ -23,7 +23,7 @@ import { ConfirmComponent } from "../confirm/confirm.component";
 })
 export class ProjectComponent implements OnInit {
 	constructor(
-		route: ActivatedRoute,
+		private route: ActivatedRoute,
 		private configService: ConfigService,
 		private projectService: ProjectService,
 		private taskService: TaskService,
@@ -32,35 +32,32 @@ export class ProjectComponent implements OnInit {
 		this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel, this.isExpandable, this.getChildren);
 		this.treeControl = new FlatTreeControl<FlatTaskNode>(this.getLevel, this.isExpandable);
 		this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
-		route.params.subscribe((params) => {
-			console.log("Switched to project with id: " + params["id"]);
-			this.projectId = params["id"];
-			configService.getProjectById(this.projectId).then((result) => {
-				this.projectPath = result["path"];
-				console.log("Retrieved project path from ConfigService.");
-				console.log("The project path is: " + this.projectPath);
-				projectService.getProjectByPath(this.projectPath).then((result) => {
-					console.log("Retrieved project " + result["name"] + " from ProjectService.");
-					this.database = new TaskDatabase(result);
-					console.log("Pushed data from ProjectService to TaskDatabase.");
-					this.database.dataChange.subscribe((data) => {
-						console.log("Data in database changed.");
-						this.dataSource.data = [];
-						this.dataSource.data = data;
-						projectService.setProjectContent(this.projectPath, this.database.getProjectJSON());
-						console.log("Saved project using ProjectService.");
-						this.nestedTaskMap.forEach((element) => {
-							element.isExpanded ? this.treeControl.expand(element) : this.treeControl.collapse(element);
-						});
-					});
-				});
-			});
-		});
 	}
 
 	ngOnInit(): void {
 		this.taskService.addTaskEvent.subscribe((result) => this.addTask(result));
+
+		this.route.params.subscribe((params) => {
+			this.projectId = params["id"];
+			console.log("Switched to project with id:", this.projectId);
+			this.projectPath = this.configService.getProjectById(this.projectId)["path"];
+			console.log("Retrieved project path from ConfigService", this.projectPath);
+			this.projectService.getProjectByPath(this.projectPath).then((result) => {
+				console.log("Retrieved project ", result["name"], " from ProjectService.");
+				this.database = new TaskDatabase(result);
+				console.log("Pushed data from ProjectService to TaskDatabase.");
+				this.database.dataChange.subscribe((data) => {
+					console.log("Data in database changed.");
+					this.dataSource.data = [];
+					this.dataSource.data = data;
+					this.projectService.setProjectContent(this.projectPath, this.database.getProjectJSON());
+					console.log("Saved project using ProjectService.");
+					this.nestedTaskMap.forEach((element) => {
+						element.isExpanded ? this.treeControl.expand(element) : this.treeControl.collapse(element);
+					});
+				});
+			});
+		});
 	}
 
 	transformer = (task: TaskNode, level: number) => {

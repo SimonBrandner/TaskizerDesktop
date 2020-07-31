@@ -22,12 +22,12 @@ export class ProjectMenuComponent implements OnInit {
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		public dialog: MatDialog,
 		private router: Router
-	) {
-		this.projectNameInput = data.name;
-		this.projectPathInput = projectService.getFolderPathFromFullPath(data.path);
-	}
+	) {}
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		this.projectNameInput = this.data.name;
+		this.projectPathInput = this.projectService.getFolderPathFromFullPath(this.data.path);
+	}
 
 	pathButtonClicked(): void {
 		console.log("Path button clicked.");
@@ -63,12 +63,10 @@ export class ProjectMenuComponent implements OnInit {
 				this.configService.deleteProject(this.data.id);
 				console.log("Deleting project using ConfigService.");
 				this.dialogRef.close("deleteProject");
-				this.configService.getDefaultView().then((result) => {
-					this.router.navigate([
-						result.toLowerCase()
-					]);
-					console.log("Redirected to defaultView.");
-				});
+				this.router.navigate([
+					this.configService.getDefaultView().toLowerCase()
+				]);
+				console.log("Redirected to defaultView.");
 			}
 		});
 	}
