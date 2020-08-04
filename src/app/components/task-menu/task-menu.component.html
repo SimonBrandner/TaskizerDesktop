@@ -2,7 +2,7 @@
 <mat-dialog-content>
 	<form ngNativeValidate #form="ngForm" (keydown.control.enter)="form.valid && saveButtonClicked()">
 		<mat-card>
-			<mat-card-title>General</mat-card-title>
+			<mat-card-title>Basic</mat-card-title>
 			<mat-card-content>
 				<mat-form-field>
 					<input matInput name="taskNameInput" [(ngModel)]="data.name" required>
