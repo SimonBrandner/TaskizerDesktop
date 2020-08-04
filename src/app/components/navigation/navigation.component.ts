@@ -54,12 +54,11 @@ export class NavigationComponent implements OnInit {
 
 	addProjectEvent($event): void {
 		console.log("New project id retrieved from ConfigService.");
-		this.projects.push({ id: this.configService.getIdForNewProject(), name: $event.name, path: $event.path });
-		console.log("Project added to the projects array.");
 		this.configService.addProject($event.name, $event.path);
 		console.log("Adding project using ConfigService.");
 		this.projectService.createNewProject($event.name, $event.path);
 		console.log("Saving project using ProjectService.");
+		this.configService.load();
 	}
 
 	editProjectEvent($event): void {
