@@ -12,6 +12,13 @@
 	margin-right: var(--horizontal-distance-between-form-fields);
 }
 
+.reminder-item {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
 	-webkit-appearance: none;

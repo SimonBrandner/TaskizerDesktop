@@ -35,6 +35,10 @@ export class TaskDatabase {
 				unit: element["repeat"]["unit"],
 				category: element["repeat"]["category"]
 			};
+			task.reminders = [];
+			element["reminders"].forEach((reminder) => {
+				task.reminders.push(new Date(reminder));
+			});
 
 			tasks.push(task);
 		});
@@ -61,7 +65,8 @@ export class TaskDatabase {
 				tasks: subtasks,
 				isExpanded: element.isExpanded,
 				date: element.date,
-				repeat: element.repeat
+				repeat: element.repeat,
+				reminders: element.reminders
 			});
 		});
 

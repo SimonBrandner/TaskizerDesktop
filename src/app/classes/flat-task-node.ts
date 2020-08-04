@@ -12,6 +12,7 @@ export class FlatTaskNode {
 		unit: number[];
 		category: string;
 	};
+	reminders: Array<Date>;
 
 	getDateOutput() {
 		var weekDays: string[] = [

@@ -105,7 +105,8 @@ export class SpeedDialFabComponent implements OnInit {
 					ordinal: null,
 					unit: [],
 					category: null
-				}
+				},
+				reminders: []
 			} as TaskNode
 		});
 		console.log("Opened TaskMenuComponent dialog.");

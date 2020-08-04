@@ -9,13 +9,13 @@
 					<mat-label> Task name </mat-label>
 				</mat-form-field>
 				<mat-form-field>
-					<input matInput name="taskDateInput" readonly="true" [ngxMatDatetimePicker]="picker"
+					<input matInput name="taskDateInput" readonly="true" [ngxMatDatetimePicker]="datePicker"
 						placeholder="Choose a deadline" [(ngModel)]="data.date" (ngModelChange)="deadlineChanged()">
-					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
 					<button mat-icon-button matSuffix (click)="clearDateInput()">
 						<mat-icon> clear </mat-icon>
 					</button>
-					<ngx-mat-datetime-picker #picker [showSpinners]="false" [defaultTime]="[12,00,0]">
+					<ngx-mat-datetime-picker #datePicker [showSpinners]="false" [defaultTime]="[12,00,0]">
 					</ngx-mat-datetime-picker>
 					<mat-label> Deadline time </mat-label>
 				</mat-form-field>
@@ -68,6 +68,35 @@
 						</mat-error>
 						<mat-label> Unit </mat-label>
 					</mat-form-field>
+				</div>
+			</mat-card-content>
+		</mat-card>
+		<mat-card>
+			<mat-card-title>Reminders</mat-card-title>
+			<mat-card-content>
+				<mat-form-field>
+					<input matInput name="taskDateInput" readonly="true" [(ngModel)]="reminderInput"
+						[ngxMatDatetimePicker]="reminderPicker" placeholder="Set a new reminder"
+						(ngModelChange)="deadlineChanged()">
+					<mat-datepicker-toggle matSuffix [for]="reminderPicker"></mat-datepicker-toggle>
+					<button mat-icon-button matSuffix (click)="clearReminderInput()">
+						<mat-icon> clear </mat-icon>
+					</button>
+					<button mat-icon-button matSuffix (click)="checkReminderInput()">
+						<mat-icon> check </mat-icon>
+					</button>
+					<ngx-mat-datetime-picker #reminderPicker [showSpinners]="false" [defaultTime]="[12,00,0]">
+					</ngx-mat-datetime-picker>
+					<mat-label> Add a reminder </mat-label>
+				</mat-form-field>
+				<div role="list">
+					<div class="reminder-item" *ngFor="let reminder of data.reminders; let index = index"
+						role="listitem">
+						<div>{{reminder.toLocaleString()}}</div>
+						<button mat-icon-button (click)="deleteReminder(index)">
+							<mat-icon> delete </mat-icon>
+						</button>
+					</div>
 				</div>
 			</mat-card-content>
 		</mat-card>

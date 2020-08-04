@@ -49,27 +49,44 @@ export class TaskMenuComponent implements OnInit, OnDestroy {
 
 	clearDateInput() {
 		console.log("Clear date input button clicked.");
-		this.data.date = undefined;
-		this.data.repeat.ordinal = undefined;
+		this.data.date = null;
+		this.data.repeat.ordinal = null;
 		this.data.repeat.unit = [];
-		this.data.repeat.category = undefined;
+		this.data.repeat.category = null;
 		this.data.repeat.preset = "none";
 		this.unitInput = [];
 	}
 
+	clearReminderInput() {
+		console.log("Clear reminder input button clicked.");
+		this.reminderInput = null;
+	}
+
+	checkReminderInput() {
+		console.log("Check reminder input button clicked.");
+		this.data.reminders.push(this.reminderInput);
+		console.log("Added reminder to task", this.reminderInput);
+		this.reminderInput = null;
+	}
+
+	deleteReminder(reminderIndex: number) {
+		console.log("Deleting reminder", this.data.reminders[reminderIndex]);
+		this.data.reminders.splice(reminderIndex, 1);
+	}
+
 	deadlineChanged() {
-		this.data.repeat.ordinal = undefined;
+		this.data.repeat.ordinal = null;
 		this.data.repeat.unit = [];
-		this.data.repeat.category = undefined;
+		this.data.repeat.category = null;
 		this.unitInput = [];
 		this.data.repeat.preset = "none";
 	}
 
 	presetSelectionChanged() {
 		if (this.data.repeat.preset == "none") {
-			this.data.repeat.ordinal = undefined;
+			this.data.repeat.ordinal = null;
 			this.data.repeat.unit = [];
-			this.data.repeat.category = undefined;
+			this.data.repeat.category = null;
 			this.unitInput = [];
 		}
 	}
@@ -119,6 +136,7 @@ export class TaskMenuComponent implements OnInit, OnDestroy {
 	}
 
 	unitInput: Array<string> = [];
+	reminderInput: Date;
 
 	_onDestroy = new Subject<void>();
 

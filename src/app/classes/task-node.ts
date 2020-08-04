@@ -9,6 +9,7 @@ export class TaskNode {
 		unit: number[];
 		category: string;
 	};
+	reminders: Array<Date>;
 
 	setDateBasedOnRepeatRules() {
 		var currentDeadline = this.date;
