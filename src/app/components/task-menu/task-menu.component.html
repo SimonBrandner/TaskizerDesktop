@@ -10,7 +10,7 @@
 				</mat-form-field>
 				<mat-form-field>
 					<input matInput name="taskDateInput" readonly="true" [ngxMatDatetimePicker]="datePicker"
-						placeholder="Choose a deadline" [(ngModel)]="data.date" (ngModelChange)="deadlineChanged()">
+						placeholder="Choose a deadline" [(ngModel)]="data.date" (ngModelChange)="dateChanged()">
 					<mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
 					<button mat-icon-button matSuffix (click)="clearDateInput()">
 						<mat-icon> clear </mat-icon>
@@ -75,9 +75,8 @@
 			<mat-card-title>Reminders</mat-card-title>
 			<mat-card-content>
 				<mat-form-field>
-					<input matInput name="taskDateInput" readonly="true" [(ngModel)]="reminderInput"
-						[ngxMatDatetimePicker]="reminderPicker" placeholder="Set a new reminder"
-						(ngModelChange)="deadlineChanged()">
+					<input matInput name="taskReminderInput" readonly="true" [(ngModel)]="reminderInput"
+						[ngxMatDatetimePicker]="reminderPicker" placeholder="Set a new reminder">
 					<mat-datepicker-toggle matSuffix [for]="reminderPicker"></mat-datepicker-toggle>
 					<button mat-icon-button matSuffix (click)="clearReminderInput()">
 						<mat-icon> clear </mat-icon>

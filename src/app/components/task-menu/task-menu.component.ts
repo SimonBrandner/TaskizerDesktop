@@ -74,7 +74,8 @@ export class TaskMenuComponent implements OnInit, OnDestroy {
 		this.data.reminders.splice(reminderIndex, 1);
 	}
 
-	deadlineChanged() {
+	dateChanged() {
+		console.log("Date changed to", this.data.date);
 		this.data.repeat.ordinal = null;
 		this.data.repeat.unit = [];
 		this.data.repeat.category = null;
@@ -83,6 +84,7 @@ export class TaskMenuComponent implements OnInit, OnDestroy {
 	}
 
 	presetSelectionChanged() {
+		console.log("Preset selection changed.");
 		if (this.data.repeat.preset == "none") {
 			this.data.repeat.ordinal = null;
 			this.data.repeat.unit = [];
@@ -92,6 +94,7 @@ export class TaskMenuComponent implements OnInit, OnDestroy {
 	}
 
 	unitSelectionChanged() {
+		console.log("Unit selection changed.");
 		if (!this.unitInput || !this.unitInput.length) {
 			return;
 		}
