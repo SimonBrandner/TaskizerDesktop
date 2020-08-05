@@ -91,6 +91,76 @@ export class TaskMenuComponent implements OnInit, OnDestroy {
 			this.data.repeat.category = null;
 			this.unitInput = [];
 		}
+		else if (this.data.repeat.preset == "everyDay") {
+			this.data.repeat.ordinal = 1;
+			this.data.repeat.unit = [
+				0
+			];
+			this.data.repeat.category = "units";
+			this.unitInput = [
+				"units.0"
+			];
+		}
+		else if (this.data.repeat.preset == "everyWorkDay") {
+			this.data.repeat.ordinal = 1;
+			this.data.repeat.unit = [
+				1,
+				2,
+				3,
+				4,
+				5
+			];
+			this.data.repeat.category = "days";
+			this.unitInput = [
+				"days.1",
+				"days.2",
+				"days.3",
+				"days.4",
+				"days.5"
+			];
+		}
+		else if (this.data.repeat.preset == "everyWeekend") {
+			this.data.repeat.ordinal = 1;
+			this.data.repeat.unit = [
+				0,
+				6
+			];
+			this.data.repeat.category = "days";
+			this.unitInput = [
+				"days.0",
+				"days.6"
+			];
+		}
+		else if (this.data.repeat.preset == "everyWeek") {
+			this.data.repeat.ordinal = 1;
+			this.data.repeat.unit = [
+				1
+			];
+			this.data.repeat.category = "units";
+			this.unitInput = [
+				"units.1"
+			];
+		}
+		else if (this.data.repeat.preset == "everyMonth") {
+			this.data.repeat.ordinal = 1;
+			this.data.repeat.unit = [
+				2
+			];
+			this.data.repeat.category = "units";
+			this.unitInput = [
+				"units.2"
+			];
+		}
+		else if (this.data.repeat.preset == "everyYear") {
+			this.data.repeat.ordinal = 1;
+			this.data.repeat.unit = [
+				3
+			];
+			this.data.repeat.category = "units";
+			this.unitInput = [
+				"units.3"
+			];
+		}
 	}
 
 	unitSelectionChanged() {

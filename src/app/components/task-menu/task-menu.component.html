@@ -29,10 +29,16 @@
 						[(ngModel)]="data.repeat.preset" (ngModelChange)="presetSelectionChanged()">
 						<mat-option value="none"> None </mat-option>
 						<mat-option value="custom"> Custom </mat-option>
+						<mat-option value="everyDay"> Every day </mat-option>
+						<mat-option value="everyWorkDay"> Every work day </mat-option>
+						<mat-option value="everyWeekend"> Every weekend </mat-option>
+						<mat-option value="everyWeek"> Every week </mat-option>
+						<mat-option value="everyMonth"> Every month </mat-option>
+						<mat-option value="everyYear"> Every year </mat-option>
 					</mat-select>
 					<mat-label> Repeat preset </mat-label>
 				</mat-form-field>
-				<div class="repeat-main" *ngIf="data.repeat.preset=='custom'">
+				<div class="repeat-main" *ngIf="data.repeat.preset!='none'">
 					<mat-form-field class="ordinal-form-field">
 						<input matInput type="number" min="1" name="taskOrdinalInput" placeholder="Choose a unit"
 							[(ngModel)]="data.repeat.ordinal" required ordinalValidatorDirective
