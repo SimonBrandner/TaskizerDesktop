@@ -69,6 +69,7 @@ export class ProjectComponent implements OnInit {
 		flatTask.isExpanded = task.isExpanded;
 		flatTask.date = task.date;
 		flatTask.repeat = task.repeat;
+		flatTask.reminders = task.reminders;
 		this.flatTaskMap.set(flatTask, task);
 		this.nestedTaskMap.set(task, flatTask);
 		return flatTask;
@@ -80,7 +81,7 @@ export class ProjectComponent implements OnInit {
 	}
 
 	editTask(task: FlatTaskNode) {
-		console.log("Edit task button clicked.");
+		console.log("Edit task button clicked", task);
 		const dialogRef = this.dialog.open(TaskMenuComponent, {
 			data: this.flatTaskMap.get(task)
 		});
@@ -115,14 +116,14 @@ export class ProjectComponent implements OnInit {
 	}
 
 	taskStatusChanged(event, task: FlatTaskNode) {
-		console.log("Task status of task changed: ", task);
+		console.log("Task status of task changed:", task);
 		setTimeout(() => {
 			if (task.repeat.preset == "none") {
 				this.deleteTask(task);
 			}
 			else {
-				console.log("Handling repetition of task " + task.name);
-				task.nextRepeatDate();
+				console.log("Handling repetition of task", task);
+				task.nextRepeat();
 				this.database.updateDatabase();
 				event.source.checked = false;
 			}

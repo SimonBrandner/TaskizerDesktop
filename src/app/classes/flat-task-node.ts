@@ -82,14 +82,14 @@ export class FlatTaskNode {
 		}
 	}
 
-	nextRepeatDate() {
+	nextRepeat() {
+		// Date
 		var currentDateDay = this.date.getDay();
 		var currentDateMonth = this.date.getMonth();
 
 		if (this.repeat.category == "days") {
 			if (this.repeat.unit.indexOf(currentDateDay) == this.repeat.unit.length - 1) {
 				this.date.setDate(this.date.getDate() + 7 * this.repeat.ordinal);
-				console.log(this.date.toLocaleString());
 			}
 
 			this.date.setDate(
@@ -117,7 +117,6 @@ export class FlatTaskNode {
 			if (this.repeat.unit[0] == 0) {
 				// Day
 				this.date.setDate(this.date.getDate() + 1 * this.repeat.ordinal);
-				console.log("test");
 			}
 			else if (this.repeat.unit[0] == 1) {
 				// Week
@@ -132,5 +131,59 @@ export class FlatTaskNode {
 				this.date.setFullYear(this.date.getFullYear() + 1 * this.repeat.ordinal);
 			}
 		}
+		// Date
+
+		// Reminders
+		this.reminders.forEach((reminder, index) => {
+			var currentDateDay = reminder.getDay();
+			var currentDateMonth = reminder.getMonth();
+
+			if (this.repeat.category == "days") {
+				if (this.repeat.unit.indexOf(currentDateDay) == this.repeat.unit.length - 1) {
+					this.reminders[index].setDate(reminder.getDate() + 7 * this.repeat.ordinal);
+				}
+
+				this.reminders[index].setDate(
+					reminder.getDate() +
+						(Algorithms.getArrayElementWithOverflowHandling(
+							this.repeat.unit,
+							this.repeat.unit.indexOf(currentDateDay) + 1
+						) -
+							currentDateDay)
+				);
+			}
+			else if (this.repeat.category == "months") {
+				if (this.repeat.unit.indexOf(currentDateMonth) == this.repeat.unit.length - 1) {
+					this.reminders[index].setFullYear(reminder.getFullYear() + 1 * this.repeat.ordinal);
+				}
+
+				this.reminders[index].setMonth(
+					Algorithms.getArrayElementWithOverflowHandling(
+						this.repeat.unit,
+						this.repeat.unit.indexOf(currentDateMonth) + 1
+					)
+				);
+			}
+			else {
+				if (this.repeat.unit[0] == 0) {
+					// Day
+					this.reminders[index].setDate(reminder.getDate() + 1 * this.repeat.ordinal);
+					console.log("test");
+				}
+				else if (this.repeat.unit[0] == 1) {
+					// Week
+					this.reminders[index].setDate(reminder.getDate() + 7 * this.repeat.ordinal);
+				}
+				else if (this.repeat.unit[0] == 2) {
+					// Month
+					this.reminders[index].setMonth(reminder.getMonth() + 1 * this.repeat.ordinal);
+				}
+				else {
+					// Year
+					this.reminders[index].setFullYear(reminder.getFullYear() + 1 * this.repeat.ordinal);
+				}
+			}
+		});
+		// Reminders
 	}
 }
