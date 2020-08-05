@@ -94,7 +94,7 @@ export class TaskMenuComponent implements OnInit, OnDestroy {
 	}
 
 	unitSelectionChanged() {
-		console.log("Unit selection changed.");
+		console.log("Unit selection changed", this.unitInput);
 		if (!this.unitInput || !this.unitInput.length) {
 			return;
 		}
@@ -102,6 +102,7 @@ export class TaskMenuComponent implements OnInit, OnDestroy {
 		this.unitInput.forEach((element, index) => {
 			this.data.repeat.unit[index] = +element.slice(element.indexOf(".") + 1, element.length);
 		});
+		console.log("Set repeat unit", this.data.repeat.unit);
 
 		this.data.setDateBasedOnRepeatRules();
 	}
