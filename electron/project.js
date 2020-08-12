@@ -3,11 +3,12 @@ const fs = require("fs");
 module.exports = {
 	get(event, projectPath) {
 		var project = JSON.parse(fs.readFileSync(projectPath));
-		console.log("Retrieved project", project["name"], "with path", projectPath, ": ", project);
+		console.log("Retrieved project", project["name"], "with path", projectPath, ":", project);
 		window.webContents.send("getProjectResponse", project);
 	},
+
 	set(event, projectPath, project) {
-		console.log("Setting project", project["name"], "with path", projectPath, ": ", project);
+		console.log("Setting project", project["name"], "with path", projectPath, ":", project);
 		fs.writeFileSync(projectPath, JSON.stringify(project, null, "\t"));
 	},
 
