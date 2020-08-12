@@ -16,7 +16,7 @@ module.exports = {
 			const notification = new Notification({
 				title: "Updates available",
 				body: "Click to restart the app and install updates.",
-				icon: appIcon
+				icon: global.appIcon
 			});
 			notification.show();
 			notification.on("click", () => {
