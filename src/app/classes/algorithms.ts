@@ -23,27 +23,20 @@ export class Algorithms {
 		return array.length;
 	}
 
-	static findAllTaskIdsInProject(project, topLevelId: String): Array<String> {
-		var ids: String[] = [];
-		var task = project;
+	static findAllTaskIdsInProject(task: any): Array<number> {
+		var ids: Array<number> = [];
+
+		if (task.id != undefined) {
+			ids.push(task.id);
+		}
 
 		if (task.hasOwnProperty("tasks")) {
-			if (task.hasOwnProperty("id")) {
-				ids.push(task.id.toString());
-			}
-			else {
-				ids.push(topLevelId);
-			}
-
 			task.tasks.forEach((subtask) => {
-				ids = ids.concat(this.findAllTaskIdsInProject(subtask, topLevelId));
+				ids = ids.concat(this.findAllTaskIdsInProject(subtask));
 			});
+		}
 
-			return ids;
-		}
-		else {
-			return [];
-		}
+		return ids;
 	}
 
 	static getArrayElementWithOverflowHandling(array: Array<any>, index: number): any {

@@ -10,6 +10,8 @@ import { ImportProjectMenuComponent } from "../import-project-menu/import-projec
 import { MenuService } from "../../services/menu.service";
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { ProjectService } from "./../../services/project.service";
+import { Algorithms } from "src/app/classes/algorithms";
 
 @Component({
 	selector: "speed-dial-fab",
@@ -27,7 +29,8 @@ export class SpeedDialFabComponent implements OnInit {
 		private menuService: MenuService,
 		private zone: NgZone,
 		private router: Router,
-		private snackBar: MatSnackBar
+		private snackBar: MatSnackBar,
+		private projectService: ProjectService
 	) {}
 
 	ngOnInit(): void {
@@ -86,6 +89,9 @@ export class SpeedDialFabComponent implements OnInit {
 
 	addTask(): void {
 		console.log("Add task button clicked.");
+
+		var project;
+
 		if (
 			this.router.url.slice(1, this.router.url.length).slice(0, this.router.url.indexOf("/", 1) - 1) != "project"
 		) {
@@ -95,29 +101,40 @@ export class SpeedDialFabComponent implements OnInit {
 			});
 			return;
 		}
-		console.log();
-		const dialogRef = this.dialog.open(TaskMenuComponent, {
-			data: {
-				name: "New task",
-				date: null,
-				repeat: {
-					preset: "none",
-					ordinal: null,
-					unit: [],
-					category: null
-				},
-				reminders: []
-			} as TaskNode
-		});
-		console.log("Opened TaskMenuComponent dialog.");
-		dialogRef.afterClosed().subscribe((result: TaskNode) => {
-			if (result == null) {
-				console.log("New task empty.");
-			}
-			else {
-				this.taskService.addTask(result);
-			}
-		});
+
+		this.projectService
+			.getProjectByPath(
+				this.configService.getProjectById(
+					+this.router.url
+						.slice(this.router.url.lastIndexOf("/"), this.router.url.length)
+						.slice(1, this.router.url.length)
+				)["path"]
+			)
+			.then((result) => {
+				const dialogRef = this.dialog.open(TaskMenuComponent, {
+					data: {
+						name: "New task",
+						date: null,
+						repeat: {
+							preset: "none",
+							ordinal: null,
+							unit: [],
+							category: null
+						},
+						reminders: [],
+						id: Algorithms.findLowestUnusedValueInNumberArray(Algorithms.findAllTaskIdsInProject(result))
+					} as TaskNode
+				});
+				console.log("Opened TaskMenuComponent dialog.");
+				dialogRef.afterClosed().subscribe((result: TaskNode) => {
+					if (result == null) {
+						console.log("New task empty.");
+					}
+					else {
+						this.taskService.addTask(result);
+					}
+				});
+			});
 	}
 
 	importProject(): void {

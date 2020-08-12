@@ -70,6 +70,7 @@ export class ProjectComponent implements OnInit {
 		flatTask.date = task.date;
 		flatTask.repeat = task.repeat;
 		flatTask.reminders = task.reminders;
+		flatTask.id = task.id;
 		this.flatTaskMap.set(flatTask, task);
 		this.nestedTaskMap.set(task, flatTask);
 		return flatTask;

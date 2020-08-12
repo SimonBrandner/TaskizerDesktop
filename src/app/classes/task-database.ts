@@ -39,6 +39,7 @@ export class TaskDatabase {
 			element["reminders"].forEach((reminder) => {
 				task.reminders.push(new Date(reminder));
 			});
+			task.id = element["id"];
 
 			tasks.push(task);
 		});
@@ -66,7 +67,8 @@ export class TaskDatabase {
 				isExpanded: element.isExpanded,
 				date: element.date,
 				repeat: element.repeat,
-				reminders: element.reminders
+				reminders: element.reminders,
+				id: element.id
 			});
 		});
 
