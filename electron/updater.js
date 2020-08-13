@@ -1,3 +1,4 @@
+const { Notification } = require("electron");
 const { autoUpdater } = require("electron-updater");
 
 module.exports = {
