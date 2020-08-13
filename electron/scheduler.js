@@ -1,3 +1,4 @@
+const { Notification } = require("electron");
 const schedule = require("node-schedule");
 
 module.exports = {
@@ -16,14 +17,27 @@ module.exports = {
 			global.jobs = [];
 		}
 
-		config.getProjectPaths().forEach((projectPath) => {
-			console.log(project);
-			project.getFlatTaskList(projectPath).forEach((task) => {
-				if (task["reminders"].length > 0) {
-					task["reminders"].forEach((reminder) => {
+		config.getProjects().forEach((projectInfo) => {
+			project.getFlatTaskListByProjectPath(projectInfo["path"]).forEach((taskInfo) => {
+				if (taskInfo["reminders"].length > 0) {
+					taskInfo["reminders"].forEach((reminder) => {
 						global.jobs.push(
 							schedule.scheduleJob(reminder, () => {
-								console.log("Reminder: project path:", projectPath, "task id:", task["id"]);
+								console.log("Reminder: project:", projectInfo, "task:", taskInfo);
+
+								const notification = new Notification({
+									title: "Reminder",
+									body: taskInfo["name"],
+									icon: global.appIcon
+								});
+								notification.show();
+								notification.on("click", () => {
+									console.log("Reminder clicked: project:", projectInfo, "task:", taskInfo);
+									global.window.webContents.send("focusOnTask", {
+										projectId: projectInfo["id"],
+										taskId: taskInfo["id"]
+									});
+								});
 							})
 						);
 					});

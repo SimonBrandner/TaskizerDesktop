@@ -44,7 +44,7 @@ module.exports = {
 		fs.unlinkSync(projectPath);
 	},
 
-	getFlatTaskList(projectPath) {
+	getFlatTaskListByProjectPath(projectPath) {
 		var flatTaskList = [];
 
 		flatTaskList = getTasks(JSON.parse(fs.readFileSync(projectPath))["tasks"]);
