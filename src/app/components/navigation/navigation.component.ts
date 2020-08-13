@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from "@angular/core";
+import { Component, OnInit, HostListener, NgZone } from "@angular/core";
 import { BreakpointObserver, Breakpoints, BreakpointState } from "@angular/cdk/layout";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Observable, Subject, BehaviorSubject } from "rxjs";
@@ -6,6 +6,8 @@ import { ConfigService } from "../../services/config.service";
 import { ProjectService } from "../../services/project.service";
 import { SettingsComponent } from "../settings/settings.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { NotificationService } from "../../services/notification.service";
+import { Router } from "@angular/router";
 
 @Component({
 	selector: "navigation",
@@ -19,6 +21,9 @@ export class NavigationComponent implements OnInit {
 		private breakpointObserver: BreakpointObserver,
 		private configService: ConfigService,
 		private projectService: ProjectService,
+		private notificationService: NotificationService,
+		private zone: NgZone,
+		private router: Router,
 		public dialog: MatDialog
 	) {}
 
@@ -30,6 +35,12 @@ export class NavigationComponent implements OnInit {
 
 		this.projects = this.configService.getProjects();
 		console.log("Retrieved projects from ConfigService", this.projects);
+
+		this.notificationService.focusOnTaskEvent.subscribe((value) => {
+			this.zone.run(() => {
+				this.focusOnTaskEvent(value);
+			});
+		});
 	}
 
 	drop(event: CdkDragDrop<string[]>): void {
@@ -50,6 +61,15 @@ export class NavigationComponent implements OnInit {
 		this.windowSize.subscribe((data) => {
 			dio.updateSize((data[0] - 500).toString() + "px", (data[1] - 250).toString() + "px");
 		});
+	}
+
+	focusOnTaskEvent(payload: any): void {
+		console.log("Focusing on task", payload);
+
+		this.router.navigate([
+			"/project",
+			payload.projectId
+		]);
 	}
 
 	addProjectEvent($event): void {
