@@ -10,7 +10,6 @@ It was built using Angular and Electron.
 + Scheduling
 + Project importing
 + System tray icon
-+ Deadlines
 + Keyboard shortcuts
 + Repeated tasks
 + Repeat presets
