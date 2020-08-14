@@ -23,6 +23,14 @@ export class ConfigService {
 		return this.config["projects"];
 	}
 
+	getProjectPaths(): Array<string> {
+		var projectPaths: Array<string> = [];
+		this.config["projects"].forEach((project) => {
+			projectPaths.push(project["path"]);
+		});
+		return projectPaths;
+	}
+
 	getDefaultView(): string {
 		return this.config["defaultView"];
 	}

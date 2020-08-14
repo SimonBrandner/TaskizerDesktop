@@ -1,0 +1,33 @@
+mat-tree {
+	background: transparent !important;
+}
+
+.mat-tree-node {
+	overflow: visible;
+	cursor: default;
+	--mat-tree-node-hover: hidden;
+}
+
+.mat-tree-node:hover {
+	--mat-tree-node-hover: visible;
+}
+
+.task {
+	border-color: black;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.task-left {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.drop-center {
+	background-color: darkgray;
+}

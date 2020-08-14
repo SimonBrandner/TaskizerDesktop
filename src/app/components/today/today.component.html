@@ -1,2 +1,42 @@
-<h1>Today view</h1>
-<p>Today is not done yet!</p>
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+	<mat-tree-node *matTreeNodeDef="let task" matTreeNodeToggle matTreeNodePadding>
+		<button mat-icon-button disabled></button>
+		<div class="task" draggable="false">
+			<mat-checkbox (change)="taskStatusChanged($event, task)">
+				{{task.name}}
+			</mat-checkbox>
+			<div class="task-left">
+				<task-date [task]="task"></task-date>
+				<button (click)="editTask(task)" mat-icon-button>
+					<mat-icon> edit </mat-icon>
+				</button>
+				<button (click)="deleteTaskButtonClicked(task)" mat-icon-button>
+					<mat-icon> delete </mat-icon>
+				</button>
+			</div>
+		</div>
+	</mat-tree-node>
+
+	<mat-tree-node *matTreeNodeDef="let task;when: hasChild" matTreeNodePadding>
+		<button mat-icon-button matTreeNodeToggle (click)="taskExpansionHandler(task)"
+			[attr.aria-label]="'toggle ' + task.name">
+			<mat-icon class="mat-icon-rtl-mirror">
+				{{task.isExpanded ? 'expand_more' : 'chevron_right'}}
+			</mat-icon>
+		</button>
+		<div class="task" draggable="false">
+			<mat-checkbox (change)="taskStatusChanged($event, task)">
+				{{task.name}}
+			</mat-checkbox>
+			<div class="task-left">
+				<task-date [task]="task"></task-date>
+				<button (click)="editTask(task)" mat-icon-button>
+					<mat-icon> edit </mat-icon>
+				</button>
+				<button (click)="deleteTaskButtonClicked(task)" mat-icon-button>
+					<mat-icon> delete </mat-icon>
+				</button>
+			</div>
+		</div>
+	</mat-tree-node>
+</mat-tree>

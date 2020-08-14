@@ -1,3 +1,5 @@
+import { TaskNode } from "./task-node";
+
 export class Algorithms {
 	constructor() {}
 
