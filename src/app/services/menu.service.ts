@@ -28,12 +28,20 @@ export class MenuService {
 			this.ipcRenderer.on("newTask", () => {
 				this.newTaskEvent.next();
 			});
+			this.ipcRenderer.on("nextNavItem", () => {
+				this.nextNavItemEvent.next();
+			});
+			this.ipcRenderer.on("previousNavItem", () => {
+				this.previousNavItemEvent.next();
+			});
 		}
 	}
 
 	newProjectEvent: Subject<void> = new Subject<void>();
 	importProjectEvent: Subject<void> = new Subject<void>();
 	newTaskEvent: Subject<void> = new Subject<void>();
+	nextNavItemEvent: Subject<void> = new Subject<void>();
+	previousNavItemEvent: Subject<void> = new Subject<void>();
 
 	private ipcRenderer: IpcRenderer;
 }

@@ -1,13 +1,14 @@
 import { Component, OnInit, HostListener, NgZone } from "@angular/core";
 import { BreakpointObserver, Breakpoints, BreakpointState } from "@angular/cdk/layout";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { Observable, Subject, BehaviorSubject } from "rxjs";
+import { Observable, Subject, BehaviorSubject, from } from "rxjs";
 import { ConfigService } from "../../services/config.service";
 import { ProjectService } from "../../services/project.service";
 import { SettingsComponent } from "../settings/settings.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { NotificationService } from "../../services/notification.service";
 import { Router } from "@angular/router";
+import { MenuService } from "../../services/menu.service";
 
 @Component({
 	selector: "navigation",
@@ -22,6 +23,7 @@ export class NavigationComponent implements OnInit {
 		private configService: ConfigService,
 		private projectService: ProjectService,
 		private notificationService: NotificationService,
+		private menuService: MenuService,
 		private zone: NgZone,
 		private router: Router,
 		public dialog: MatDialog
@@ -36,11 +38,76 @@ export class NavigationComponent implements OnInit {
 		this.projects = this.configService.getProjects();
 		console.log("Retrieved projects from ConfigService", this.projects);
 
+		this.setSelectedProject(-1);
+
 		this.notificationService.focusOnTaskEvent.subscribe((value) => {
 			this.zone.run(() => {
 				this.focusOnTaskEvent(value);
 			});
 		});
+
+		this.menuService.nextNavItemEvent.subscribe(() => {
+			console.log("Next navigation item");
+			this.zone.run(() => {
+				this.nextNavItem();
+			});
+		});
+
+		this.menuService.previousNavItemEvent.subscribe(() => {
+			console.log("Previous navigation item");
+			this.zone.run(() => {
+				this.previousNavItem();
+			});
+		});
+	}
+
+	nextNavItem() {
+		console.log("Current selected project index is:", this.selectedProjectIndex);
+		if (this.selectedProjectIndex == this.projects.length - 1) {
+			this.router.navigate([
+				"today"
+			]);
+			this.selectedProjectIndex = -1;
+			return;
+		}
+		if (this.selectedProjectIndex == -1) {
+			this.router.navigate([
+				"project",
+				this.projects[0].id
+			]);
+			this.selectedProjectIndex = 0;
+			return;
+		}
+		this.router.navigate([
+			"project",
+			this.projects[this.selectedProjectIndex + 1].id
+		]);
+		this.selectedProjectIndex++;
+	}
+
+	previousNavItem() {
+		console.log("Current selected project index is:", this.selectedProjectIndex);
+		if (this.selectedProjectIndex == 0) {
+			this.router.navigate([
+				"today"
+			]);
+			this.selectedProjectIndex = -1;
+			return;
+		}
+		if (this.selectedProjectIndex == -1) {
+			this.router.navigate([
+				"project",
+				this.projects[this.projects.length - 1].id
+			]);
+			this.selectedProjectIndex = this.projects.length - 1;
+			return;
+		}
+
+		this.router.navigate([
+			"project",
+			this.projects[this.selectedProjectIndex - 1].id
+		]);
+		this.selectedProjectIndex--;
 	}
 
 	drop(event: CdkDragDrop<string[]>): void {
@@ -110,9 +177,9 @@ export class NavigationComponent implements OnInit {
 		});
 	}
 
-	setSelectedProject(projectId: number) {
-		this.selectedProjectId = projectId;
-		console.log("selectedProjectId has been set.");
+	setSelectedProject(index) {
+		this.selectedProjectIndex = index;
+		console.log("selectedProjectId has been set to", index);
 	}
 
 	@HostListener("window:resize", [
@@ -128,7 +195,7 @@ export class NavigationComponent implements OnInit {
 	isHandset: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.Handset);
 	projects = [];
 	defaultView: string;
-	selectedProjectId: number;
+	selectedProjectIndex: number;
 
 	windowSize: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
 }

@@ -20,7 +20,8 @@
 	<mat-sidenav #sidenavDrawer [mode]="(isHandset | async)!.matches ? 'over' : 'side'"
 		[opened]="!(isHandset | async)!.matches" fixedInViewport="false">
 		<mat-nav-list>
-			<mat-list-item [routerLink]="['today']" [routerLinkActive]="['drag-item-selected']" i18n>
+			<mat-list-item [routerLink]="['today']" [routerLinkActive]="['drag-item-selected']"
+				(click)="setSelectedProject('today')" i18n>
 				Today
 			</mat-list-item>
 
@@ -31,9 +32,9 @@
 					<mat-panel-title i18n> Projects </mat-panel-title>
 				</mat-expansion-panel-header>
 				<div class="drop-list" cdkDropList (cdkDropListDropped)="drop($event)">
-					<mat-list-item class="drag-item" (click)="setSelectedProject(project.id)"
+					<mat-list-item class="drag-item" (click)="setSelectedProject(index)"
 						[routerLink]="['project', project.id]" [routerLinkActive]="['drag-item-selected']" cdkDrag
-						*ngFor="let project of projects">
+						*ngFor="let project of projects; index as index">
 						<project-nav-item (editProjectOutput)="editProjectEvent($event)"
 							(deleteProjectOutput)="deleteProjectEvent($event)" [project]=project>
 							{{project["name"]}}

@@ -17,6 +17,16 @@ module.exports = {
 						accelerator: "CommandOrControl+H"
 					},
 					{
+						label: "Next navigation item",
+						click: module.exports.nextNavigationItem,
+						accelerator: "CommandOrControl+Tab"
+					},
+					{
+						label: "Previous navigation item",
+						click: module.exports.previousNavigationItem,
+						accelerator: "CommandOrControl+Shift+Tab"
+					},
+					{
 						label: "Check for updates",
 						click: updater.checkForUpdates
 					},
@@ -82,5 +92,15 @@ module.exports = {
 	newTask() {
 		console.log("New task button clicked.");
 		global.window.webContents.send("newTask");
+	},
+
+	nextNavigationItem() {
+		console.log("Next navigation item button clicked.");
+		global.window.webContents.send("nextNavItem");
+	},
+
+	previousNavigationItem() {
+		console.log("Previous navigation item button clicked.");
+		global.window.webContents.send("previousNavItem");
 	}
 };
