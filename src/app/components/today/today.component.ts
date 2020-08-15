@@ -11,6 +11,7 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { TaskMenuComponent } from "../task-menu/task-menu.component";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmComponent } from "../confirm/confirm.component";
+import { Algorithms } from "src/app/classes/algorithms";
 
 @Component({
 	selector: "today",
@@ -86,11 +87,26 @@ export class TodayComponent implements OnInit {
 	}
 
 	shouldTaskBeInTodayView(task: TaskNode): boolean {
-		// TODO: Add better settings
-		if (task.date != null) {
+		var tomorrowDate = new Date(
+			new Date().getFullYear(),
+			new Date().getMonth(),
+			new Date().getDate() + 1,
+			0,
+			0,
+			0,
+			0
+		);
+		if (
+			Algorithms.isOneOfDatesEarlierThan(
+				[
+					new Date(task.date)
+				],
+				tomorrowDate
+			)
+		) {
 			return true;
 		}
-		if (task.reminders.length > 0) {
+		if (Algorithms.isOneOfDatesEarlierThan(task.reminders, tomorrowDate)) {
 			return true;
 		}
 		return false;

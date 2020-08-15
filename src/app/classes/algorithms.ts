@@ -49,4 +49,15 @@ export class Algorithms {
 			return array[index];
 		}
 	}
+
+	static isOneOfDatesEarlierThan(beforeDates: Array<Date>, afterDate: Date): boolean {
+		for (var beforeDate of beforeDates) {
+			console.log(beforeDate.valueOf());
+			console.log(afterDate.valueOf());
+			if (beforeDate.valueOf() < afterDate.valueOf()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
