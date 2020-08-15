@@ -68,10 +68,10 @@ export class ProjectService {
 		this.ipcRenderer.send("deleteProjectFile", projectPath);
 	}
 
-	editTaskByProjectPathAndTaskId(projectPath: string, task: TaskNode): void {
+	async editTaskByProjectPathAndTaskId(projectPath: string, task: TaskNode): Promise<void> {
 		console.log("Editing task", task, "from project with path", projectPath);
 
-		this.getProjectByPath(projectPath).then((result) => {
+		await this.getProjectByPath(projectPath).then((result) => {
 			this.setProjectContent(projectPath, this.editTaskInProject(result.tasks, task));
 		});
 	}
