@@ -1,3 +1,4 @@
+<div class="date-before-today" *ngIf="task.getDateOutput() == 'before'">{{task.date.toLocaleString()}}</div>
 <div class="date-today" *ngIf="task.getDateOutput() == 'today'"> Today at
 	{{task.date.toLocaleTimeString()}}</div>
 <div class="date-tomorrow" *ngIf="task.getDateOutput() == 'tomorrow'"> Tomorrow at

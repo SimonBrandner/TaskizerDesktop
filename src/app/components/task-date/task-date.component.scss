@@ -1,6 +1,10 @@
 @mixin style-task-date-component($mat-theme) {
-	.date-today {
+	.date-before-today {
 		color: mat-color(map-get($mat-theme, warn));
+	}
+
+	.date-today {
+		color: mat-color(map-get($mat-theme, primary));
 	}
 
 	.date-tomorrow {

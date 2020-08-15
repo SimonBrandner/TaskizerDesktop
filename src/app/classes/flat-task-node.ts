@@ -25,6 +25,15 @@ export class FlatTaskNode {
 			"friday",
 			"saturday"
 		];
+		var tomorrowDate = new Date(
+			new Date().getFullYear(),
+			new Date().getMonth(),
+			new Date().getDate() + 1,
+			0,
+			0,
+			0,
+			0
+		);
 		var currentDate: Date = new Date();
 
 		if (this.date == undefined) {
@@ -77,6 +86,16 @@ export class FlatTaskNode {
 				1000 * 60 * 60 * 24 * 7
 		) {
 			return weekDays[this.date.getDay().toString()];
+		}
+		else if (
+			Algorithms.isOneOfDatesEarlierThan(
+				[
+					this.date
+				],
+				tomorrowDate
+			)
+		) {
+			return "before";
 		}
 		else {
 			return "default";
