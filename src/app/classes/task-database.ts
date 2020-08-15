@@ -41,6 +41,10 @@ export class TaskDatabase {
 			});
 			task.id = element["id"];
 
+			if (element["projectPath"]) {
+				task["projectPath"] = element["projectPath"];
+			}
+
 			tasks.push(task);
 		});
 
