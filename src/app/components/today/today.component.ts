@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, EventEmitter } from "@angular/core";
 import { ConfigService } from "../../services/config.service";
 import { ProjectService } from "../../services/project.service";
-import { ActivatedRoute } from "@angular/router";
 import { MatTreeFlatDataSource, MatTreeFlattener } from "@angular/material/tree";
 import { FlatTreeControl } from "@angular/cdk/tree";
 import { Observable, of } from "rxjs";
@@ -9,11 +8,9 @@ import { FlatTaskNode } from "../../classes/flat-task-node";
 import { TaskNode } from "../../classes/task-node";
 import { TaskDatabase } from "../../classes/task-database";
 import { SelectionModel } from "@angular/cdk/collections";
-import { TaskService } from "../../services/task.service";
 import { TaskMenuComponent } from "../task-menu/task-menu.component";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmComponent } from "../confirm/confirm.component";
-import { Algorithms } from "src/app/classes/algorithms";
 
 @Component({
 	selector: "today",
@@ -26,7 +23,6 @@ export class TodayComponent implements OnInit {
 	constructor(
 		private configService: ConfigService,
 		private projectService: ProjectService,
-		private taskService: TaskService,
 		public dialog: MatDialog
 	) {
 		this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel, this.isExpandable, this.getChildren);
@@ -35,6 +31,14 @@ export class TodayComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+		this.initializeDatabase();
+	}
+
+	initializeDatabase(): void {
+		if (this.database != undefined) {
+			this.database.dataChange.unsubscribe();
+		}
+
 		var projectPaths = this.configService.getProjectPaths();
 		console.log("Retrieved project paths from ConfigService:", projectPaths);
 
@@ -46,7 +50,9 @@ export class TodayComponent implements OnInit {
 				console.log("Data in database changed.");
 				this.dataSource.data = [];
 				this.dataSource.data = data;
+
 				this.nestedTaskMap.forEach((element) => {
+					this.treeControl.collapse(element);
 					element.isExpanded ? this.treeControl.expand(element) : this.treeControl.collapse(element);
 				});
 			});
@@ -57,25 +63,37 @@ export class TodayComponent implements OnInit {
 		return new Promise<Array<TaskNode>>((resolve) => {
 			projectPaths.forEach((projectPath) => {
 				this.projectService.getProjectByPath(projectPath).then((result) => {
-					resolve(this.getTaskWithDates(result["tasks"]));
+					resolve(this.getTasksForTodayView(result["tasks"], projectPath));
 				});
 			});
 		});
 	}
 
-	getTaskWithDates(tasks: Array<TaskNode>): Array<TaskNode> {
+	getTasksForTodayView(tasks: Array<TaskNode>, projectPath: string): Array<TaskNode> {
 		var tasksWithDates: Array<TaskNode> = [];
 
 		tasks.forEach((task) => {
-			if (task.date != null || task.reminders.length > 0) {
+			if (this.shouldTaskBeInTodayView(task)) {
+				task["projectPath"] = projectPath;
 				tasksWithDates.push(task);
 			}
 			else {
-				tasksWithDates = tasksWithDates.concat(this.getTaskWithDates(task.tasks));
+				tasksWithDates = tasksWithDates.concat(this.getTasksForTodayView(task.tasks, projectPath));
 			}
 		});
 
 		return tasksWithDates;
+	}
+
+	shouldTaskBeInTodayView(task: TaskNode): boolean {
+		// TODO: Add better settings
+		if (task.date != null) {
+			return true;
+		}
+		if (task.reminders.length > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	transformer = (task: TaskNode, level: number) => {
@@ -96,8 +114,10 @@ export class TodayComponent implements OnInit {
 
 	editTask(task: FlatTaskNode) {
 		console.log("Edit task button clicked", task);
+		var nestedTask = this.flatTaskMap.get(task);
+
 		const dialogRef = this.dialog.open(TaskMenuComponent, {
-			data: this.flatTaskMap.get(task)
+			data: nestedTask
 		});
 		console.log("Opened TaskMenuComponent dialog.");
 		dialogRef.afterClosed().subscribe((result: TaskNode) => {
@@ -105,8 +125,10 @@ export class TodayComponent implements OnInit {
 				console.log("No edits were made to the task.");
 			}
 			else {
-				this.database.updateDatabase();
-				console.log("Edits were made to task + " + result.name);
+				console.log("Edits were made to task", result);
+				this.projectService.editTaskByProjectPathAndTaskId(nestedTask["projectPath"], nestedTask).then(() => {
+					this.initializeDatabase();
+				});
 			}
 		});
 	}
@@ -126,6 +148,9 @@ export class TodayComponent implements OnInit {
 
 	deleteTask(task: FlatTaskNode) {
 		console.log("Deleting task " + task.name);
+
+		var nestedTask = this.flatTaskMap.get(task);
+		this.projectService.deleteTaskByProjectPathAndTaskId(nestedTask["projectPath"], nestedTask.id);
 		this.database.deleteTask(this.flatTaskMap.get(task));
 	}
 
