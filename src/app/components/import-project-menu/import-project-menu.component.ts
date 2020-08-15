@@ -43,7 +43,6 @@ export class ImportProjectMenuComponent implements OnInit {
 			var data = {};
 			data["name"] = result["name"];
 			data["path"] = this.projectPathInput;
-			// TODO Make sure path input is a path
 			this.dialogRef.close(data);
 		});
 	}
