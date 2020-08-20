@@ -1,26 +1,18 @@
 {
-	// Use IntelliSense to learn about possible attributes.
-	// Hover to view descriptions of existing attributes.
-	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "node",
+			"type": "electron",
 			"request": "launch",
-			"name": "Run Angular",
-			"preLaunchTask": "run-angular"
+			"name": "Build Angular and debug Electron",
+			"appDir": "${workspaceFolder}",
+			"preLaunchTask": "build-angular"
 		},
 		{
-			"type": "node",
+			"type": "electron",
 			"request": "launch",
-			"name": "Run Electron",
-			"preLaunchTask": "run-electron"
-		}
-		{
-			"type": "node",
-			"request": "launch",
-			"name": "Build Angular and run Electron",
-			"preLaunchTask": "build-angular-and-run-electron"
+			"name": "Debug Electron",
+			"appDir": "${workspaceFolder}"
 		}
 	]
 }
