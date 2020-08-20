@@ -25,8 +25,6 @@ module.exports = {
 	},
 
 	getProjects() {
-		var projects = [];
-
 		if (!fs.existsSync(configPath)) {
 			fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, "\t"));
 		}
