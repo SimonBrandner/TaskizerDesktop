@@ -1,10 +1,8 @@
 import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { DialogService } from "../../services/dialog.service";
-import { ConfirmComponent } from "../confirm/confirm.component";
 import { ConfigService } from "../../services/config.service";
 import { ProjectService } from "../../services/project.service";
-import { Router } from "@angular/router";
 
 @Component({
 	selector: "import-project-menu",

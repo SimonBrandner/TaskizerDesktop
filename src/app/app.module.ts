@@ -52,7 +52,6 @@ import { TodayComponent } from "./components/today/today.component";
 import { ProjectComponent } from "./components/project/project.component";
 import { SettingsComponent } from "./components/settings/settings.component";
 import { ProjectMenuComponent } from "./components/project-menu/project-menu.component";
-import { ConfirmComponent } from "./components/confirm/confirm.component";
 import { TaskMenuComponent } from "./components/task-menu/task-menu.component";
 import { MatNativeDateModule } from "@angular/material/core";
 import { ImportProjectMenuComponent } from "./components/import-project-menu/import-project-menu.component";
@@ -75,7 +74,6 @@ import { ConfigService } from "./services/config.service";
 		ProjectComponent,
 		SettingsComponent,
 		ProjectMenuComponent,
-		ConfirmComponent,
 		TaskMenuComponent,
 		ImportProjectMenuComponent,
 		UnitValidatorDirective,

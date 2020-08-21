@@ -10,7 +10,6 @@ import { TaskDatabase } from "../../classes/task-database";
 import { SelectionModel } from "@angular/cdk/collections";
 import { TaskMenuComponent } from "../task-menu/task-menu.component";
 import { MatDialog } from "@angular/material/dialog";
-import { ConfirmComponent } from "../confirm/confirm.component";
 import { Algorithms } from "src/app/classes/algorithms";
 import { MatSnackBar, MatSnackBarDismiss } from "@angular/material/snack-bar";
 
