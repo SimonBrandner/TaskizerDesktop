@@ -1,5 +1,6 @@
 const { Notification } = require("electron");
 const { autoUpdater } = require("electron-updater");
+const config = require("./config");
 
 module.exports = {
 	checkForUpdates() {
@@ -9,6 +10,7 @@ module.exports = {
 
 	create() {
 		console.log("Crating autoUpdater.");
+		autoUpdater.allowPrerelease = config.getAllowPreRelease();
 		autoUpdater.autoDownload = true;
 		autoUpdater.autoInstallOnAppQuit = true;
 		autoUpdater.allowPrerelease = true;

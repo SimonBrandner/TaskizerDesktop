@@ -39,6 +39,10 @@ export class ConfigService {
 		return this.config["theme"];
 	}
 
+	getAllowPreRelease(): boolean {
+		return this.config["allowPreRelease"];
+	}
+
 	getDefaultProjectPath(): string {
 		return this.config["defaultProjectPath"];
 	}
@@ -85,6 +89,11 @@ export class ConfigService {
 
 	setTheme(theme: string): void {
 		this.config["theme"] = theme;
+		this.save();
+	}
+
+	setAllowPrerelease(setAllowPrerelease: boolean): void {
+		this.config["allowPreRelease"] = setAllowPrerelease;
 		this.save();
 	}
 

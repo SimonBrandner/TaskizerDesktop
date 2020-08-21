@@ -21,21 +21,17 @@ export class SettingsComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.defaultView = this.configService.getDefaultView();
-		console.log("Retrieved config from ConfigService", this.defaultView);
 		this.defaultProjectPath = this.configService.getDefaultProjectPath();
-		console.log("Retrieved config from ConfigService", this.defaultProjectPath);
 		this.currentTheme = this.configService.getTheme();
-		console.log("Retrieved config from ConfigService", this.currentTheme);
+		this.allowPreRelease = this.configService.getAllowPreRelease();
 	}
 
 	saveButtonClicked(): void {
 		console.log("Save button clicked.");
 		this.configService.setDefaultView(this.defaultView);
-		console.log("Setting defaultView using ConfigService.");
 		this.configService.setDefaultProjectPath(this.defaultProjectPath);
-		console.log("Setting defaultProjectPath using ConfigService.");
 		this.configService.setTheme(this.currentTheme);
-		console.log("Setting theme using ConfigService.");
+		this.configService.setAllowPrerelease(this.allowPreRelease);
 
 		this.dialogRef.close();
 	}
@@ -59,6 +55,7 @@ export class SettingsComponent implements OnInit {
 
 	defaultView: string;
 	defaultProjectPath: string;
+	allowPreRelease: boolean;
 	currentTheme: any;
 
 	views = [

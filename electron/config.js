@@ -6,7 +6,8 @@ let defaultConfig = {
 	defaultView: "Today",
 	defaultProjectPath: "/",
 	theme: "Indigo & Pink",
-	projects: []
+	projects: [],
+	allowPreRelease: false
 };
 
 module.exports = {
@@ -30,5 +31,13 @@ module.exports = {
 		}
 
 		return JSON.parse(fs.readFileSync(configPath))["projects"];
+	},
+
+	getAllowPreRelease() {
+		if (!fs.existsSync(configPath)) {
+			fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, "\t"));
+		}
+
+		return JSON.parse(fs.readFileSync(configPath))["allowPreRelease"];
 	}
 };
