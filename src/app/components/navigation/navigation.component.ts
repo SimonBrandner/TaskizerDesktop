@@ -38,7 +38,6 @@ export class NavigationComponent implements OnInit {
 		]);
 
 		this.projects = this.configService.getProjects();
-		console.log("Retrieved projects from ConfigService", this.projects);
 
 		this.setSelectedProject(-1);
 
@@ -122,6 +121,20 @@ export class NavigationComponent implements OnInit {
 
 	refreshButtonClicked(): void {
 		this.configService.load();
+		this.projects = this.configService.getProjects();
+
+		console.log("Current selectedProjectIndex is:", this.selectedProjectIndex);
+		if (this.selectedProjectIndex == -1) {
+			this.router.navigate([
+				"today"
+			]);
+		}
+		else {
+			this.router.navigate([
+				"project",
+				this.projects[this.selectedProjectIndex].id
+			]);
+		}
 	}
 
 	settingsButtonClicked(): void {
@@ -214,7 +227,7 @@ export class NavigationComponent implements OnInit {
 
 	setSelectedProject(index) {
 		this.selectedProjectIndex = index;
-		console.log("selectedProjectId has been set to", index);
+		console.log("selectedProjectIndex has been set to", index);
 	}
 
 	@HostListener("window:resize", [

@@ -21,7 +21,7 @@
 		[opened]="!(isHandset | async)!.matches" fixedInViewport="false">
 		<mat-nav-list>
 			<mat-list-item [routerLink]="['today']" [routerLinkActive]="['drag-item-selected']"
-				(click)="setSelectedProject('today')" i18n>
+				(click)="setSelectedProject(-1)" i18n>
 				Today
 			</mat-list-item>
 
