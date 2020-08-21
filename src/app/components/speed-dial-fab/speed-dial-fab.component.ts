@@ -96,7 +96,7 @@ export class SpeedDialFabComponent implements OnInit {
 			this.router.url.slice(1, this.router.url.length).slice(0, this.router.url.indexOf("/", 1) - 1) != "project"
 		) {
 			console.log("No project selected.");
-			this.snackBar.open("Task can not be crated because no project is selected!", undefined, {
+			this.snackBar.open("Task can not be created because no project is selected!", undefined, {
 				duration: 3000
 			});
 			return;
