@@ -1,6 +1,6 @@
 {
 	"name": "taskizer",
-	"version": "2.0.0-rc.1",
+	"version": "2.0.0-rc.2",
 	"description": "A task management app",
 	"main": "electron/main.js",
 	"author": {
