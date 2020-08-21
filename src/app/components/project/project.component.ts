@@ -120,7 +120,7 @@ export class ProjectComponent implements OnInit {
 	}
 
 	deleteTaskFromDatabase(task: FlatTaskNode) {
-		console.log("Deleting task " + task.name);
+		console.log("Deleting task from database", task.name);
 		this.database.deleteTask(this.flatTaskMap.get(task));
 	}
 
