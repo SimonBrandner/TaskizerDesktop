@@ -16,7 +16,7 @@ module.exports = {
 	},
 
 	handleNew(event, projectName, projectPath) {
-		console.log("Creating new project with name", projectName, "and path", projectPath);
+		console.log("Handling new project with name", projectName, "and path", projectPath);
 		if (!fs.existsSync(projectPath)) {
 			fs.writeFileSync(
 				projectPath,
