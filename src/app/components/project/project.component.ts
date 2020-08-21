@@ -45,7 +45,7 @@ export class ProjectComponent implements OnInit {
 			console.log("Retrieved project path from ConfigService", this.projectPath);
 			this.projectService.getProjectByPath(this.projectPath).then((result) => {
 				console.log("Retrieved project ", result["name"], " from ProjectService.");
-				this.database = new TaskDatabase(result);
+				this.database = new TaskDatabase(result["tasks"]);
 				console.log("Pushed data from ProjectService to TaskDatabase.");
 				this.database.dataChange.subscribe((data) => {
 					console.log("Data in database changed.");

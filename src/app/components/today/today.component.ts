@@ -46,7 +46,7 @@ export class TodayComponent implements OnInit {
 
 		this.getTodayTaskData(projectPaths).then((result) => {
 			console.log("Tasks with dates:", result);
-			this.database = new TaskDatabase({ tasks: result });
+			this.database = new TaskDatabase(result);
 			console.log("Pushed data to TaskDatabase.");
 			this.database.dataChange.subscribe((data) => {
 				console.log("Data in database changed.");

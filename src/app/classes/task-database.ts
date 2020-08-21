@@ -9,7 +9,7 @@ export class TaskDatabase {
 	}
 
 	initialize(taskData) {
-		const data = this.buildTaskTree(taskData, 0);
+		const data = this.buildTaskTree({ tasks: taskData }, 0);
 
 		this.dataChange.next(data);
 	}
