@@ -9,6 +9,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { NotificationService } from "../../services/notification.service";
 import { Router } from "@angular/router";
 import { MenuService } from "../../services/menu.service";
+import { MatSnackBar, MatSnackBarDismiss } from "@angular/material/snack-bar";
 
 @Component({
 	selector: "navigation",
@@ -26,7 +27,8 @@ export class NavigationComponent implements OnInit {
 		private menuService: MenuService,
 		private zone: NgZone,
 		private router: Router,
-		public dialog: MatDialog
+		public dialog: MatDialog,
+		private snackBar: MatSnackBar
 	) {}
 
 	ngOnInit() {
@@ -168,8 +170,41 @@ export class NavigationComponent implements OnInit {
 	}
 
 	deleteProjectEvent($event): void {
+		var project: any = this.configService.getProjectById($event);
+
+		var projectsBackUp = new Array<any>();
+		Object.assign(projectsBackUp, this.projects);
+		console.log("Created projects back up:", projectsBackUp);
+
+		this.deleteProjectFromProjectsArray($event);
+
+		this.router.navigate([
+			this.configService.getDefaultView().toLowerCase()
+		]);
+		console.log("Redirected to defaultView.");
+
+		console.log("Opening SnackBar.");
+		var snackBarRef = this.snackBar.open("Project " + project.name + " completed!", "Undo", {
+			duration: 5000
+		});
+
+		snackBarRef.onAction().subscribe(() => {
+			console.log("Undo clicked");
+			this.projects = projectsBackUp;
+		});
+
+		snackBarRef.afterDismissed().subscribe((info: MatSnackBarDismiss) => {
+			console.log("SnackBar dismissed:", info);
+			if (!info.dismissedByAction) {
+				this.projectService.deleteProject(project.path);
+				this.configService.deleteProject(project.id);
+			}
+		});
+	}
+
+	deleteProjectFromProjectsArray(projectId: number) {
 		this.projects.forEach((element, index) => {
-			if (element.id == $event) {
+			if (element.id == projectId) {
 				this.projects.splice(index, 1);
 				console.log("Project deleted from projects array.");
 				return;

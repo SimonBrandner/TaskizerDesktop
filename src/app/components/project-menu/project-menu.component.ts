@@ -51,24 +51,11 @@ export class ProjectMenuComponent implements OnInit {
 
 	deleteProjectClicked(): void {
 		console.log("Delete project button clicked.");
-		const dialogRef = this.dialog.open(ConfirmComponent, {
-			data: "you want to delete this project?"
-		});
-		console.log("Open ConfirmComponent dialog.");
-		dialogRef.afterClosed().subscribe((result) => {
-			if (result == true) {
-				console.log(this.data.path);
-				this.projectService.deleteProject(this.data.path);
-				console.log("Deleting project using ProjectService.");
-				this.configService.deleteProject(this.data.id);
-				console.log("Deleting project using ConfigService.");
-				this.dialogRef.close("deleteProject");
-				this.router.navigate([
-					this.configService.getDefaultView().toLowerCase()
-				]);
-				console.log("Redirected to defaultView.");
-			}
-		});
+
+		this.dialogRef.close("deleteProject");
+		this.router.navigate([
+			this.configService.getDefaultView().toLowerCase()
+		]);
 	}
 
 	projectNameInput: string;
