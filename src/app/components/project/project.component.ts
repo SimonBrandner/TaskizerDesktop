@@ -106,7 +106,7 @@ export class ProjectComponent implements OnInit {
 		var databaseDataBackUp = new Array<TaskNode>();
 		Object.assign(databaseDataBackUp, this.database.data);
 		console.log("Created database back up: ", databaseDataBackUp);
-		this.deleteTask(task);
+		this.deleteTaskFromDatabase(task);
 
 		console.log("Opening SnackBar.");
 		var snackBarRef = this.snackBar.open("Task " + task.name + " deleted!", "Undo", {
@@ -119,7 +119,7 @@ export class ProjectComponent implements OnInit {
 		});
 	}
 
-	deleteTask(task: FlatTaskNode) {
+	deleteTaskFromDatabase(task: FlatTaskNode) {
 		console.log("Deleting task " + task.name);
 		this.database.deleteTask(this.flatTaskMap.get(task));
 	}
@@ -131,7 +131,7 @@ export class ProjectComponent implements OnInit {
 				var databaseDataBackUp = new Array<TaskNode>();
 				Object.assign(databaseDataBackUp, this.database.data);
 				console.log("Created database back up: ", databaseDataBackUp);
-				this.deleteTask(task);
+				this.deleteTaskFromDatabase(task);
 
 				console.log("Opening SnackBar.");
 				var snackBarRef = this.snackBar.open("Task " + task.name + " completed!", "Undo", {
