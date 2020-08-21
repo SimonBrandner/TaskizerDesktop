@@ -13,6 +13,7 @@ import { TaskService } from "../../services/task.service";
 import { TaskMenuComponent } from "../task-menu/task-menu.component";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmComponent } from "../confirm/confirm.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
 	selector: "app-project",
@@ -27,7 +28,8 @@ export class ProjectComponent implements OnInit {
 		private configService: ConfigService,
 		private projectService: ProjectService,
 		private taskService: TaskService,
-		public dialog: MatDialog
+		public dialog: MatDialog,
+		private snackBar: MatSnackBar
 	) {
 		this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel, this.isExpandable, this.getChildren);
 		this.treeControl = new FlatTreeControl<FlatTaskNode>(this.getLevel, this.isExpandable);
@@ -100,14 +102,20 @@ export class ProjectComponent implements OnInit {
 
 	deleteTaskButtonClicked(task: FlatTaskNode) {
 		console.log("Delete task button clicked.");
-		const dialogRef = this.dialog.open(ConfirmComponent, {
-			data: "you want to delete this task?"
+
+		var databaseDataBackUp = new Array<TaskNode>();
+		Object.assign(databaseDataBackUp, this.database.data);
+		console.log("Created database back up: ", databaseDataBackUp);
+		this.deleteTask(task);
+
+		console.log("Opening SnackBar.");
+		var snackBarRef = this.snackBar.open("Task " + task.name + " deleted!", "Undo", {
+			duration: 5000
 		});
-		console.log("Open ConfirmComponent dialog.");
-		dialogRef.afterClosed().subscribe((result) => {
-			if (result == true) {
-				this.deleteTask(task);
-			}
+
+		snackBarRef.onAction().subscribe(() => {
+			console.log("Undo clicked");
+			this.database.dataChange.next(databaseDataBackUp);
 		});
 	}
 
@@ -120,7 +128,20 @@ export class ProjectComponent implements OnInit {
 		console.log("Task status of task changed:", task);
 		setTimeout(() => {
 			if (task.repeat.preset == "none") {
+				var databaseDataBackUp = new Array<TaskNode>();
+				Object.assign(databaseDataBackUp, this.database.data);
+				console.log("Created database back up: ", databaseDataBackUp);
 				this.deleteTask(task);
+
+				console.log("Opening SnackBar.");
+				var snackBarRef = this.snackBar.open("Task " + task.name + " completed!", "Undo", {
+					duration: 5000
+				});
+
+				snackBarRef.onAction().subscribe(() => {
+					console.log("Undo clicked");
+					this.database.dataChange.next(databaseDataBackUp);
+				});
 			}
 			else {
 				console.log("Handling repetition of task", task);
