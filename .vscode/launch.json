@@ -10,8 +10,7 @@
 			"runtimeExecutable": "${workspaceFolder}/scripts/startElectron.sh",
 			"windows": {
 				"runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
-			},
-			"outputCapture": "std"
+			}
 		},
 		{
 			"type": "node",
@@ -21,8 +20,7 @@
 			"runtimeExecutable": "${workspaceFolder}/scripts/startElectron.sh",
 			"windows": {
 				"runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
-			},
-			"outputCapture": "std"
+			}
 		}
 	]
 }
