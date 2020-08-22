@@ -2,17 +2,27 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "electron",
+			"type": "node",
 			"request": "launch",
 			"name": "Build Angular and debug Electron",
-			"appDir": "${workspaceFolder}",
-			"preLaunchTask": "build-angular"
+			"preLaunchTask": "build-angular",
+			"cwd": "${workspaceFolder}",
+			"runtimeExecutable": "${workspaceFolder}/scripts/startElectron.sh",
+			"windows": {
+				"runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
+			},
+			"outputCapture": "std"
 		},
 		{
-			"type": "electron",
+			"type": "node",
 			"request": "launch",
 			"name": "Debug Electron",
-			"appDir": "${workspaceFolder}"
+			"cwd": "${workspaceFolder}",
+			"runtimeExecutable": "${workspaceFolder}/scripts/startElectron.sh",
+			"windows": {
+				"runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
+			},
+			"outputCapture": "std"
 		}
 	]
 }
