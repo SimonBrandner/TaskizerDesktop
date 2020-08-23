@@ -1,4 +1,5 @@
 const { ipcMain } = require("electron");
+const fs = require("fs");
 
 const dialogs = require("./dialogs.js");
 const project = require("./project.js");
@@ -27,5 +28,14 @@ module.exports = {
 		ipcMain.on("moveProjectFile", project.moveFile);
 		ipcMain.on("deleteProjectFile", project.deleteFile);
 		// IPC events - project
+
+		// IPC events - other
+		ipcMain.on("doesFileExist", (event, filePath) => {
+			result = fs.existsSync(filePath);
+
+			console.log("Checked if file with path", filePath, "exists:", result);
+			window.webContents.send("doesFileExistResponse", result);
+		});
+		// IPC events - other
 	}
 };

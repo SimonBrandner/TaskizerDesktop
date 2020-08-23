@@ -2,7 +2,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, APP_INITIALIZER } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule, NG_ASYNC_VALIDATORS } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { NG_VALIDATORS } from "@angular/forms";
 // Angular
@@ -62,6 +62,7 @@ import { TaskDateComponent } from "./components/task-date/task-date.component";
 import { UnitValidatorDirective } from "./directives/unit-validator.directive";
 import { OrdinalValidatorDirective } from "./directives/ordinal-validator.directive";
 import { ConfigService } from "./services/config.service";
+import { FileValidatorDirective } from "./directives/file-validator.directive";
 // Directives
 
 @NgModule({
@@ -78,7 +79,8 @@ import { ConfigService } from "./services/config.service";
 		ImportProjectMenuComponent,
 		UnitValidatorDirective,
 		OrdinalValidatorDirective,
-		TaskDateComponent
+		TaskDateComponent,
+		FileValidatorDirective
 	],
 	imports: [
 		BrowserModule,
@@ -123,6 +125,11 @@ import { ConfigService } from "./services/config.service";
 		{
 			provide: NG_VALIDATORS,
 			useExisting: OrdinalValidatorDirective,
+			multi: true
+		},
+		{
+			provide: NG_ASYNC_VALIDATORS,
+			useExisting: FileValidatorDirective,
 			multi: true
 		},
 		{
