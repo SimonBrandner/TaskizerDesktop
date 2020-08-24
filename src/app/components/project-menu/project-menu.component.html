@@ -12,7 +12,12 @@
 		<mat-card>
 			<mat-card-content>
 				<mat-form-field>
-					<input matInput readonly="true" name="projectPathInput" [(ngModel)]="projectPathInput" required>
+					<input matInput readonly="true" name="projectPathInput" [(ngModel)]="projectPathInput" required
+						fileValidatorDirective #projectPathNgModel="ngModel">
+					<mat-error *ngIf="projectPathNgModel.errors && projectPathNgModel.errors.fileDoesNotExist"
+						class="alert alert-danger">
+						This folder does not exist
+					</mat-error>
 					<mat-label> Path to a local folder </mat-label>
 					<button class="path-button" mat-button mat-icon-button matSuffix (click)="pathButtonClicked()">
 						<mat-icon>save</mat-icon>

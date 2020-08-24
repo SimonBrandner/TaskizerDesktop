@@ -4,21 +4,30 @@
 		<mat-tab-group>
 			<mat-tab label="General">
 				<div class="tab">
-					<mat-form-field>
-						<mat-select [(ngModel)]="defaultView">
-							<mat-option *ngFor="let option of views" [value]="option">{{option}}</mat-option>
-						</mat-select>
-						<mat-label>Open on: </mat-label>
-					</mat-form-field>
-					<mat-form-field>
-						<input matInput name="projectPathInput" [(ngModel)]="defaultProjectPath" readonly required>
-						<mat-label> Default project directory: </mat-label>
-						<button class="path-button" mat-button mat-icon-button matSuffix (click)="pathButtonClicked()">
-							<mat-icon>save</mat-icon>
-						</button>
-					</mat-form-field>
-					<mat-checkbox [(ngModel)]="allowPreRelease"> Download pre-releases (only for platforms that support
-						auto-updates) </mat-checkbox>
+					<form ngNativeValidate #form="ngForm">
+						<mat-form-field>
+							<mat-select name="defaultViewSelect" [(ngModel)]="defaultView">
+								<mat-option *ngFor="let option of views" [value]="option">{{option}}</mat-option>
+							</mat-select>
+							<mat-label>Open on: </mat-label>
+						</mat-form-field>
+						<mat-form-field>
+							<input matInput name="projectPathInput" [(ngModel)]="defaultProjectPath" readonly required
+								fileValidatorDirective #projectPathNgModel="ngModel">
+							<button class="path-button" mat-button mat-icon-button matSuffix
+								(click)="pathButtonClicked()">
+								<mat-icon>save</mat-icon>
+							</button>
+							<mat-error *ngIf="projectPathNgModel.errors && projectPathNgModel.errors.fileDoesNotExist"
+								class="alert alert-danger">
+								This folder does not exist
+							</mat-error>
+							<mat-label> Default project directory: </mat-label>
+						</mat-form-field>
+						<mat-checkbox name="allowPreReleaseCheckbox" [(ngModel)]="allowPreRelease">
+							Download pre-releases (only for platforms that support auto-updates)
+						</mat-checkbox>
+					</form>
 				</div>
 			</mat-tab>
 			<mat-tab label="Appearance">
@@ -54,6 +63,6 @@
 	</mat-dialog-content>
 	<mat-dialog-actions>
 		<button mat-button [mat-dialog-close]="true"> Cancel </button>
-		<button mat-button (click)="saveButtonClicked()"> Save </button>
+		<button mat-button [disabled]="form.invalid" (click)="saveButtonClicked()"> Save </button>
 	</mat-dialog-actions>
 </div>
