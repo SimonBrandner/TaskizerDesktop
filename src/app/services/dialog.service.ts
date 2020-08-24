@@ -1,6 +1,8 @@
-import { Injectable } from "@angular/core";
+import { Injectable, NgZone } from "@angular/core";
 import { IpcRenderer } from "electron";
 import { ConfigService } from "./config.service";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { ErrorComponent } from "../components/error/error.component";
 
 @Injectable({
 	providedIn: "root"
@@ -8,7 +10,7 @@ import { ConfigService } from "./config.service";
 export class DialogService {
 	private ipcRenderer: IpcRenderer;
 
-	constructor(private configService: ConfigService) {
+	constructor(private configService: ConfigService, public dialog: MatDialog, private zone: NgZone) {
 		if ((<any>window).require) {
 			try {
 				this.ipcRenderer = (<any>window).require("electron").ipcRenderer;
@@ -19,6 +21,23 @@ export class DialogService {
 		else {
 			console.warn("Could not load electron ipc");
 		}
+
+		if (this.ipcRenderer) {
+			this.ipcRenderer.on("error", (event, errorTitle, errorMessage) => {
+				this.zone.run(() => {
+					this.errorDialog(errorTitle, errorMessage);
+				});
+			});
+		}
+	}
+
+	errorDialog(errorTitle: string, errorMessage: string): void {
+		var data = { title: errorTitle, message: errorMessage };
+		console.log("Opening error dialog", data);
+		this.dialog.open(ErrorComponent, {
+			width: "400px",
+			data: data
+		});
 	}
 
 	async saveProjectDialog(): Promise<string | undefined> {

@@ -209,7 +209,12 @@ export class NavigationComponent implements OnInit {
 		snackBarRef.afterDismissed().subscribe((info: MatSnackBarDismiss) => {
 			console.log("SnackBar dismissed:", info);
 			if (!info.dismissedByAction) {
-				this.projectService.deleteProject(project.path);
+				try {
+					this.projectService.deleteProject(project.path);
+				} catch (error) {
+					console.log(error);
+				}
+
 				this.configService.deleteProject(project.id);
 			}
 		});
