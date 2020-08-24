@@ -26,8 +26,8 @@ export class ImportProjectMenuComponent implements OnInit {
 		console.log("Path button clicked.");
 		this.dialogService.importProjectDialog().then((result) => {
 			if (result != undefined) {
-				this.projectPathInput = result[0];
-				console.log("Retrieved desired project location from user using DialogService.");
+				this.projectPathInput = result;
+				console.log("Retrieved desired project location from user using DialogService", result);
 			}
 			else {
 				console.log("DialogService returned undefined.");
