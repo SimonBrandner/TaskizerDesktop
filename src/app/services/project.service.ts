@@ -1,12 +1,21 @@
-import { Injectable } from "@angular/core";
+import { Injectable, NgZone } from "@angular/core";
 import { IpcRenderer } from "electron";
 import { TaskNode } from "../classes/task-node";
+import { DialogService } from "./dialog.service";
+import { ConfigService } from "./config.service";
+import { Router } from "@angular/router";
+import { error } from "console";
 
 @Injectable({
 	providedIn: "root"
 })
 export class ProjectService {
-	constructor() {
+	constructor(
+		private dialogService: DialogService,
+		private configService: ConfigService,
+		private zone: NgZone,
+		private router: Router
+	) {
 		if ((<any>window).require) {
 			try {
 				this.ipcRenderer = (<any>window).require("electron").ipcRenderer;
@@ -190,12 +199,39 @@ export class ProjectService {
 				}
 				else {
 					console.error("An error occurred while retrieving project with path", projectPath, ":", payload);
+					this.zone.run(() => {
+						this.dialogService
+							.universalDialog({
+								title: "An error occurred",
+								message:
+									'Project with path "' +
+									projectPath +
+									"\" doesn't exist! Do you wish to remove if from config!",
+								actions: [
+									{ name: "Yes", response: true },
+									{ name: "No", response: false }
+								]
+							})
+							.then((result) => {
+								if (result) {
+									var project = this.configService.getProjectByPath(projectPath);
+									if (project) {
+										console.log("if");
+										this.configService.deleteProject(project["id"]);
+									}
+								}
+							});
 
-					// TODO: Handle errors
+						this.router.navigate([
+							"today"
+						]);
+					});
 
+					this.zone.run(() => {});
 					reject();
 				}
 			});
+
 			this.ipcRenderer.send("getProject", projectPath);
 		});
 	}
