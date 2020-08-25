@@ -165,6 +165,10 @@ export class NavigationComponent implements OnInit {
 		this.projectService.createNewProject($event.name, $event.path);
 		console.log("Saving project using ProjectService.");
 		this.configService.load();
+		this.router.navigate([
+			"project",
+			this.configService.getProjectByPath($event.path)["id"]
+		]);
 	}
 
 	editProjectEvent($event): void {
