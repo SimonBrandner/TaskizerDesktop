@@ -37,12 +37,15 @@ export class ImportProjectMenuComponent implements OnInit {
 
 	saveButtonClicked(): void {
 		console.log("Save button clicked.");
-		this.projectService.getProjectByPath(this.projectPathInput).then((result) => {
-			var data = {};
-			data["name"] = result["name"];
-			data["path"] = this.projectPathInput;
-			this.dialogRef.close(data);
-		});
+		this.projectService
+			.getProjectByPath(this.projectPathInput)
+			.then((result) => {
+				var data = {};
+				data["name"] = result["name"];
+				data["path"] = this.projectPathInput;
+				this.dialogRef.close(data);
+			})
+			.catch(() => {});
 	}
 
 	projectPathInput: string;

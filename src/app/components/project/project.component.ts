@@ -43,21 +43,24 @@ export class ProjectComponent implements OnInit {
 			console.log("Switched to project with id:", this.projectId);
 			this.projectPath = this.configService.getProjectById(this.projectId)["path"];
 			console.log("Retrieved project path from ConfigService", this.projectPath);
-			this.projectService.getProjectByPath(this.projectPath).then((result) => {
-				console.log("Retrieved project ", result["name"], " from ProjectService.");
-				this.database = new TaskDatabase(result["tasks"]);
-				console.log("Pushed data from ProjectService to TaskDatabase.");
-				this.database.dataChange.subscribe((data) => {
-					console.log("Data in database changed.");
-					this.dataSource.data = [];
-					this.dataSource.data = data;
-					this.projectService.setProjectContent(this.projectPath, this.database.getProjectJSON());
-					console.log("Saved project using ProjectService.");
-					this.nestedTaskMap.forEach((element) => {
-						element.isExpanded ? this.treeControl.expand(element) : this.treeControl.collapse(element);
+			this.projectService
+				.getProjectByPath(this.projectPath)
+				.then((result) => {
+					console.log("Retrieved project ", result["name"], " from ProjectService.");
+					this.database = new TaskDatabase(result["tasks"]);
+					console.log("Pushed data from ProjectService to TaskDatabase.");
+					this.database.dataChange.subscribe((data) => {
+						console.log("Data in database changed.");
+						this.dataSource.data = [];
+						this.dataSource.data = data;
+						this.projectService.setProjectContent(this.projectPath, this.database.getProjectJSON());
+						console.log("Saved project using ProjectService.");
+						this.nestedTaskMap.forEach((element) => {
+							element.isExpanded ? this.treeControl.expand(element) : this.treeControl.collapse(element);
+						});
 					});
-				});
-			});
+				})
+				.catch(() => {});
 		});
 	}
 

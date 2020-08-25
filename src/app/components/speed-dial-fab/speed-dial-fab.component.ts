@@ -134,7 +134,8 @@ export class SpeedDialFabComponent implements OnInit {
 						this.taskService.addTask(result);
 					}
 				});
-			});
+			})
+			.catch(() => {});
 	}
 
 	importProject(): void {

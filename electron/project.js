@@ -2,54 +2,108 @@ const fs = require("fs");
 
 module.exports = {
 	get(event, projectPath) {
-		var project = JSON.parse(fs.readFileSync(projectPath));
-		console.log("Retrieved project", project["name"], "with path", projectPath, ":", project);
-		window.webContents.send("getProjectResponse", project);
+		try {
+			var project = JSON.parse(fs.readFileSync(projectPath));
+
+			console.log("Successfully retrieved project with path", projectPath, ":", project);
+			window.webContents.send("getProjectResponse", true, project);
+		} catch (error) {
+			console.error("An error occurred while retrieving project with path", projectPath, ":", error);
+			window.webContents.send("getProjectResponse", false, error);
+		}
 	},
 
 	set(event, projectPath, project) {
-		const scheduler = require("./scheduler");
+		try {
+			const scheduler = require("./scheduler");
 
-		console.log("Setting project", project["name"], "with path", projectPath, ":", project);
-		fs.writeFileSync(projectPath, JSON.stringify(project, null, "\t"));
-		scheduler.cancelAndSetupJobs();
+			fs.writeFileSync(projectPath, JSON.stringify(project, null, "\t"));
+			scheduler.cancelAndSetupJobs();
+
+			console.log("Successfully set project with path", projectPath, ":", project);
+			window.webContents.send("setProjectResponse", true);
+		} catch (error) {
+			console.error("An error occurred while setting project with path", projectPath, ":", error);
+			window.webContents.send("setProjectResponse", false, error);
+		}
 	},
 
 	handleNew(event, projectName, projectPath) {
-		console.log("Handling new project with name", projectName, "and path", projectPath);
-		if (!fs.existsSync(projectPath)) {
-			fs.writeFileSync(
-				projectPath,
-				JSON.stringify(
-					{
-						name: projectName,
-						tasks: []
-					},
-					null,
-					"\t"
-				)
-			);
+		try {
+			if (!fs.existsSync(projectPath)) {
+				fs.writeFileSync(
+					projectPath,
+					JSON.stringify(
+						{
+							name: projectName,
+							tasks: []
+						},
+						null,
+						"\t"
+					)
+				);
+			}
+
+			console.log("Successfully handled new project with path", projectPath);
+			window.webContents.send("handleNewProjectResponse", true);
+		} catch (error) {
+			console.error("An error occurred while handling new project with path", projectPath, ":", error);
+			window.webContents.send("handleNewProjectResponse", false, error);
 		}
 	},
 
 	moveFile(event, oldPath, newPath) {
-		console.log("Moving project", oldPath, "to", newPath);
-		fs.rename(oldPath, newPath, (error) => {
-			if (error) throw error;
-		});
+		try {
+			fs.rename(oldPath, newPath, (error) => {
+				if (error) throw error;
+			});
+
+			console.log("Successfully moved project from", oldPath, "to", newPath);
+			global.window.webContents.send("moveProjectFileResponse", true);
+		} catch (error) {
+			console.error("An error occurred while moving file", oldPath, "to", newPath, ":", error);
+			global.window.webContents.send("moveProjectFileResponse", false, error);
+		}
 	},
 
 	deleteFile(event, projectPath) {
-		console.log("Deleting project file with path", projectPath);
-		fs.unlinkSync(projectPath);
+		try {
+			fs.unlinkSync(projectPath);
+
+			console.log("Successfully deleted file", projectPath);
+			global.window.webContents.send("deleteProjectResponse", true);
+		} catch (error) {
+			console.error("An error occurred while deleting file with path", projectPath, ":", error);
+			global.window.webContents.send("deleteProjectResponse", false, error);
+		}
 	},
 
 	getFlatTaskListByProjectPath(projectPath) {
-		var flatTaskList = [];
+		// TODO: Handle error
+		try {
+			var flatTaskList = [];
 
-		flatTaskList = getTasks(JSON.parse(fs.readFileSync(projectPath))["tasks"]);
-		console.log("Retrieved flat task list from project with path", projectPath, ":", flatTaskList);
-		return flatTaskList;
+			flatTaskList = getTasks(JSON.parse(fs.readFileSync(projectPath))["tasks"]);
+			console.log("Retrieved flat task list from project with path", projectPath, ":", flatTaskList);
+			return flatTaskList;
+		} catch (error) {
+			switch (error.code) {
+				case "ENOENT":
+					console.log("This project file does not exist", error.path);
+					global.window.webContents.send(
+						"error",
+						"Missing file",
+						"This project file does not exist: " + error.path + "!"
+					);
+					break;
+				default:
+					console.log(error);
+					global.window.webContents.send("error", "Unknown error", error.message);
+					break;
+			}
+
+			return [];
+		}
 	}
 };
 

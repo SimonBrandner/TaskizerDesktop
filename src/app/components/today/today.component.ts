@@ -64,9 +64,12 @@ export class TodayComponent implements OnInit {
 	async getTodayTaskData(projectPaths: Array<string>): Promise<Array<TaskNode>> {
 		return new Promise<Array<TaskNode>>((resolve) => {
 			projectPaths.forEach((projectPath) => {
-				this.projectService.getProjectByPath(projectPath).then((result) => {
-					resolve(this.getTasksForTodayView(result["tasks"], projectPath));
-				});
+				this.projectService
+					.getProjectByPath(projectPath)
+					.then((result) => {
+						resolve(this.getTasksForTodayView(result["tasks"], projectPath));
+					})
+					.catch(() => {});
 			});
 		});
 	}

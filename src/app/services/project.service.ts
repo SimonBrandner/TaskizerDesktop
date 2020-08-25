@@ -27,17 +27,42 @@ export class ProjectService {
 		return fullPath.split("/")[fullPath.split("/").length - 1].split(".")[0];
 	}
 
-	setProjectContent(path: string, content: any) {
-		console.log("Setting project content to ", content, ". The path is: ", path);
-		this.getProjectByPath(path).then((result) => {
-			result["tasks"] = content;
-			this.ipcRenderer.send("setProject", path, result);
-		});
+	setProjectContent(projectPath: string, content: any) {
+		console.log("Setting project content to", content, ". The path is: ", projectPath);
+
+		this.getProjectByPath(projectPath)
+			.then((result) => {
+				result["tasks"] = content;
+
+				this.ipcRenderer.once("setProjectResponse", (event, success, payload) => {
+					if (success) {
+						console.log("Successfully set project with path", projectPath);
+					}
+					else {
+						console.error("An error occurred while setting project with path", projectPath, ":", payload);
+						// TODO: Handle errors
+					}
+				});
+
+				this.ipcRenderer.send("setProject", projectPath, result);
+			})
+			.catch(() => {});
 	}
 
-	createNewProject(name: string, path: string): void {
-		console.log("Handling new project ", name, " with path ", path);
-		this.ipcRenderer.send("handleNewProject", name, path);
+	createNewProject(projectName: string, projectPath: string): void {
+		console.log("Handling new project with name", projectName, "and path", projectPath);
+
+		this.ipcRenderer.once("handleNewProjectResponse", (success, payload) => {
+			if (success) {
+				console.log("Successfully handled new project with path", projectPath);
+			}
+			else {
+				console.error("An error occurred while handling new project with path", projectPath, ":", payload);
+				// TODO: Handle errors
+			}
+		});
+
+		this.ipcRenderer.send("handleNewProject", projectName, projectPath);
 	}
 
 	editProject(oldProject, newProject): void {
@@ -52,28 +77,65 @@ export class ProjectService {
 
 	moveProject(oldPath: string, newPath: string): void {
 		console.log("Moving project from ", oldPath, " to ", newPath);
+
+		this.ipcRenderer.once("moveProjectResponse", (success, payload) => {
+			if (success) {
+				console.log("Successfully moved project from", oldPath, "to", newPath);
+			}
+			else {
+				console.error("An error occurred while moving file", oldPath, "to", newPath, ":", payload);
+				// TODO: Handle errors
+			}
+		});
+
 		this.ipcRenderer.send("moveProjectFile", oldPath, newPath);
 	}
 
-	changeProjectName(path: string, name: string): void {
-		console.log("Changing project name to ", name, ". The path is: ", path);
-		this.getProjectByPath(path).then((result) => {
-			result["name"] = name;
-			this.ipcRenderer.send("setProject", path, result);
-		});
+	changeProjectName(projectPath: string, projectName: string): void {
+		console.log("Changing name of project with path", projectPath, "to", projectName);
+		this.getProjectByPath(projectPath)
+			.then((result) => {
+				result["name"] = projectName;
+
+				this.ipcRenderer.once("setProjectResponse", (event, success, payload) => {
+					if (success) {
+						console.log("Successfully set project with path", projectPath);
+					}
+					else {
+						console.error("An error occurred while setting project with path", projectPath, ":", payload);
+						// TODO: Handle errors
+					}
+				});
+
+				this.ipcRenderer.send("setProject", projectPath, result);
+			})
+			.catch(() => {});
 	}
 
 	deleteProject(projectPath: string): void {
 		console.log("Deleting project with path ", projectPath);
+
+		this.ipcRenderer.once("deleteProjectResponse", (event, success, payload) => {
+			if (success) {
+				console.log("Successfully deleted file", projectPath);
+			}
+			else {
+				console.error("An error occurred while deleting file with path", projectPath, ":", payload);
+				// TODO: Handle errors
+			}
+		});
+
 		this.ipcRenderer.send("deleteProjectFile", projectPath);
 	}
 
 	async editTaskByProjectPathAndTaskId(projectPath: string, task: TaskNode): Promise<void> {
 		console.log("Editing task", task, "from project with path", projectPath);
 
-		await this.getProjectByPath(projectPath).then((result) => {
-			this.setProjectContent(projectPath, this.editTaskInProject(result.tasks, task));
-		});
+		await this.getProjectByPath(projectPath)
+			.then((result) => {
+				this.setProjectContent(projectPath, this.editTaskInProject(result.tasks, task));
+			})
+			.catch(() => {});
 	}
 
 	private editTaskInProject(oldProjectTasks: Array<TaskNode>, newTask: TaskNode): Array<TaskNode> {
@@ -95,9 +157,11 @@ export class ProjectService {
 	deleteTaskByProjectPathAndTaskId(projectPath: string, taskId: number): void {
 		console.log("Deleting task with id", taskId, "from project with path", projectPath);
 
-		this.getProjectByPath(projectPath).then((result) => {
-			this.setProjectContent(projectPath, this.deleteTaskInProject(result.tasks, taskId));
-		});
+		this.getProjectByPath(projectPath)
+			.then((result) => {
+				this.setProjectContent(projectPath, this.deleteTaskInProject(result.tasks, taskId));
+			})
+			.catch(() => {});
 	}
 
 	private deleteTaskInProject(oldProjectTasks: Array<TaskNode>, taskId: number): Array<TaskNode> {
@@ -118,10 +182,19 @@ export class ProjectService {
 	}
 
 	async getProjectByPath(projectPath: string): Promise<any> {
-		return new Promise<any>((resolve) => {
-			this.ipcRenderer.once("getProjectResponse", (event, arg) => {
-				console.log("Retrieved project from Electron with path ", projectPath, ": ", arg);
-				resolve(arg);
+		return new Promise<any>((resolve, reject) => {
+			this.ipcRenderer.once("getProjectResponse", (event, success, payload) => {
+				if (success) {
+					console.log("Successfully retrieved project with path", projectPath, ":", payload);
+					resolve(payload);
+				}
+				else {
+					console.error("An error occurred while retrieving project with path", projectPath, ":", payload);
+
+					// TODO: Handle errors
+
+					reject();
+				}
 			});
 			this.ipcRenderer.send("getProject", projectPath);
 		});
