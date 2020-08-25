@@ -39,6 +39,11 @@ export class NavigationComponent implements OnInit {
 
 		this.projects = this.configService.getProjects();
 
+		this.configService.change.subscribe(() => {
+			console.log("Registered config change.");
+			this.projects = this.configService.getProjects();
+		});
+
 		this.setSelectedProject(-1);
 
 		this.notificationService.focusOnTaskEvent.subscribe((value) => {
@@ -121,7 +126,6 @@ export class NavigationComponent implements OnInit {
 
 	refreshButtonClicked(): void {
 		this.configService.load();
-		this.projects = this.configService.getProjects();
 
 		console.log("Current selectedProjectIndex is:", this.selectedProjectIndex);
 		if (this.selectedProjectIndex == -1) {
