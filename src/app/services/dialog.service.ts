@@ -2,7 +2,7 @@ import { Injectable, NgZone } from "@angular/core";
 import { IpcRenderer } from "electron";
 import { ConfigService } from "./config.service";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ErrorComponent } from "../components/error/error.component";
+import { UniversalDialogComponent } from "../components/universal-dialog/universal-dialog.component";
 
 @Injectable({
 	providedIn: "root"
@@ -23,20 +23,29 @@ export class DialogService {
 		}
 
 		if (this.ipcRenderer) {
-			this.ipcRenderer.on("error", (event, errorTitle, errorMessage) => {
+			this.ipcRenderer.on("error", (event, data) => {
 				this.zone.run(() => {
-					this.errorDialog(errorTitle, errorMessage);
+					this.universalDialog(data);
 				});
 			});
 		}
 	}
 
-	errorDialog(errorTitle: string, errorMessage: string): void {
-		var data = { title: errorTitle, message: errorMessage };
-		console.log("Opening error dialog", data);
-		this.dialog.open(ErrorComponent, {
-			width: "400px",
-			data: data
+	universalDialog(data: {
+		title: string;
+		message: string;
+		actions: Array<{ name: string; response: any }>;
+	}): Promise<any> {
+		return new Promise<any>((resolve) => {
+			console.log("Opening universal dialog", data);
+			const dialogRef = this.dialog.open(UniversalDialogComponent, {
+				width: "400px",
+				data: data
+			});
+			dialogRef.afterClosed().subscribe((result) => {
+				console.log("Universal dialog closed", result);
+				resolve(result);
+			});
 		});
 	}
 

@@ -3,5 +3,7 @@
 	{{data.message}}
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-	<button mat-button mat-dialog-close> Ok </button>
+	<button mat-button [mat-dialog-close]="action.response" *ngFor="let action of data.actions">
+		{{action.name}}
+	</button>
 </mat-dialog-actions>

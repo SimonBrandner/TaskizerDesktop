@@ -63,7 +63,7 @@ import { UnitValidatorDirective } from "./directives/unit-validator.directive";
 import { OrdinalValidatorDirective } from "./directives/ordinal-validator.directive";
 import { ConfigService } from "./services/config.service";
 import { FileValidatorDirective } from "./directives/file-validator.directive";
-import { ErrorComponent } from './components/error/error.component';
+import { UniversalDialogComponent } from "./components/universal-dialog/universal-dialog.component";
 // Directives
 
 @NgModule({
@@ -82,7 +82,7 @@ import { ErrorComponent } from './components/error/error.component';
 		OrdinalValidatorDirective,
 		TaskDateComponent,
 		FileValidatorDirective,
-		ErrorComponent
+		UniversalDialogComponent
 	],
 	imports: [
 		BrowserModule,

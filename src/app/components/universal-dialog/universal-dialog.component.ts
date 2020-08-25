@@ -3,14 +3,14 @@ import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from "@angular/material/dial
 
 @Component({
 	selector: "error",
-	templateUrl: "./error.component.html",
+	templateUrl: "./universal-dialog.component.html",
 	styleUrls: [
-		"./error.component.scss"
+		"./universal-dialog.component.html"
 	]
 })
-export class ErrorComponent implements OnInit {
+export class UniversalDialogComponent implements OnInit {
 	constructor(
-		public dialogRef: MatDialogRef<ErrorComponent>,
+		public dialogRef: MatDialogRef<UniversalDialogComponent>,
 		public dialog: MatDialog,
 		@Inject(MAT_DIALOG_DATA) public data: any
 	) {}
