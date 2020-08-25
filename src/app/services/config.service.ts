@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { IpcRenderer } from "electron";
 import { Algorithms } from "../classes/algorithms";
+import { retry } from "rxjs/operators";
+import { Subject } from "rxjs";
 
 @Injectable({
 	providedIn: "root"
@@ -53,6 +55,15 @@ export class ConfigService {
 
 	getProjectById(projectId: number): any {
 		return this.config["projects"][projectId];
+	}
+
+	getProjectByPath(projectPath: string): any {
+		for (let project of this.config["projects"]) {
+			if (project["path"] == projectPath) {
+				return project;
+			}
+		}
+		return null;
 	}
 
 	getIdForNewProject(): number {
@@ -122,6 +133,7 @@ export class ConfigService {
 			this.ipcRenderer.once("getConfigResponse", (event, arg) => {
 				this.config = arg;
 				console.log("Retrieved config from Electron:", this.config);
+				this.change.next();
 				resolve();
 			});
 			this.ipcRenderer.send("getConfig");
@@ -130,9 +142,11 @@ export class ConfigService {
 
 	save() {
 		console.log("Saving config:", this.config);
+		this.change.next();
 		this.ipcRenderer.send("setConfig", this.config);
 	}
 
 	private ipcRenderer: IpcRenderer;
 	private config: any;
+	change: Subject<void> = new Subject();
 }
