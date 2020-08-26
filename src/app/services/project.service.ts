@@ -240,7 +240,19 @@ export class ProjectService {
 			}
 			else {
 				console.error("An error occurred while deleting file with path", projectPath, ":", payload);
-				// TODO: Handle errors
+				this.zone.run(() => {
+					this.dialogService.universalDialog({
+						title: "An error occurred",
+						message: 'There is a problem with project with path "' + projectPath + '". Error:' + payload,
+						actions: [
+							{ name: "Ok", response: null }
+						]
+					});
+
+					this.router.navigate([
+						"today"
+					]);
+				});
 			}
 		});
 
