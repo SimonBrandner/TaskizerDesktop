@@ -67,7 +67,6 @@ export class ProjectService {
 									if (result) {
 										var project = this.configService.getProjectByPath(projectPath);
 										if (project) {
-											console.log("if");
 											this.configService.deleteProject(project["id"]);
 										}
 									}
@@ -112,7 +111,6 @@ export class ProjectService {
 							if (result) {
 								var project = this.configService.getProjectByPath(projectPath);
 								if (project) {
-									console.log("if");
 									this.configService.deleteProject(project["id"]);
 								}
 							}
@@ -165,10 +163,14 @@ export class ProjectService {
 						})
 						.then((result) => {
 							if (result) {
-								var project = this.configService.getProjectByPath(projectPath);
-								if (project) {
-									console.log("if");
-									this.configService.deleteProject(project["id"]);
+								var oldProject = this.configService.getProjectByPath(oldPath);
+								var newProject = this.configService.getProjectByPath(newPath);
+
+								if (oldProject) {
+									this.configService.deleteProject(oldProject["id"]);
+								}
+								if (newProject) {
+									this.configService.deleteProject(newProject["id"]);
 								}
 							}
 						});
@@ -213,7 +215,6 @@ export class ProjectService {
 									if (result) {
 										var project = this.configService.getProjectByPath(projectPath);
 										if (project) {
-											console.log("if");
 											this.configService.deleteProject(project["id"]);
 										}
 									}
@@ -339,7 +340,6 @@ export class ProjectService {
 								if (result) {
 									var project = this.configService.getProjectByPath(projectPath);
 									if (project) {
-										console.log("if");
 										this.configService.deleteProject(project["id"]);
 									}
 								}
