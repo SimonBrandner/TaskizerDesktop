@@ -18,31 +18,34 @@ module.exports = {
 		}
 
 		config.getProjects().forEach((projectInfo) => {
-			project.getFlatTaskListByProjectPath(projectInfo["path"]).forEach((taskInfo) => {
-				if (taskInfo["reminders"].length > 0) {
-					taskInfo["reminders"].forEach((reminder) => {
-						global.jobs.push(
-							schedule.scheduleJob(reminder, () => {
-								console.log("Reminder: project:", projectInfo, "task:", taskInfo);
+			var taskList = project.getFlatTaskListByProjectPath(projectInfo["path"]);
+			if (taskList) {
+				taskList.forEach((taskInfo) => {
+					if (taskInfo["reminders"].length > 0) {
+						taskInfo["reminders"].forEach((reminder) => {
+							global.jobs.push(
+								schedule.scheduleJob(reminder, () => {
+									console.log("Reminder: project:", projectInfo, "task:", taskInfo);
 
-								const notification = new Notification({
-									title: "Reminder",
-									body: taskInfo["name"],
-									icon: global.appIcon
-								});
-								notification.show();
-								notification.on("click", () => {
-									console.log("Reminder clicked: project:", projectInfo, "task:", taskInfo);
-									global.window.webContents.send("focusOnTask", {
-										projectId: projectInfo["id"],
-										taskId: taskInfo["id"]
+									const notification = new Notification({
+										title: "Reminder",
+										body: taskInfo["name"],
+										icon: global.appIcon
 									});
-								});
-							})
-						);
-					});
-				}
-			});
+									notification.show();
+									notification.on("click", () => {
+										console.log("Reminder clicked: project:", projectInfo, "task:", taskInfo);
+										global.window.webContents.send("focusOnTask", {
+											projectId: projectInfo["id"],
+											taskId: taskInfo["id"]
+										});
+									});
+								})
+							);
+						});
+					}
+				});
+			}
 		});
 	}
 };
