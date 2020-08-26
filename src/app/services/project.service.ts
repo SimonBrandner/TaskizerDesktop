@@ -56,7 +56,8 @@ export class ProjectService {
 									message:
 										'There is a problem with project with path "' +
 										projectPath +
-										'". Do you wish to remove if from config!',
+										'". Do you wish to remove if from config? Error:' +
+										payload,
 									actions: [
 										{ name: "Yes", response: true },
 										{ name: "No", response: false }
@@ -232,7 +233,8 @@ export class ProjectService {
 								message:
 									'There is a problem with project with path "' +
 									projectPath +
-									'". Do you wish to remove if from config!',
+									'". Do you wish to remove if from config? Error:' +
+									payload,
 								actions: [
 									{ name: "Yes", response: true },
 									{ name: "No", response: false }
