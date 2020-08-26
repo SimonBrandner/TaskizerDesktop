@@ -147,7 +147,36 @@ export class ProjectService {
 			}
 			else {
 				console.error("An error occurred while moving file", oldPath, "to", newPath, ":", payload);
-				// TODO: Handle errors
+				this.zone.run(() => {
+					this.dialogService
+						.universalDialog({
+							title: "An error occurred",
+							message:
+								'There is a problem with moving project from "' +
+								oldPath +
+								'" to "' +
+								newPath +
+								'". Do you wish to remove if from config? Error:' +
+								payload,
+							actions: [
+								{ name: "Yes", response: true },
+								{ name: "No", response: false }
+							]
+						})
+						.then((result) => {
+							if (result) {
+								var project = this.configService.getProjectByPath(projectPath);
+								if (project) {
+									console.log("if");
+									this.configService.deleteProject(project["id"]);
+								}
+							}
+						});
+
+					this.router.navigate([
+						"today"
+					]);
+				});
 			}
 		});
 
