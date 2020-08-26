@@ -204,9 +204,9 @@ export class ProjectService {
 							.universalDialog({
 								title: "An error occurred",
 								message:
-									'Project with path "' +
+									'There is a problem with project with path "' +
 									projectPath +
-									"\" doesn't exist! Do you wish to remove if from config!",
+									'". Do you wish to remove if from config!',
 								actions: [
 									{ name: "Yes", response: true },
 									{ name: "No", response: false }
