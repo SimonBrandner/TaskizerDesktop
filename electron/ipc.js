@@ -31,10 +31,16 @@ module.exports = {
 
 		// IPC events - other
 		ipcMain.on("doesFileExist", (event, filePath) => {
-			result = fs.existsSync(filePath);
+			// TODO: Handle errors
+			try {
+				result = fs.existsSync(filePath);
 
-			console.log("Checked if file with path", filePath, "exists:", result);
-			window.webContents.send("doesFileExistResponse", result);
+				console.log("Checked if file with path", filePath, "exists:", result);
+				window.webContents.send("doesFileExistResponse", result);
+			} catch (error) {
+				console.log("Checked if file with path", filePath, "exists:", false);
+				window.webContents.send("doesFileExistResponse", false);
+			}
 		});
 		// IPC events - other
 	}

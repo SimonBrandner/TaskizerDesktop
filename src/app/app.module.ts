@@ -61,10 +61,15 @@ import { TaskDateComponent } from "./components/task-date/task-date.component";
 // Directives
 import { UnitValidatorDirective } from "./directives/unit-validator.directive";
 import { OrdinalValidatorDirective } from "./directives/ordinal-validator.directive";
-import { ConfigService } from "./services/config.service";
 import { FileValidatorDirective } from "./directives/file-validator.directive";
 import { UniversalDialogComponent } from "./components/universal-dialog/universal-dialog.component";
 // Directives
+
+// Services
+import { ConfigService } from "./services/config.service";
+import { IpcService } from "./services/ipc.service";
+import { DialogService } from "./services/dialog.service";
+// Services
 
 @NgModule({
 	declarations: [
@@ -119,6 +124,7 @@ import { UniversalDialogComponent } from "./components/universal-dialog/universa
 	],
 	providers: [
 		ConfigService,
+		IpcService,
 		{
 			provide: NG_VALIDATORS,
 			useExisting: UnitValidatorDirective,
@@ -138,7 +144,9 @@ import { UniversalDialogComponent } from "./components/universal-dialog/universa
 			provide: APP_INITIALIZER,
 			useFactory: init,
 			deps: [
-				ConfigService
+				ConfigService,
+				IpcService,
+				DialogService
 			],
 			multi: true
 		}
