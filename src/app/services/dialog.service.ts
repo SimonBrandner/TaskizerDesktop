@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from "@angular/core";
 import { IpcRenderer } from "electron";
 import { ConfigService } from "./config.service";
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { UniversalDialogComponent } from "../components/universal-dialog/universal-dialog.component";
 
 @Injectable({
@@ -23,9 +23,16 @@ export class DialogService {
 		}
 
 		if (this.ipcRenderer) {
-			this.ipcRenderer.on("error", (event, data) => {
+			this.ipcRenderer.on("projectMissingError", (event, data, projectPath) => {
 				this.zone.run(() => {
-					this.universalDialog(data);
+					this.universalDialog(data).then((result) => {
+						if (result) {
+							var project = this.configService.getProjectByPath(projectPath);
+							if (project) {
+								this.configService.deleteProject(project["id"]);
+							}
+						}
+					});
 				});
 			});
 		}

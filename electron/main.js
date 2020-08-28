@@ -11,6 +11,7 @@ const scheduler = require("./scheduler.js");
 global.indexFilePath = path.join(__dirname, "../dist/index.html");
 global.appIcon = path.join(__dirname, "../assets/icons/512x512.png");
 global.jobs = [];
+global.angularIsRunning = false;
 
 initApp = function() {
 	console.log("Running init.");

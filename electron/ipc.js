@@ -31,7 +31,6 @@ module.exports = {
 
 		// IPC events - other
 		ipcMain.on("doesFileExist", (event, filePath) => {
-			// TODO: Handle errors
 			try {
 				result = fs.existsSync(filePath);
 
@@ -42,6 +41,22 @@ module.exports = {
 				window.webContents.send("doesFileExistResponse", false);
 			}
 		});
+		ipcMain.once("angularRunning", () => {
+			console.log("Angular is running.");
+			global.angularRunning = true;
+		});
 		// IPC events - other
+	},
+
+	async waitForAngular() {
+		return new Promise((resolve) => {
+			function loop() {
+				if (global.angularRunning) {
+					return resolve();
+				}
+				setTimeout(loop, 0);
+			}
+			setTimeout(loop, 0);
+		});
 	}
 };

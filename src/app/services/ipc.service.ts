@@ -20,11 +20,18 @@ export class IpcService {
 		}
 
 		if (this.ipcRenderer) {
-			console.log("FKJSHFKJHDFKJSHFKJSFKJ");
-			this.ipcRenderer.on("isAngularRunning", () => {
-				console.log("Electron is checking if Angular is running. Sending response.");
-				this.ipcRenderer.send("isAngularRunningResponse");
-			});
+			console.log("Sending info to Electron that Angular is running.");
+			this.ipcRenderer.send("angularRunning");
 		}
+	}
+
+	async doesFileExist(filePath: string): Promise<boolean> {
+		return new Promise<any>((resolve) => {
+			this.ipcRenderer.once("doesFileExistResponse", (event, payload) => {
+				console.log("Checked if file with path", filePath, "exists", payload);
+				resolve(payload);
+			});
+			this.ipcRenderer.send("doesFileExist", filePath);
+		});
 	}
 }

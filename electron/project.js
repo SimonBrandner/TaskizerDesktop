@@ -79,30 +79,39 @@ module.exports = {
 	},
 
 	getFlatTaskListByProjectPath(projectPath) {
-		// TODO: Handle error
 		try {
 			var flatTaskList = [];
 
 			flatTaskList = getTasks(JSON.parse(fs.readFileSync(projectPath))["tasks"]);
-			console.log("Retrieved flat task list from project with path", projectPath, ":", flatTaskList);
+			console.log("Successfully retrieved flat task list from project with path", projectPath, ":", flatTaskList);
 			return flatTaskList;
 		} catch (error) {
-			switch (error.code) {
-				case "ENOENT":
-					console.log("This project file does not exist", error.path);
-					global.window.webContents.send(
-						"error",
-						"Missing file",
-						"This project file does not exist: " + error.path + "!"
-					);
-					break;
-				default:
-					console.log(error);
-					global.window.webContents.send("error", "Unknown error", error.message);
-					break;
-			}
+			console.error(
+				"An error occurred while retrieving flat task list from project with path",
+				projectPath,
+				":",
+				error
+			);
 
-			return [];
+			const ipc = require("./ipc.js");
+			ipc.waitForAngular().then(() => {
+				global.window.webContents.send(
+					"projectMissingError",
+					{
+						title: "An error occurred",
+						message:
+							'There is a problem with project with path "' +
+							projectPath +
+							'". Do you wish to remove if from config? Error:' +
+							error,
+						actions: [
+							{ name: "Yes", response: true },
+							{ name: "No", response: false }
+						]
+					},
+					projectPath
+				);
+			});
 		}
 	}
 };
