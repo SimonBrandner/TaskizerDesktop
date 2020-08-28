@@ -114,6 +114,6 @@ jobs:
       # Build on Mac
       - name: npm install and npm run build
         run: |
-          npm install
+          npm install --no-optional
           npm run buildMac32
           npm run buildMac64
